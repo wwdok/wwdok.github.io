@@ -1,0 +1,972 @@
+<!DOCTYPE html>
+
+
+<html lang="ch">
+
+
+<head>
+  <meta charset="utf-8" />
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>
+    YOLOV4 |  Hello World
+  </title>
+  <meta name="generator" content="hexo-theme-ayer">
+  
+  <link rel="shortcut icon" href="/planets.ico" />
+  
+  
+<link rel="stylesheet" href="/dist/main.css">
+
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Shen-Yu/cdn/css/remixicon.min.css">
+
+  
+<link rel="stylesheet" href="/css/custom.css">
+
+  
+  
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+
+  
+  
+
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-172408389-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+
+
+
+  
+<script>
+var _hmt = _hmt || [];
+(function() {
+	var hm = document.createElement("script");
+	hm.src = "https://hm.baidu.com/hm.js?da92a6672e51fa2d1c3bacf2dba555c6";
+	var s = document.getElementsByTagName("script")[0]; 
+	s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+</head>
+
+</html>
+
+<body>
+  <div id="app">
+    
+      
+    <main class="content on">
+      <section class="outer">
+  <article
+  id="post-YOLOV4"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  YOLOV4
+</h1>
+ 
+
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2020/10/04/YOLOV4/" class="article-date">
+  <time datetime="2020-10-04T05:09:48.000Z" itemprop="datePublished">2020-10-04</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/CV/">CV</a>
+  </div>
+  
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> Word count:</span>
+            <span class="post-count">7.2k</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> Reading time≈</span>
+            <span class="post-count">31 min</span>
+        </span>
+    </span>
+</div>
+ 
+    </div>
+      
+    <div class="tocbot"></div>
+
+
+
+
+  
+    <div class="article-entry" itemprop="articleBody">
+       
+  <p>推荐阅读江大白的《<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/143747206">深入浅出Yolo系列之Yolov3&amp;Yolov4核心基础知识完整讲解</a>》，我是在写了本篇博文很长时间后才阅读到他这篇宝藏博客的，由此引发了我的一个感想：我感觉我们不需要关注很多技术博主公众号，只需要关注几个优质的博主就行了，一般他们的作品都会比较优质。</p>
+<h1 id="darknet在本地电脑的安装"><a href="#darknet在本地电脑的安装" class="headerlink" title="darknet在本地电脑的安装"></a>darknet在本地电脑的安装</h1><p>详细的过程请参照The AI Guy的<a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=saDipJR14Lc&t=992s">教学视频</a>，我这里只写一些重点的步骤。</p>
+<p>yolo默认是使用darknet框架，darknet是一个类似tensorflow的框架，不过它的安装方式跟tensorflow不太一样。</p>
+<p>linux版比较简单,可参考<a target="_blank" rel="noopener" href="https://blog.csdn.net/Eric_Fisher/article/details/89884108">这篇博客</a>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git clone https:&#x2F;&#x2F;github.com&#x2F;AlexeyAB&#x2F;darknet.git</span><br><span class="line">&#x2F;&#x2F;或者使用更快的镜像：https:&#x2F;&#x2F;gitee.com&#x2F;wwdok&#x2F;darknet.git</span><br><span class="line">cd darknet</span><br></pre></td></tr></table></figure>
+
+<p>修改Makefile，添加对GPU，CUDNN，OpenCV等的支持。<br>如果你的CUDA没有使用默认的路径，请进行修改：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi Makefile</span><br></pre></td></tr></table></figure>
+
+<img src=https://images3.pianshen.com/576/00/00e1bc11525ead2915af54e786d28c60.png>
+
+<p>接下来,编译</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make</span><br></pre></td></tr></table></figure>
+
+<p>如果都已正确编译，请尝试运行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.&#x2F;darknet</span><br></pre></td></tr></table></figure>
+
+<p>应该得到输出：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">usage: .&#x2F;darknet &lt;function&gt;</span><br></pre></td></tr></table></figure>
+
+<p>windows上的安装比较复杂一点：</p>
+<p>首先用记事本打开darknet\build\darknet\darknet.vcxproj，确保里面的CUDA版本对应你电脑CUDA的版本，一共有两处需要修改，如图：</p>
+<img src="https://pic.downk.cc/item/5f79b659160a154a6762986b.jpg">
+<img src="https://pic.downk.cc/item/5f79b671160a154a67629d51.jpg">
+
+<p>我还看到darknet.vcxproj里有 $(OPENCV_DIR) 和 $(CUDA_PATH) ，所以我还自己去设置了这两个环境变量，以防后面出什么差错，说明一下，opencv430的文件夹是从Windows下载，不是从Sources下载：</p>
+<img src="https://pic.downk.cc/item/5f79b6eb160a154a6762bb31.jpg">
+<br>
+<img src="https://pic.downk.cc/item/5f79b87a160a154a6763221f.jpg">
+
+<img src="https://pic.downk.cc/item/5f79d0d6160a154a67694ebf.jpg">
+
+<p>接下来打开CMake，像下图配置两个路径，点击<strong>Configure</strong>后会报错显红，我按照视频的教程来配置了下图黄框两处的变量：</p>
+<img src="https://pic.downk.cc/item/5f799a45160a154a6755d70a.jpg">
+
+<img src="https://pic.downk.cc/item/5f799b36160a154a67560ac9.jpg" >
+
+<p>但配置好后再点击<strong>Configure</strong>e之后仍然报错：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">CMake Error at C:&#x2F;Program Files&#x2F;CMake&#x2F;share&#x2F;cmake-3.17&#x2F;Modules&#x2F;CMakeDetermineCompilerId.cmake:367 (message):</span><br><span class="line">  No CUDA toolset found.</span><br><span class="line">Call Stack (most recent call first):</span><br><span class="line">  C:&#x2F;Program Files&#x2F;CMake&#x2F;share&#x2F;cmake-3.17&#x2F;Modules&#x2F;CMakeDetermineCompilerId.cmake:32 (CMAKE_DETERMINE_COMPILER_ID_BUILD)</span><br><span class="line">  C:&#x2F;Program Files&#x2F;CMake&#x2F;share&#x2F;cmake-3.17&#x2F;Modules&#x2F;CMakeDetermineCUDACompiler.cmake:72 (CMAKE_DETERMINE_COMPILER_ID)</span><br><span class="line">  CMakeLists.txt:66 (enable_language)</span><br></pre></td></tr></table></figure>
+
+<p>解决办法是将<code>C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.1\extras\visual_studio_integration\MSBuildExtensions</code>里面的4个文件全部拷贝到<code>C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\BuildCustomizations</code>。</p>
+<img src="https://pic.downk.cc/item/5f79ac97160a154a675fc9b0.jpg">
+
+<img src="https://pic.downk.cc/item/5f79ad3d160a154a676062ea.jpg">
+
+<p>再次点击<strong>Configure</strong>，已经没有上面那个报错了，但CMake仍然一片红。这时候再点开ENABLE，取消ENABLE_CUDNN_HALF的勾选，再点击configure后CMake就变成一片白色了，成功：<br><img src="https://pic.downk.cc/item/5f79b2ea160a154a6761c47e.jpg"></p>
+<p>接下来点击<strong>Generate</strong>，很快CMake底部输出栏就输出了“Generating done”。这时我们通过Open Project打开build文件夹，可以看到生成了很多文件（夹）：</p>
+<img src="https://pic.downk.cc/item/5f79b3ff160a154a67620664.jpg">
+
+<p>用 Visual Studio 打开上图中的Darknet.sln。选择“Release”+“x64”，右键点击“ALL_BUILD”，在右键菜单中，选择“生成”，如下图所示：</p>
+<img src="https://pic.downk.cc/item/5f79c2df160a154a6765fcaf.jpg">
+
+<p>接着再右键点击“INSTALL”，在右键菜单中，选择“生成”，如下图所示：</p>
+<img src="https://pic.downk.cc/item/5f79c351160a154a67661818.jpg">
+
+<p>当我想要运行darknet和yolo看看时，又遇到报错：“由于找不到pthreadVC2.dll,无法继续执行代码,重新安装程序可能会解决此问题”。</p>
+<p>解决办法是：去网上下载pthreadvc2.dll，然后同时复制粘贴到<code>C:\Windows\System32</code>和<code>C:\Windows\SysWOW64</code>目录下。</p>
+<p>最后一步，就是运行：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">C:\MachineLearning\CV\darknet&gt;darknet.exe detect cfg&#x2F;yolov4.cfg weights&#x2F;yolov4.weights data&#x2F;dog.jpg</span><br></pre></td></tr></table></figure>
+
+<p>我们还可以在命令行后面加<code> -thresh 0.25</code> 、<code>-i 0</code>、 <code> -ext_output dog.jpg</code>、<code>-out_filename results/yolov4.mp4</code>个性化输出结果，其中，i代表GPU指数，-ext_output代表输出坐标，-out_filename 代表保存成图片或视频。</p>
+<p>yolov4的效果比yolov3还好，连盆栽都检测出来了：</p>
+<img src="https://pic.downk.cc/item/5f79cbd8160a154a67681d63.jpg">
+
+
+<p>为了以后能在其他文件夹下面运行darknet，我把darknet.exe的路径加入了环境变量：</p>
+<img src="https://pic.downk.cc/item/5f79cd35160a154a676877ff.jpg" width=80% style="zoom: 80%;" >
+
+<h1 id="使用YOLO"><a href="#使用YOLO" class="headerlink" title="使用YOLO"></a>使用YOLO</h1><p>除了上面说的检测图片，我们还可以这么玩yolo：</p>
+<p><strong>1.检测本地电脑上的视频</strong></p>
+<p>修改video_yolov4.sh里面的内容如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">./darknet detector demo ./cfg/coco.data ./cfg/yolov4.cfg ./weights/yolov4.weights data/cars.mp4 -out_filename results/yolov4.mp4</span><br><span class="line"></span><br><span class="line"><span class="comment"># ./darknet detector demo ./cfg/coco.data ./cfg/yolov4-tiny.cfg ./weights/yolov4-tiny.weights data/cars.mp4 -out_filename results/yolov4-tiny.mp4</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># ./darknet detector demo ./cfg/coco.data ./weights/Yolo-Fastest/COCO/yolo-fastest.cfg ./weights/Yolo-Fastest/COCO/yolo-fastest.weights -out_filename results/yolov4-fastest.mp4</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>打出<code>sh video_yolov4.sh</code>即可运行。保存成sh的好处是后面要跑的时候不需要再敲一遍长长的命令行。</p>
+<p><strong>2. 检测电脑摄像头画面</strong></p>
+<p>如果你想检测电脑摄像头画面里的物体，则运行：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">darknet.exe detector demo cfg\coco.data cfg\yolov4.cfg weights&#x2F;yolov4.weights -c 0</span><br></pre></td></tr></table></figure>
+
+<p><strong>3. 检测网络摄像头画面</strong></p>
+<p>我这里要将手机拍摄的画面传给电脑，然后用电脑对手机传输过来的画面检测。<br>先下载一个IP摄像头App，然后点击“开启服务器”</p>
+<img src="https://pic.downk.cc/item/5f7be000160a154a67dc583a.jpg" width=35%>
+
+<p>你就可以看到手机画面进入了摄像头预览界面，如下图所示：</p>
+<img src="https://pic.downk.cc/item/5f7be086160a154a67dc75ff.jpg">
+
+<p>然后记住屏幕上的IP地址，比如我这里是192.168.1.4:8080,那么我就运行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">darknet.exe detector demo cfg&#x2F;coco.data cfg&#x2F;yolov4.cfg weights&#x2F;yolov4.weights http:&#x2F;&#x2F;192.168.1.4:8080&#x2F;video?dummy&#x3D;param.mjpg</span><br></pre></td></tr></table></figure>
+
+<p><strong>4. 使用YOLO Fastesst</strong></p>
+<p>有大佬开源了号称最快版的YOLO版本，把这个<a target="_blank" rel="noopener" href="https://github.com/dog-qiuqiu/Yolo-Fastest">仓库</a>下载下来后我们只需要取它的cfg文件和weights文件即可</p>
+<img src="https://pic.downk.cc/item/5f7be8a2160a154a67de213e.jpg">
+
+<p>修改命令行后运行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">darknet.exe detector demo cfg&#x2F;coco.data weights&#x2F;Yolo-Fastest&#x2F;COCO&#x2F;yolo-fastest.cfg weights&#x2F;Yolo-Fastest&#x2F;COCO&#x2F;yolo-fastest.weights -c 0</span><br></pre></td></tr></table></figure>
+
+<p><strong>5. 用OpenCV的DNN跑YOLO</strong></p>
+<p>python版：【<a target="_blank" rel="noopener" href="https://github.com/hpc203/Yolo-Fastest-opencv-dnn">Github Repo 1</a>】【<a target="_blank" rel="noopener" href="https://github.com/spmallick/learnopencv/tree/master/ObjectDetection-YOLO">Github Repo 2</a>】<br>java版：</p>
+<p><strong>6. 在colab上跑YOLO和训练自己的数据集</strong></p>
+<p>相关教程视频请见The AI GUy的<a target="_blank" rel="noopener" href="https://www.youtube.com/playlist?list=PLKHYJbyeQ1a3tMm-Wm6YLRzfW1UmwdUIN">YOLOv4 Object Detection系列</a></p>
+<p>打开<a target="_blank" rel="noopener" href="https://colab.research.google.com/drive/1_GdoqCJWXsChrOiY8sZMr_zbr_fH-0Fg?usp=sharing">该colab笔记本</a>。</p>
+<p><strong>7. 将yolo移植到tensorflow上面</strong></p>
+<p>相关教程视频请见The AI GUy的<a target="_blank" rel="noopener" href="https://www.youtube.com/playlist?list=PLKHYJbyeQ1a3tMm-Wm6YLRzfW1UmwdUIN">YOLOv4 Object Detection系列</a></p>
+<p>这里简单复述一下重点，如果使用自定义类别和数据集，请查看<a target="_blank" rel="noopener" href="https://github.com/theAIGuysCode/tensorflow-yolov4-tflite">repo</a>：</p>
+<p>使用以下命令行将.weights 格式转换为.pb格式</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># Convert yolov4 darknet weights to tensorflow</span><br><span class="line">python save_model.py --weights .&#x2F;data&#x2F;yolov4.weights --output .&#x2F;checkpoints&#x2F;yolov4-416 --input_size 416 --model yolov4 </span><br><span class="line"></span><br><span class="line"># Convert yolov4-tiny darknet weights to tensorflow</span><br><span class="line">python save_model.py --weights .&#x2F;data&#x2F;yolov4-tiny.weights --output .&#x2F;checkpoints&#x2F;yolov4-tiny-416 --input_size 416 --model yolov4 --tiny</span><br><span class="line"></span><br><span class="line"># Convert custom yolov4 darknet weights to tensorflow</span><br><span class="line">python save_model.py --weights .&#x2F;data&#x2F;custom.weights --output .&#x2F;checkpoints&#x2F;custom-416 --input_size 416 --model yolov4 </span><br></pre></td></tr></table></figure>
+<p>我自己电脑上的命令行是：<code> python save_model.py --weights ../../darknet/weights/yolov4.weights --output ./checkpoints/yolov4-416 --input_size 416 --model yolov4</code><br>最后生成的文件长这样：</p>
+<img src="https://pic.downk.cc/item/5f7bf98f160a154a67e22532.jpg">
+
+<p>运行yolo的tensorflow pb格式模型</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"># Run yolov4 tensorflow model</span><br><span class="line">python detect.py --weights .&#x2F;checkpoints&#x2F;yolov4-416 --size 416 --model yolov4 --images .&#x2F;data&#x2F;images&#x2F;kite.jpg</span><br><span class="line"></span><br><span class="line"># Run yolov4-tiny tensorflow model</span><br><span class="line">python detect.py --weights .&#x2F;checkpoints&#x2F;yolov4-tiny-416 --size 416 --model yolov4 --images .&#x2F;data&#x2F;images&#x2F;kite.jpg --tiny</span><br><span class="line"></span><br><span class="line"># Run custom yolov4 tensorflow model</span><br><span class="line">python detect.py --weights .&#x2F;checkpoints&#x2F;custom-416 --size 416 --model yolov4 --images .&#x2F;data&#x2F;images&#x2F;car.jpg</span><br><span class="line"></span><br><span class="line"># Run yolov4 on video</span><br><span class="line">python detect_video.py --weights .&#x2F;checkpoints&#x2F;yolov4-416 --size 416 --model yolov4 --video .&#x2F;data&#x2F;video&#x2F;road.mp4 --output .&#x2F;detections&#x2F;results.avi</span><br><span class="line"></span><br><span class="line"># Run custom yolov4 model on video</span><br><span class="line">python detect_video.py --weights .&#x2F;checkpoints&#x2F;custom-416 --size 416 --model yolov4 --video .&#x2F;data&#x2F;video&#x2F;cars.mp4 --output .&#x2F;detections&#x2F;results.avi</span><br><span class="line"></span><br><span class="line"># Run yolov4 on webcam</span><br><span class="line">python detect_video.py --weights .&#x2F;checkpoints&#x2F;yolov4-416 --size 416 --model yolov4 --video 0 --output .&#x2F;detections&#x2F;results.avi</span><br></pre></td></tr></table></figure>
+
+<p>上面生成的模型是pb格式，接下来是生成tflite格式模型：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># Save tf model for tflite converting</span><br><span class="line">python save_model.py --weights .&#x2F;data&#x2F;yolov4.weights --output .&#x2F;checkpoints&#x2F;yolov4-416 --input_size 416 --model yolov4 --framework tflite</span><br><span class="line"></span><br><span class="line"># Save custom yolov4 tf model for tflite converting</span><br><span class="line">python save_model.py --weights .&#x2F;data&#x2F;custom.weights --output .&#x2F;checkpoints&#x2F;custom-416 --input_size 416 --model yolov4 --framework tflite</span><br></pre></td></tr></table></figure>
+
+<p>我自己电脑上运行的命令行是<code>python save_model.py --weights ../../darknet/weights/yolov4.weights --output ./checkpoints/yolov4-416-tflite --input_size 416 --model yolov4 --framework tflite</code>。注意，如果要生成tflite，不能直接用前面那个pb文件，得在命令行后面加个<code>--framework tflite</code>重新生成pb文件，然后再用这个pb文件转换成tflite文件。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"># yolov4</span><br><span class="line">python convert_tflite.py --weights .&#x2F;checkpoints&#x2F;yolov4-416 --output .&#x2F;checkpoints&#x2F;yolov4-416.tflite</span><br><span class="line"></span><br><span class="line"># convert custom yolov4 tflite model</span><br><span class="line">python convert_tflite.py --weights .&#x2F;checkpoints&#x2F;custom-416 --output .&#x2F;checkpoints&#x2F;custom-416.tflite</span><br><span class="line"></span><br><span class="line"># yolov4 quantize float16</span><br><span class="line">python convert_tflite.py --weights .&#x2F;checkpoints&#x2F;yolov4-416 --output .&#x2F;checkpoints&#x2F;yolov4-416-fp16.tflite --quantize_mode float16</span><br><span class="line"></span><br><span class="line"># yolov4 quantize int8</span><br><span class="line">python convert_tflite.py --weights .&#x2F;checkpoints&#x2F;yolov4-416 --output .&#x2F;checkpoints&#x2F;yolov4-416-int8.tflite --quantize_mode int8 --dataset .&#x2F;data&#x2F;dataset&#x2F;val2017.txt</span><br></pre></td></tr></table></figure>
+
+<p>我自己电脑上运行的命令行是：<code>python convert_tflite.py --weights ./checkpoints/yolov4-416-tflite --output ./checkpoints/yolov4-416-int8.tflite --quantize_mode int8 --dataset ./data/dataset/val2017.txt</code></p>
+<p>最后测试一下yolov4 tflite的模型性能如何</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># Run tflite model</span><br><span class="line">python detect.py --weights .&#x2F;checkpoints&#x2F;yolov4-416.tflite --size 416 --model yolov4 --images .&#x2F;data&#x2F;images&#x2F;kite.jpg --framework tflite</span><br><span class="line"></span><br><span class="line"># Run tflite model</span><br><span class="line">python detect.py --weights .&#x2F;checkpoints&#x2F;yolov4-416-int8.tflite --size 416 --model yolov4 --images .&#x2F;data&#x2F;images&#x2F;kite.jpg --framework tflite</span><br><span class="line"></span><br><span class="line"># Run custom tflite model</span><br><span class="line">python detect.py --weights .&#x2F;checkpoints&#x2F;custom-416.tflite --size 416 --model yolov4 --images .&#x2F;data&#x2F;images&#x2F;car.jpg --framework tflite</span><br></pre></td></tr></table></figure>
+
+<p>不过这个hunglc007的tensorflow-yolov4-tflite仓库的tflite版有问题，首先是它的pb格式模型虽然生成出来了，但我用一个视频测试了一下，视频中的汽车一个都没检测出来，然后要把pb模型转换成tflite模型时遇到了报错：“RuntimeError: Max and min for dynamic tensors should be recorded during calibration: Failed for tensor input_1<br>Empty min/max for tensor input_1”。然后我在这个<a target="_blank" rel="noopener" href="https://github.com/hunglc007/tensorflow-yolov4-tflite/issues/207">issue</a>里看到有人说用这个<a target="_blank" rel="noopener" href="https://github.com/hhk7734/tensorflow-yolov4">repo</a>就没问题，我试了一下，生成的tflite模型大小有251M，准确度跟yolov4.weights差不多。</p>
+<p><strong>8. 训练自己的yolo检测器</strong></p>
+<p>要训练自己的YOLO检测器，首先要有数据集，The AI Guy介绍了两种制作数据集的方法：</p>
+<p>第一种：从Google的 <a target="_blank" rel="noopener" href="https://storage.googleapis.com/openimages/web/index.html">Open Images Dataset</a> 下载图片，相关的脚本在这个<a target="_blank" rel="noopener" href="https://github.com/theAIGuysCode/OIDv4_ToolKit">repo</a>或<a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=_4A9inxGqRM">视频</a>。简单来说，就是先运行<code>python main.py downloader --classes Apple Orange --type_csv train --limit 1000 --multiclasses 1</code>下载需要的图片，然后在运行<code>python convert_annotations.py</code>之前，我们需要在它的同级目录下创建一个classes.txt文件，内容就是一个类别一行，convert_annotations.py会利用它把Labels文件夹的txt文件转换成yolo格式的txt文件，并且生成的txt文件和图片位于同一文件夹里面。</p>
+<p>第二种：从Google的图片搜索里下载图片，相关的脚本在这个<a target="_blank" rel="noopener" href="https://github.com/theAIGuysCode/Download-Google-Images">repo</a>或<a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=EGQyDla8JNU">视频</a>。简单来说，它是生成一个包含一堆图片链接的urls.txt，然后用<code>python download_images.py --urls urls.txt --output images</code>把这些图片下载下来，并用opencv测试打开这些图片，如果打不开，则说明格式可能不符合（比如webp），那么就将这些图片删除掉。得到图片后再用<a target="_blank" rel="noopener" href="https://github.com/tzutalin/labelImg">labelImg</a>标注图片，这个软件可以选保存为YOLO格式。</p>
+<p>以此类推，再下载20%的验证集和测试集</p>
+<p>完成上面的两者之一的步骤后，你应该拥有了两个文件夹，每个文件夹里面有很多图片和同名的txt文件，打包成obj.zip和test.zip之后上传到google drive。接下来，我们就是要处理custom .cfg, obj.data, obj.names, train.txt 和 test.txt 这些文件了，具体步骤看<a target="_blank" rel="noopener" href="https://colab.research.google.com/drive/1_GdoqCJWXsChrOiY8sZMr_zbr_fH-0Fg?usp=sharing#scrollTo=A9mYUoKOWWlR">YOLOv4_Training_Tutorial.ipynb</a>。<br>注意，如果你要用这个笔记本训练自己的数据集，请先拷贝一份到自己的谷歌云端硬盘。</p>
+<p><strong>9. 结合deepsort实现目标跟踪</strong></p>
+<p>来自The AI Guy开源的<a target="_blank" rel="noopener" href="https://github.com/theAIGuysCode/yolov4-deepsort">repo</a>。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># Run yolov4 deep sort object tracker on video</span><br><span class="line">python object_tracker.py --weights ..&#x2F;..&#x2F;Object_Detection&#x2F;tensorflow-yolov4-tflite&#x2F;checkpoints&#x2F;yolov4-tiny-416 --video .&#x2F;data&#x2F;video&#x2F;test.mp4 --output .&#x2F;outputs&#x2F;yolov4-tiny-tf-track-result.avi --model yolov4</span><br><span class="line"></span><br><span class="line"># Run yolov4 deep sort object tracker on webcam (set video flag to 0)</span><br><span class="line">python object_tracker.py --video 0 --output .&#x2F;outputs&#x2F;webcam.avi --model yolov4</span><br></pre></td></tr></table></figure>
+
+<p>实测结果是：<br>行人视频：<br>用CPU<br>yolov4-tf：1.6 FPS<br>yolov4-tiny-tf：1.8 FPS</p>
+<p>汽车视频（cars.mp4）:<br>GPU（GTX 1660 Ti）<br>yolov4 : 17.4 FPS(输出视频) 18.8 FPS （不输出视频）<br>yolov4-tiny : 19.5 FPS(输出视频) 27.2 FPS（不输出视频）<br>yolo-Fastest ； 20.1 FPS (输出视频) 28.2FPS（不输出视频）</p>
+<p>这个帧率跟你的命令行也有关系，比如你的命令行说要输出视频，那么帧率就会低一点。</p>
+<p>The AI Guy还做了一版用colab跑的<a target="_blank" rel="noopener" href="https://colab.research.google.com/drive/1zmeSTP3J5zu2d5fHgsQC06DyYEYJFXq1?usp=sharing">ipynb</a>和<a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=_zrNUzDS8Zc&list=PLKHYJbyeQ1a3tMm-Wm6YLRzfW1UmwdUIN&index=10">视频</a>，FPS能达到10FPS，不过我们也看到，用另一个车辆视频测试时，FPS提高到了15FPS，所以可以得出结论，跟踪的物体越多，FPS越小。</p>
+<p>关于如何过滤显示的类别，具体请查看它的仓库。</p>
+<p><strong>10.用YOLOV4检测结果导出为txt文件作为预标注</strong></p>
+<p>如果我们的数据集很多图片是未标注的，如果都是人工去标注，是很枯燥费时的，我们可以利用命令行让YOLOV4把检测结果导出成它训练时用的txt那种格式的文件，也是labelimg导出的txt文件，导出来后打开labelimg，把图片和标注txt的文件夹设置好，labelimg自动会对应上同名的图片和标注txt文件，自动把矩形框显示在界面上，这时候你再微调一下就可以了。</p>
+<p>这个<a target="_blank" rel="noopener" href="https://github.com/AlexeyAB/darknet/issues/6240">issue</a>讨论了这个问题。<br>有一位网友biparnakroy还创建了一个相关项目 : <a target="_blank" rel="noopener" href="https://github.com/biparnakroy/pseudoLabelGeneratorForYOLO%EF%BC%8C">https://github.com/biparnakroy/pseudoLabelGeneratorForYOLO，</a></p>
+<p>并提供了一个转换成VOC格式的仓库：<br><a target="_blank" rel="noopener" href="https://github.com/hai-h-nguyen/Yolo2Pascal-annotation-conversion%EF%BC%8C">https://github.com/hai-h-nguyen/Yolo2Pascal-annotation-conversion，</a></p>
+<p>评论里还有人说有类别重映射的仓库：<a target="_blank" rel="noopener" href="https://github.com/sa7ina/YOLOv2-5_Class_Remap">https://github.com/sa7ina/YOLOv2-5_Class_Remap</a></p>
+<p>运行的命令行是：<code>darknet.exe detector test cfg/coco.data cfg/yolov4.cfg weights/yolov4.weights -thresh 0.25 -dont_show -save_labels &lt; data/new_train.txt</code></p>
+<p>关键在于<code>-save_labels &lt; data/new_train.txt</code>, 注意，符号<code>&lt;</code>不能少了，那new_train.txt里面是什么呢，里面是带检测图片的路径:</p>
+<img src="https://pic.downk.cc/item/5fa16a541cd1bbb86bdfa678.jpg">
+
+<p>我是用以下脚本生成这个new_train.txt的：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line">txt_file = <span class="string">r&quot;C:\MachineLearning\CV\darknet\data\new_train.txt&quot;</span></span><br><span class="line">reference_folder = <span class="string">r&quot;D:\MachineLearning\DataSet\iGuardDataset\IMAGE\temp&quot;</span></span><br><span class="line"><span class="built_in">print</span>(os.listdir(reference_folder))</span><br><span class="line">prefix = <span class="string">r&#x27;D:/MachineLearning/DataSet/iGuardDataset/IMAGE/temp/img&#x27;</span></span><br><span class="line">extension = <span class="string">&#x27;.jpg&#x27;</span></span><br><span class="line">start_num = <span class="number">384</span></span><br><span class="line">num_files = <span class="built_in">len</span>([name <span class="keyword">for</span> name <span class="keyword">in</span> os.listdir(reference_folder) <span class="keyword">if</span> os.path.isfile(os.path.join(reference_folder, name))])  <span class="comment"># 排除将文件夹也计数</span></span><br><span class="line"></span><br><span class="line">f = <span class="built_in">open</span>(txt_file, <span class="string">&#x27;w&#x27;</span>)</span><br><span class="line"><span class="keyword">for</span> index <span class="keyword">in</span> <span class="built_in">range</span>(start_num, start_num+num_files):</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;%s%d%s&#x27;</span> % (prefix, index, extension), file=f)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;写入一行：&#123;&#125;&#123;&#125;&#123;&#125;&quot;</span>.<span class="built_in">format</span>(prefix, index, extension))</span><br></pre></td></tr></table></figure>
+
+<p>运行正常结束后，就会在图片的同一个文件夹下面生成同名的txt：</p>
+<img src="https://pic.downk.cc/item/5fa16b7c1cd1bbb86bdfe1d2.jpg">
+
+<p>注意看，图中一个文件是classes.txt，这个东西的用处是labelimg软件根据标注框txt里的类别索引整数索引到这个classes.txt里的真实类别名称，这个文件不是代码生成的，因为我是用coco类别检测的，所以这个classes.txt是我从data/coco.names拷贝过来重命名的。</p>
+<p>看，这就是YOLOV4帮你标注好的矩形框：</p>
+<img src="https://pic.downk.cc/item/5fa16d671cd1bbb86be041a2.jpg">
+
+<p>如果觉得误检的比较多，那么你就调高threshold。又或者你觉得不要给我检测那么多类出来，还要我一个一个去删，解决思路是自己写个python脚本，对txt文件里你不想要的类别id所在的行删除掉。</p>
+<h1 id="YOLOV4模型可视化"><a href="#YOLOV4模型可视化" class="headerlink" title="YOLOV4模型可视化"></a>YOLOV4模型可视化</h1><p>使用netron就可以查看yolov4的模型结构，通过打开cfg文件，没错，cfg文件你既可以用VS code打开用文本形式查看，也可以用netron打开，用图形形式查看。</p>
+<h1 id="YOLO-cfg配置参数讲解"><a href="#YOLO-cfg配置参数讲解" class="headerlink" title="YOLO cfg配置参数讲解"></a>YOLO cfg配置参数讲解</h1><p>详细的解释请查看darknet Github Wiki：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/AlexeyAB/darknet/wiki/CFG-Parameters-in-the-%5Bnet%5D-section">CFG Parameters in the [net] section</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/AlexeyAB/darknet/wiki/CFG-Parameters-in-the-different-layers">CFG Parameters in the different layers  </a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/hrsstudy/article/details/65447947">中文博客解释</a>  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">[net]</span><br><span class="line">batch&#x3D;64</span><br><span class="line">subdivisions&#x3D;16  # 如果内存不够大，将batch分割为subdivisions个子batch,batch固定的前提下，subdivision越小，训练出来的模型精度越高</span><br><span class="line">momentum&#x3D;0.949</span><br><span class="line">decay&#x3D;0.0005  # 权重衰减正则项，防止过拟合</span><br><span class="line">angle&#x3D;0  # 通过旋转角度来生成更多训练样本</span><br><span class="line">saturation &#x3D; 1.5</span><br><span class="line">exposure &#x3D; 1.5</span><br><span class="line">hue&#x3D;.1</span><br><span class="line"></span><br><span class="line">learning_rate&#x3D;0.001</span><br><span class="line">burn_in&#x3D;1000  # current_learning rate &#x3D; learning_rate * pow(steps &#x2F; burn_in, power) ，，其中，learning_rate&#x3D;0.001，power&#x3D;4，所以 burn_in &#x3D; 0.001 * pow(steps&#x2F;1000, 4) ，从公式可以看出，当steps小于1000时，steps&#x2F;1000小于1，这样的数再做4次方，那就更小了，所以第1到第1000个steps时，学习率远远小于0.001，1000个steps之后，学习率才等于0.001,有点像yolov5的warm up。</span><br><span class="line"></span><br><span class="line">max_batches &#x3D; 6000  # 训练达到max_batches后停止学习</span><br><span class="line">policy&#x3D;steps  # 调整学习率的policy，有如下policy：CONSTANT, STEP, EXP, POLY, STEPS, SIG, RANDOM</span><br><span class="line">steps&#x3D;4800,5400  #  这两个数值代表着steps进行到这两个时间点时，学习率会乘以下面对应的两个scales</span><br><span class="line">scales&#x3D;.1,.1  # 以此类推，如果steps&#x3D;8000,9000,12000, scales&#x3D;.1,.1,.1 且当前迭代步数为10000 ，那么当前学习率为 &#x3D; learning_rate * scales[0] * scales[1] &#x3D; 0.001 * 0.1 * 0.1 &#x3D; 0.00001</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">[yolo]</span><br><span class="line">mask &#x3D; 6,7,8</span><br><span class="line">anchors &#x3D; 12, 16, 19, 36, 40, 28, 36, 75, 76, 55, 72, 146, 142, 110, 192, 243, 459, 401</span><br><span class="line">classes&#x3D;2</span><br><span class="line">num&#x3D;9  # anchors或者说mask的数量</span><br><span class="line">jitter&#x3D;.3  # 随意更改图像大小和宽高比从 x(1 - 2*jitter) 到 x(1 + 2*jitter)</span><br><span class="line">ignore_thresh &#x3D; .7</span><br><span class="line">truth_thresh &#x3D; 1</span><br><span class="line">random&#x3D;1  # random为1时会启用Multi-Scale Training，随机使用不同尺寸的图片进行训练。</span><br><span class="line">scale_x_y &#x3D; 1.05</span><br><span class="line">iou_thresh&#x3D;0.213</span><br><span class="line">cls_normalizer&#x3D;1.0</span><br><span class="line">iou_normalizer&#x3D;0.07</span><br><span class="line">iou_loss&#x3D;ciou</span><br><span class="line">nms_kind&#x3D;greedynms</span><br><span class="line">beta_nms&#x3D;0.6</span><br><span class="line">max_delta&#x3D;5</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h1 id="YOLO-V4的tricks"><a href="#YOLO-V4的tricks" class="headerlink" title="YOLO V4的tricks"></a>YOLO V4的tricks</h1><p>相信我们已经被上面yolo v4的检测效果所惊喜，那yolo v4到底用了什么技巧达到如此准确的检测呢？</p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/103070923">https://zhuanlan.zhihu.com/p/103070923</a></p>
+<p><a target="_blank" rel="noopener" href="https://aistudio.baidu.com/aistudio/education/group/info/1617">百度目标检测7日打卡营</a></p>
+<h1 id="如何训练YOLOV4来检测自定义目标"><a href="#如何训练YOLOV4来检测自定义目标" class="headerlink" title="如何训练YOLOV4来检测自定义目标"></a>如何训练YOLOV4来检测自定义目标</h1><ol>
+<li><p>要训练<code>cfg/yolov4-custom.cfg</code>，请下载预训练的权重文件（162 MB）：<a target="_blank" rel="noopener" href="https://github.com/AlexeyAB/darknet/releases/download/darknet_yolo_v3_optimal/yolov4.conv.137">yolov4.conv.137</a>。</p>
+</li>
+<li><p>创建文件yolo-obj.cfg，其内容与yolov4-custom.cfg中的内容相同（或将yolov4-custom.cfg复制到yolo-obj.cfg），并：</p>
+<p>将batcch更改为<code>batch= 64</code></p>
+<p>将subdivisions更改为<code>subdivisions=16</code></p>
+<p>将max_batches更改为class * 2000（但不少于训练图像的数量，但不少于训练图像的数量且不少于6000），f.e。 如果您训练3个类别，<code>max_batches = 6000</code></p>
+<p>将steps更改为max_batches的80％和90％，例如 <code>steps=4800,5400</code></p>
+<p>设置网络大小width = 416 height = 416或任何32的值的倍数</p>
+<p>在3个<code>[yolo]</code>层中将<code>classes=80</code>更改为实际类别数</p>
+<p>在3个<code>[yolo]</code>层之前的 <code>[convolutional]</code>中将<code>[filters = 255]</code>更改为<code>[filters =（classs + 5）x3]</code>，请记住，只需要改每个[yolo]层之前的那个<code>[convolutional]</code> 。因此，如果classes = 1，则应该是filter = 18。 如果class = 2，则filter = 21。详细的公式为：<code>filters=(classes + coords + 1)*&lt;number of mask&gt;</code></p>
+<p>使用<code>[Gaussian_yolo]</code>层时，请在每个<code>[Gaussian_yolo]</code>层之前的3个<code>[convolutional]</code>中更改<code>[filters = 57]</code> 为 <code>filter =（classs + 9）x3</code></p>
+</li>
+<li><p>在目录build \ darknet \ x64 \ data \中创建文件obj.names，内容是一个目标名称一个行。</p>
+</li>
+<li><p>在目录build \ darknet \ x64 \ data \中创建文件obj.data，内容是：</p>
+</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">classes &#x3D; 2</span><br><span class="line">train  &#x3D; data&#x2F;train.txt</span><br><span class="line">valid  &#x3D; data&#x2F;test.txt</span><br><span class="line">names &#x3D; data&#x2F;obj.names</span><br><span class="line">backup &#x3D; backup&#x2F;</span><br></pre></td></tr></table></figure>
+
+<ol start="5">
+<li>给数据集标注好矩形框，标签文件是格式<code>&lt;object-class&gt; &lt;x_center&gt; &lt;y_center&gt; &lt;width&gt; &lt;height&gt;</code>的txt文件。其中：</li>
+</ol>
+<ul>
+<li><code>&lt;object-class&gt;</code> - 代表目标类别的整数</li>
+<li><code>&lt;x_center&gt; &lt;y_center&gt; &lt;width&gt; &lt;height&gt;</code> - 相对于图像宽度高度的浮点值，位于 (0.0 to 1.0]区间。比如: <code>&lt;x&gt; = &lt;absolute_x&gt; / &lt;image_width&gt;</code> &amp; <code>&lt;height&gt; = * &lt;absolute_height&gt; / &lt;image_height&gt;</code></li>
+<li>注意 <x_center> <y_center> - 是矩形框的中心，不是左上角。</li>
+</ul>
+<ol start="6">
+<li>Create file <code>train.txt</code> in directory <code>build\darknet\x64\data\</code>, with filenames of your images, each filename in new line, with path relative to <code>darknet.exe</code>, for example containing:</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">data&#x2F;obj&#x2F;img1.jpg</span><br><span class="line">data&#x2F;obj&#x2F;img2.jpg</span><br><span class="line">data&#x2F;obj&#x2F;img3.jpg</span><br></pre></td></tr></table></figure>
+
+<ol start="7">
+<li>Download pre-trained weights for the convolutional layers and put to the directory <code>build\darknet\x64</code></li>
+</ol>
+<ul>
+<li>for <code>yolov4.cfg</code>, <code>yolov4-custom.cfg</code> (162 MB): <a target="_blank" rel="noopener" href="https://github.com/AlexeyAB/darknet/releases/download/darknet_yolo_v3_optimal/yolov4.conv.137">yolov4.conv.137</a> (Google drive mirror <a target="_blank" rel="noopener" href="https://drive.google.com/open?id=1JKF-bdIklxOOVy-2Cr5qdvjgGpmGfcbp">yolov4.conv.137</a> )</li>
+<li>for <code>yolov4-tiny.cfg</code>, <code>yolov4-tiny-3l.cfg</code>, <code>yolov4-tiny-custom.cfg</code> (19 MB): <a target="_blank" rel="noopener" href="https://github.com/AlexeyAB/darknet/releases/download/darknet_yolo_v4_pre/yolov4-tiny.conv.29">yolov4-tiny.conv.29</a></li>
+<li>for <code>csresnext50-panet-spp.cfg</code> (133 MB): <a target="_blank" rel="noopener" href="https://drive.google.com/file/d/16yMYCLQTY_oDlCIZPfn_sab6KD3zgzGq/view?usp=sharing">csresnext50-panet-spp.conv.112</a></li>
+<li>for <code>yolov3.cfg, yolov3-spp.cfg</code> (154 MB): <a target="_blank" rel="noopener" href="https://pjreddie.com/media/files/darknet53.conv.74">darknet53.conv.74</a></li>
+<li>for <code>yolov3-tiny-prn.cfg , yolov3-tiny.cfg</code> (6 MB): <a target="_blank" rel="noopener" href="https://drive.google.com/file/d/18v36esoXCh-PsOKwyP2GWrpYDptDY8Zf/view?usp=sharing">yolov3-tiny.conv.11</a></li>
+<li>for <code>enet-coco.cfg (EfficientNetB0-Yolov3)</code> (14 MB): <a target="_blank" rel="noopener" href="https://drive.google.com/file/d/1uhh3D6RSn0ekgmsaTcl-ZW53WBaUDo6j/view?usp=sharing">enetb0-coco.conv.132</a></li>
+</ul>
+<ol start="8">
+<li>Start training by using the command line: <code>darknet.exe detector train data/obj.data yolo-obj.cfg yolov4.conv.137</code></li>
+</ol>
+<p>To train on Linux use command: <code>./darknet detector train data/obj.data yolo-obj.cfg yolov4.conv.137</code> (just use <code>./darknet</code> instead of <code>darknet.exe</code>)</p>
+<ul>
+<li>(file <code>yolo-obj_last.weights</code> will be saved to the <code>build\darknet\x64\backup\</code> for each 100 iterations)</li>
+<li>(file <code>yolo-obj_xxxx.weights</code> will be saved to the <code>build\darknet\x64\backup\</code> for each 1000 iterations)</li>
+<li>(to disable Loss-Window use <code>darknet.exe detector train data/obj.data yolo-obj.cfg yolov4.conv.137 -dont_show</code>, if you train on computer without monitor like a cloud Amazon EC2)</li>
+<li>(to see the mAP &amp; Loss-chart during training on remote server without GUI, use command <code>darknet.exe detector train data/obj.data yolo-obj.cfg yolov4.conv.137 -dont_show -mjpeg_port 8090 -map</code> then open URL <code>http://ip-address:8090</code> in Chrome/Firefox browser)</li>
+</ul>
+<p>8.1. For training with mAP (mean average precisions) calculation for each 4 Epochs (set <code>valid=valid.txt</code> or <code>train.txt</code> in <code>obj.data</code> file) and run: <code>darknet.exe detector train data/obj.data yolo-obj.cfg yolov4.conv.137 -map</code></p>
+<ol>
+<li>After training is complete - get result <code>yolo-obj_final.weights</code> from path <code>build\darknet\x64\backup\</code></li>
+</ol>
+<ul>
+<li><p>After each 100 iterations you can stop and later start training from this point. For example, after 2000 iterations you can stop training, and later just start training using: <code>darknet.exe detector train data/obj.data yolo-obj.cfg backup\yolo-obj_2000.weights</code></p>
+<p>(in the original repository <a target="_blank" rel="noopener" href="https://github.com/pjreddie/darknet">https://github.com/pjreddie/darknet</a> the weights-file is saved only once every 10 000 iterations <code>if(iterations &gt; 1000)</code>)</p>
+</li>
+</ul>
+<p><strong>Note:</strong> If during training you see <code>nan</code> values for <code>avg</code> (loss) field - then training goes wrong, but if <code>nan</code> is in some other lines - then training goes well.</p>
+<p><strong>Note:</strong> If you changed width= or height= in your cfg-file, then new width and height must be divisible by 32.</p>
+<p><strong>Note:</strong> After training use such command for detection: <code>darknet.exe detector test data/obj.data yolo-obj.cfg yolo-obj_8000.weights</code></p>
+<p><strong>Note:</strong> if error <code>Out of memory</code> occurs then in <code>.cfg</code>-file you should increase <code>subdivisions=16</code>, 32 or 64。</p>
+<h1 id="如何训练YOLOV4-tiny来检测自定义目标"><a href="#如何训练YOLOV4-tiny来检测自定义目标" class="headerlink" title="如何训练YOLOV4 - tiny来检测自定义目标"></a>如何训练YOLOV4 - tiny来检测自定义目标</h1><p>Do all the same steps as for the full yolo model as described above. With the exception of:</p>
+<ul>
+<li>Download file with the first 29-convolutional layers of yolov4-tiny: <a target="_blank" rel="noopener" href="https://github.com/AlexeyAB/darknet/releases/download/darknet_yolo_v4_pre/yolov4-tiny.conv.29">https://github.com/AlexeyAB/darknet/releases/download/darknet_yolo_v4_pre/yolov4-tiny.conv.29</a> (Or get this file from yolov4-tiny.weights file by using command: <code>darknet.exe partial cfg/yolov4-tiny-custom.cfg yolov4-tiny.weights yolov4-tiny.conv.29 29</code></li>
+<li>Make your custom model <code>yolov4-tiny-obj.cfg</code> based on <code>cfg/yolov4-tiny-custom.cfg</code> instead of <code>yolov4.cfg</code></li>
+<li>Start training: <code>darknet.exe detector train data/obj.data yolov4-tiny-obj.cfg yolov4-tiny.conv.29</code></li>
+</ul>
+<p>For training Yolo based on other models (<a target="_blank" rel="noopener" href="https://github.com/AlexeyAB/darknet/blob/master/build/darknet/x64/densenet201_yolo.cfg">DenseNet201-Yolo</a> or <a target="_blank" rel="noopener" href="https://github.com/AlexeyAB/darknet/blob/master/build/darknet/x64/resnet50_yolo.cfg">ResNet50-Yolo</a>), you can download and get pre-trained weights as showed in this file: <a target="_blank" rel="noopener" href="https://github.com/AlexeyAB/darknet/blob/master/build/darknet/x64/partial.cmd">https://github.com/AlexeyAB/darknet/blob/master/build/darknet/x64/partial.cmd</a> If you made you custom model that isn’t based on other models, then you can train it without pre-trained weights, then will be used random initial weights.</p>
+<h1 id="怎样改善检测结果"><a href="#怎样改善检测结果" class="headerlink" title="怎样改善检测结果"></a>怎样改善检测结果</h1><p><a target="_blank" rel="noopener" href="https://github.com/AlexeyAB/darknet#how-to-improve-object-detection">翻译</a></p>
+<p><strong>训练前</strong>：</p>
+<ul>
+<li><p>在您的.cfg文件中设置flag <code>random = 1</code>, 这样它会通过训练Yolo不同的分辨率来提高精度：<a target="_blank" rel="noopener" href="https://github.com/AlexeyAB/darknet/blob/0039fd26786ab5f71d5af725fc18b3f521e7acfd/cfg/yolov3.cfg#L788">链接</a></p>
+</li>
+<li><p>增加.cfg文件中的网络分辨率（高度= 608，宽度= 608或任何32的倍数）-这将提高精度</p>
+</li>
+<li><p>检查您要检测的每个目标是否在数据集中都有被标记以及是否被正确标记，如果您想检查目标是否别正确标记，可以在训练的命令行后面加上<code>-show_imgs</code>。</p>
+</li>
+<li><p>对于您要检测的目标，应该有它：不同比例，不同角度(间隔30度），不同照明，不同背景的图像， 每个类别最好拥有2000张不同的图像，并且您应训练2000 *class以上的迭代。从神经网络的内部角度来看，这些都是不同的对象。因此，要检测的对象越不同，应使用越复杂的网络模型。</p>
+</li>
+<li><p>希望您的训练数据集包含没有检测目标的图像（对应空的.txt文件）-使用与带有对象的图像一样多的负样本图像</p>
+</li>
+<li><p>针对图像中有大量对象的情况，训练前请在cfg文件的最后一个[yolo]层或[region]层中添加参数max = 200或更高的值（YoloV3可以检测到的最多目标数量是0,0615234375 *（width * height），其中width和height是cfg文件中[net]部分的参数）。</p>
+</li>
+<li><p>要训练小目标（将图像调整为416x416后小于16x16的目标称为小目标），设置<code>layers = 23</code>,而不是<code>layers = 54</code>(<a target="_blank" rel="noopener" href="https://github.com/AlexeyAB/darknet/blob/6f718c257815a984253346bba8fb7aa756c55090/cfg/yolov4.cfg#L895">https://github.com/AlexeyAB/darknet/blob/6f718c257815a984253346bba8fb7aa756c55090/cfg/yolov4.cfg#L895</a>)</p>
+<p>设置<code>stride = 4</code>而不是<code>stride = 2</code>(<a target="_blank" rel="noopener" href="https://github.com/AlexeyAB/darknet/blob/6f718c257815a984253346bba8fb7aa756c55090/cfg/yolov4.cfg#L892">https://github.com/AlexeyAB/darknet/blob/6f718c257815a984253346bba8fb7aa756c55090/cfg/yolov4.cfg#L892</a>)</p>
+<p>设置<code>stride = 4</code>而不是<code>stride = 2</code>(<a target="_blank" rel="noopener" href="https://github.com/AlexeyAB/darknet/blob/6f718c257815a984253346bba8fb7aa756c55090/cfg/yolov4.cfg#L989">https://github.com/AlexeyAB/darknet/blob/6f718c257815a984253346bba8fb7aa756c55090/cfg/yolov4.cfg#L989</a>)</p>
+</li>
+<li><p>对于既要训练大目标，又要训练小目标，请使用修改后的模型：</p>
+<p>Full-model：5个yolo层：<a target="_blank" rel="noopener" href="https://raw.githubusercontent.com/AlexeyAB/darknet/master/cfg/yolov3_5l.cfg">https://raw.githubusercontent.com/AlexeyAB/darknet/master/cfg/yolov3_5l.cfg</a></p>
+<p>Tiny-model：3个yolo层：<a target="_blank" rel="noopener" href="https://raw.githubusercontent.com/AlexeyAB/darknet/master/cfg/yolov4-tiny_3l.cfg">https://raw.githubusercontent.com/AlexeyAB/darknet/master/cfg/yolov4-tiny_3l.cfg</a></p>
+<p>YOLOv4：3个yolo层：<a target="_blank" rel="noopener" href="https://raw.githubusercontent.com/AlexeyAB/darknet/master/cfg/yolov4-custom.cfg">https://raw.githubusercontent.com/AlexeyAB/darknet/master/cfg/yolov4-custom.cfg</a>  (比yolov4.cfg多了stopbackward=800，这句代码AlexeyAB原话是这么解释的：put stopbackward=800 before some layer meaning that all the layers’ weights before current layer will not be updated only for the first 800 iterations. )</p>
+</li>
+<li><p>如果您训练的模型将左对象和右对象区分为单独的类（左/右手，左/右转道路标志，…），则禁用翻转数据增强<code>flip = 0</code>：<a target="_blank" rel="noopener" href="https://github.com/AlexeyAB/darknet/blob/3d2d0a7c98dbc8923d9ff705b81ff4f7940ea6ff/cfg/yolov3.cfg#L17">https://github.com/AlexeyAB/darknet/blob/3d2d0a7c98dbc8923d9ff705b81ff4f7940ea6ff/cfg/yolov3.cfg#L17</a></p>
+</li>
+<li><p>训练集和测试集中都要有相对图像大小差不多的目标</p>
+</li>
+<li><p>加快训练速度（伴随降低检测精度）在cfg文件中为第136层设置参数<code>stopbackward = 1</code></p>
+</li>
+<li><p>为了使检测到的边界框更准确，您可以向每个[yolo]层添加3个参数<code>ignore_thresh = .9</code> <code>iou_normalizer = 0.5</code> <code>iou_loss = giou</code>并进行训练，它将增加<a href="mailto:&#x6d;&#x41;&#x50;&#64;&#48;&#46;&#x39;">&#x6d;&#x41;&#x50;&#64;&#48;&#46;&#x39;</a>，但减小<a href="mailto:&#x6d;&#x41;&#x50;&#64;&#48;&#46;&#53;">&#x6d;&#x41;&#x50;&#64;&#48;&#46;&#53;</a>。</p>
+</li>
+<li><p>仅当您是神经检测网络专家时再这么做 ：在cfg文件中重新计算数据集的锚框的宽度和高度：<code>darknet.exe detector calc_anchors data/obj.data -num_of_clusters 9 -width 416 -height 416</code>然后设置相同的9个锚点在cfg文件的3个[yolo]图层中的每个图层中。但是您应该为每个[yolo]层更改anchor的遮罩 <code>masks</code>，因此对于YOLOv4，第一层[yolo]层的锚点小于30x30，第二层小于60x60，剩下的第3层，以此类推。同样，您应该在每个[yolo]层之前更改<code>filter =（classs + 5）* &lt;mask的数量&gt;</code>。如果许多计算出的锚不适合在适当的图层下, 那就使用默认锚框即可。</p>
+</li>
+</ul>
+<p><strong>训练后，用于检测：</strong></p>
+<ul>
+<li>通过在.cfg文件中设置（<code>height= 608</code> 和<code>width= 608</code>）或（高度= 832和宽度= 832）或（任何32的倍数）来提高网络分辨率-这可以提高精度，并可以检测到小物件：<a target="_blank" rel="noopener" href="https://github.com/AlexeyAB/darknet/blob/0039fd26786ab5f71d5af725fc18b3f521e7acfd/cfg/yolov3.cfg#L8-L9">链接</a>。而且若要升高分辨率的话，无需再次从头训练网络，只需使用已经针对416x416分辨率进行训练的.weights文件。如果发生错误，内存不足，则在.cfg文件中，您应该增加<code>subdivisions= 16</code>、32或64：<a target="_blank" rel="noopener" href="https://github.com/AlexeyAB/darknet/blob/0039fd26786ab5f71d5af725fc18b3f521e7acfd/cfg/yolov3.cfg#L4">链接</a></li>
+</ul>
+<h1 id="YOLO-V4的issues-amp-comments"><a href="#YOLO-V4的issues-amp-comments" class="headerlink" title="YOLO V4的issues&amp;comments"></a>YOLO V4的issues&amp;comments</h1><p><strong>Issue 1</strong>. Can Yolo3 take different width-height-ratio images as training input? #800</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/pjreddie/darknet/issues/800#issuecomment-390352607">comment 1</a> ，<a target="_blank" rel="noopener" href="https://github.com/pjreddie/darknet/issues/800#issuecomment-609566695">comment 2</a></p>
+<p>概括：可以使用不同宽高比的图像进行训练，但这会使得模型的检测效果变糟糕，在yolov4.cfg里，可以使用<code>jitter</code>和<code>random</code>两个超参数来数据增强，减少这个影响。同时，YOLOv4会把训练图像保持宽高比缩放到长边等于416，短边用黑边填充到416。</p>
+<p>这带给我们一个启示：“数据集图片尺寸不要跟网络的输入尺寸差距很大”。举个例子，咱们用手机相机拍摄的照片一般都很清晰，我的是4000多×2000多，但是<strong>越大越高分辨率的图片对神经网络来说是越不清晰</strong>！因为网络在预处理是会把图片尺寸除以原始图片的长边，比如我这里是除以4000多像素，那假如我的目标是100×200，转换成608×608的图片后，它的大小变成了15×30，也就是15×30的像素要表达我的那个目标，可想而知这丢失了很多目标信息，这样模型的小目标检测效果就会特别差！所以我建议把数据集的图片裁剪变小，推荐一个<a target="_blank" rel="noopener" href="https://watermarkly.com/crop-photo/">裁剪工具</a>。</p>
+<h1 id="智能标注工具"><a href="#智能标注工具" class="headerlink" title="智能标注工具"></a>智能标注工具</h1><p>训练前的数据标注是一个简单重复又意义重要的工作，现在就诞生了几个不错的数据标注工具，它们会帮你比如OPENCV/openvinotoolkit出品的CVAT（Computer Vision Annotation Tool），这里我用它的<a target="_blank" rel="noopener" href="https://cvat.org/">在线版</a>演示一下单张图片单个类别的目标检测标注：</p>
+<p>左侧工具栏有个魔术棒图标，我们可也利用它自己生成标注框：</p>
+<img src="https://pic.downk.cc/item/5f7d93fd1cd1bbb86b6ac487.jpg">
+
+<p>标注结束后记得点一下save，最后就是点menu -&gt; Export as a dataset导出你想要的格式的数据集了：</p>
+<img src="https://pic.downk.cc/item/5f7db1f41cd1bbb86b7255c1.jpg">
+
+<p>下载下来的数据集如下图所示，我导出的就是YOLO格式：</p>
+<img src="https://pic.downk.cc/item/5f7d98a21cd1bbb86b6bbcdc.jpg">
+
+<p>这款工具还可能标注实例分割，数据源是视频等，功能还是比较强大的，但是缺点是因为是网页版，所以上传大的数据集容易网络断开。</p>
+<p>具有半自动标注的工具了还有：</p>
+<ul>
+<li><p><a target="_blank" rel="noopener" href="https://github.com/virajmavani/semi-auto-image-annotation-tool">semi-auto-image-annotation-tool</a>，不过似乎维护得比较不频繁了，但我觉得他们当时的创新之举还是值得一提的。</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://github.com/microsoft/VoTT">VOTT</a>，在学位帽图标这里设置，Model Provider让你设置用什么模型预测，是SSD还是自定义模型，Predict让你设置预测出来框是否还给你带上标签Tag，Auto Detect让你设置点击下一张图片后是否自动检测</p>
+<img src="https://pic.downk.cc/item/5f9d724a1cd1bbb86bc764e1.jpg" width=90%></li>
+</ul>
+<p>如果不自动检测的话，就得自己手动点下面这个同样学位帽的图标：<br> <img src="https://pic.downk.cc/item/5f9d72741cd1bbb86bc775db.jpg" ></p>
+<p> 目前（2020/10/31）VOTT还不支持导出YOLO格式的功能，但这个<a target="_blank" rel="noopener" href="https://github.com/microsoft/VoTT/issues/994">issue</a>里官方给的建议是用他们的<a target="_blank" rel="noopener" href="https://roboflow.com/convert/vott-json-to-yolo-darknet-txt">Roboflow</a>转换工具把VoTT Json格式转换成YOLO txt格式。</p>
+<h2 id="对比"><a href="#对比" class="headerlink" title="对比"></a>对比</h2><p><strong>Tiny YOLOv4</strong> V.S. <strong>MobileNet SSD</strong></p>
+<p><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=IAL480andOQ&amp;list=PL_Nji0JOuXg2E6QVMwCrLOzzTmr36fFcH&amp;index=2&amp;ab_channel=AugmentedStartups">https://www.youtube.com/watch?v=IAL480andOQ&amp;list=PL_Nji0JOuXg2E6QVMwCrLOzzTmr36fFcH&amp;index=2&amp;ab_channel=AugmentedStartups</a></p>
+ 
+      <!-- reward -->
+      
+      <div id="reword-out">
+        <div id="reward-btn">
+          Donate
+        </div>
+      </div>
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <div class="declare">
+      <ul class="post-copyright">
+        <li>
+          <i class="ri-copyright-line"></i>
+          <strong>Copyright： </strong>
+          
+          Copyright is owned by the author. For commercial reprints, please contact the author for authorization. For non-commercial reprints, please indicate the source.
+          
+        </li>
+      </ul>
+    </div>
+    
+    <footer class="article-footer">
+       
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://example.com/2020/10/04/YOLOV4/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>  
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/YOLO/" rel="tag">YOLO</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B/" rel="tag">目标检测</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+  <nav class="article-nav">
+    
+      <a href="/2020/10/05/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E7%AE%97%E6%B3%95/" class="article-nav-link">
+        <strong class="article-nav-caption">上一篇</strong>
+        <div class="article-nav-title">
+          
+            图像处理算法
+          
+        </div>
+      </a>
+    
+    
+      <a href="/2020/09/29/%E7%94%B5%E6%9C%BA%E7%B1%BB%E5%9E%8B%E4%B8%8EFOC%E6%8E%A7%E5%88%B6/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">电机类型与FOC控制</div>
+      </a>
+    
+  </nav>
+
+   
+<!-- valine评论 -->
+<div id="vcomments-box">
+  <div id="vcomments"></div>
+</div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js"></script>
+<script>
+  new Valine({
+    el: "#vcomments",
+    app_id: "Y8oqscHrnLuIwp1649iHgWjM-gzGzoHsz",
+    app_key: "IjneyzqTD2fkFsPSEFKEW0lN",
+    path: window.location.pathname,
+    avatar: "monsterid",
+    placeholder: "有什么想说的请在此留言~",
+    recordIP: true,
+  });
+  const infoEle = document.querySelector("#vcomments .info");
+  if (infoEle && infoEle.childNodes && infoEle.childNodes.length > 0) {
+    infoEle.childNodes.forEach(function (item) {
+      item.parentNode.removeChild(item);
+    });
+  }
+</script>
+<style>
+  #vcomments-box {
+    padding: 5px 30px;
+  }
+
+  @media screen and (max-width: 800px) {
+    #vcomments-box {
+      padding: 5px 0px;
+    }
+  }
+
+  #vcomments-box #vcomments {
+    background-color: #fff;
+  }
+
+  .v .vlist .vcard .vh {
+    padding-right: 20px;
+  }
+
+  .v .vlist .vcard {
+    padding-left: 10px;
+  }
+</style>
+
+ 
+     
+</article>
+
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul>
+      <li>
+        Copyrights &copy;
+        2020-2021
+        <i class="ri-heart-fill heart_icon"></i> Wade Wang
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+        
+        
+        Powered by <a href="https://hexo.io" target="_blank">Hexo</a>
+        <span class="division">|</span>
+        Theme - <a href="https://github.com/Shen-Yu/hexo-theme-ayer" target="_blank">Ayer</a>
+        
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+        
+        <span>
+  <span><i class="ri-user-3-fill"></i>Visitors:<span id="busuanzi_value_site_uv"></span></s>
+  <span class="division">|</span>
+  <span><i class="ri-eye-fill"></i>Views:<span id="busuanzi_value_page_pv"></span></span>
+</span>
+        
+      </li>
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      <li>
+        <!-- cnzz统计 -->
+        
+        <script type="text/javascript" src='https://s9.cnzz.com/z_stat.php?id=1278069914&amp;web_id=1278069914'></script>
+        
+      </li>
+    </ul>
+  </div>
+</footer>
+      <div class="float_btns">
+        <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+
+      </div>
+    </main>
+    <aside class="sidebar on">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/yoga.png" alt="Hello World"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" target="_blank" rel="noopener" href="http://wwdok.lofter.com">摄影</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/friends">友链</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/about">关于我</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="Search">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <script>
+      if (window.matchMedia("(max-width: 768px)").matches) {
+        document.querySelector('.content').classList.remove('on');
+        document.querySelector('.sidebar').classList.remove('on');
+      }
+    </script>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯果汁吧~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/alipay.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/wechat.png">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+    
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+<!-- Tocbot -->
+
+
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3, h4, h5, h6',
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer: 'main',
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto'
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.css">
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/dist/main.js"></script>
+
+<!-- ImageViewer -->
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css">
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script>
+
+<!-- MathJax -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+      tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+  });
+
+  MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for(i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.6/unpacked/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script>
+  var ayerConfig = {
+    mathjax: true
+  }
+</script>
+
+<!-- Katex -->
+
+<!-- busuanzi  -->
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+<!-- ClickLove -->
+
+<!-- ClickBoom1 -->
+
+<!-- ClickBoom2 -->
+
+<!-- CodeCopy -->
+
+
+<link rel="stylesheet" href="/css/clipboard.css">
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="ri-file-copy-2-line"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-checkbox-circle-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-checkbox-circle-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-time-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-time-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+
+
+<!-- CanvasBackground -->
+
+
+    
+  </div>
+</body>
+
+</html>

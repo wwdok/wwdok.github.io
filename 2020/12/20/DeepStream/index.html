@@ -1,0 +1,1292 @@
+<!DOCTYPE html>
+
+
+<html lang="ch">
+
+
+<head>
+  <meta charset="utf-8" />
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>
+    DeepStream |  Hello World
+  </title>
+  <meta name="generator" content="hexo-theme-ayer">
+  
+  <link rel="shortcut icon" href="/planets.ico" />
+  
+  
+<link rel="stylesheet" href="/dist/main.css">
+
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Shen-Yu/cdn/css/remixicon.min.css">
+
+  
+<link rel="stylesheet" href="/css/custom.css">
+
+  
+  
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+
+  
+  
+
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-172408389-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+
+
+
+  
+<script>
+var _hmt = _hmt || [];
+(function() {
+	var hm = document.createElement("script");
+	hm.src = "https://hm.baidu.com/hm.js?da92a6672e51fa2d1c3bacf2dba555c6";
+	var s = document.getElementsByTagName("script")[0]; 
+	s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+</head>
+
+</html>
+
+<body>
+  <div id="app">
+    
+      
+    <main class="content on">
+      <section class="outer">
+  <article
+  id="post-DeepStream"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  DeepStream
+</h1>
+ 
+
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2020/12/20/DeepStream/" class="article-date">
+  <time datetime="2020-12-20T02:34:05.000Z" itemprop="datePublished">2020-12-20</time>
+</a>   
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> Word count:</span>
+            <span class="post-count">10.9k</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> Reading time≈</span>
+            <span class="post-count">43 min</span>
+        </span>
+    </span>
+</div>
+ 
+    </div>
+      
+    <div class="tocbot"></div>
+
+
+
+
+  
+    <div class="article-entry" itemprop="articleBody">
+       
+  <p>门户网站：<a target="_blank" rel="noopener" href="https://developer.nvidia.com/deepstream-sdk">https://developer.nvidia.com/deepstream-sdk</a></p>
+<h1 id="DeepStream-入门"><a href="#DeepStream-入门" class="headerlink" title="DeepStream 入门"></a><strong>DeepStream</strong> 入门</h1><h2 id="欢迎使用DeepStream文档"><a href="#欢迎使用DeepStream文档" class="headerlink" title="欢迎使用DeepStream文档"></a>欢迎使用DeepStream文档</h2><h3 id="NVIDIA-DeepStream概述"><a href="#NVIDIA-DeepStream概述" class="headerlink" title="NVIDIA DeepStream概述"></a><a target="_blank" rel="noopener" href="https://docs.nvidia.com/metropolis/deepstream/dev-guide/text/DS_Overview.html#nvidia-deepstream-overview">NVIDIA DeepStream概述</a></h3><p>DeepStream是一个流分析工具包，用于构建AI驱动的应用程序。它以流数据作为输入, 这些流数据来自USB / CSI摄像机，来自视频文件或基于RTSP的流，并使用AI和计算机视觉从像素生成洞察力，以更好地了解环境。DeepStream SDK可以用作许多视频分析解决方案的基础层，例如了解智慧城市中的交通和行人，医院中的健康和安全监控，零售中的自检和分析，检测制造工厂中的组件缺陷等。</p>
+<p><img src="https://i.loli.net/2020/12/20/NfboknCLUWxQ1mh.jpg" alt="img"></p>
+<p>DeepStream通过Python bindings支持C / C ++和Python的应用程序开发。为了使入门更加容易，DeepStream附带了C / C ++和Python中的多个参考应用程序。请参阅<a target="_blank" rel="noopener" href="https://docs.nvidia.com/metropolis/deepstream/dev-guide/text/DS_C_Sample_Apps.html">C / C ++示例应用程序详细信息</a>和<a target="_blank" rel="noopener" href="https://docs.nvidia.com/metropolis/deepstream/dev-guide/text/DS_Python_Sample_Apps.html">Python示例应用程序详细信息</a>，以了解有关可用应用程序的更多信息。有关某些DeepStream参考应用程序，请参见<a target="_blank" rel="noopener" href="https://github.com/NVIDIA-AI-IOT/deepstream_reference_apps">NVIDIA-AI-IOT</a> Github页面。</p>
+<p>核心SDK由几个硬件加速器插件组成，这些插件使用各种加速器，例如VIC，GPU，DLA，NVDEC和NVENC。通过在专用加速器中执行所有计算繁重的操作，DeepStream可以为视频分析应用程序实现最高性能。DeepStream的关键功能之一是边缘和云之间的安全双向通信。DeepStream附带了几种现成的安全协议，例如使用用户名/密码的SASL /普通身份验证和2路TLS身份验证。要了解有关这些安全功能的更多信息，请阅读 <a target="_blank" rel="noopener" href="https://docs.nvidia.com/metropolis/deepstream/dev-guide/text/DS_IoT.html"><strong>IoT</strong></a> 章节。要了解有关双向功能的更多信息，请参阅本指南中的“<a target="_blank" rel="noopener" href="https://docs.nvidia.com/metropolis/deepstream/dev-guide/text/DS_IoT.html#bi-directional-label">双向消息传递</a>”部分。</p>
+<p>DeepStream建立在CUDA-X堆栈的多个NVIDIA库的基础上（如上图所示），例如有CUDA，TensorRT，Triton Inference服务器和多媒体库。TensorRT加速了NVIDIA GPU上的AI推理。DeepStream在插件中抽象了这些库，使开发人员可以轻松地构建视频分析管道，而不必学习所有单独的库。</p>
+<p>DeepStream针对NVIDIA GPU进行了优化，应用程序可以部署在运行Jetson平台的嵌入式边缘设备上，也可以部署在较大的边缘或数据中心GPU（例如T4）上。可以使用NVIDIA容器运行时将DeepStream应用程序部署在容器中。这些容器可在NGC（NVIDIA GPU Cloud Registry）上找到。要了解有关使用docker进行部署的更多信息，请参阅Docker容器一章。可以使用GPU上的Kubernetes在边缘上编排（orchestrate）DeepStream应用程序。NGC上提供了用于部署DeepStream应用程序的示例<a target="_blank" rel="noopener" href="https://ngc.nvidia.com/catalog/helm-charts/nvidia:video-analytics-demo">Helm chart</a>。</p>
+<h3 id="DeepStream图架构"><a href="#DeepStream图架构" class="headerlink" title="DeepStream图架构"></a><a target="_blank" rel="noopener" href="https://docs.nvidia.com/metropolis/deepstream/dev-guide/text/DS_Overview.html#deepstream-graph-architecture">DeepStream图架构</a></h3><p>DeepStream是使用开源GStreamer框架构建的优化图形架构。下图显示了典型的视频分析应用程序，从输入视频到输出结果，所有单独的块都是使用到的各种插件。底部是在整个应用程序中使用的不同硬件引擎。插件之间的零内存复制以及使用各种加速器的最佳内存管理确保了最高性能。</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/93942a719fb53d5de777aee577f2c268.png"></p>
+<p>DeepStream以GStreamer插件的形式提供了构建基块，可用于构建有效的视频分析管道。有15个以上的插件可以通过硬件加速完成各种任务。</p>
+<ol>
+<li><p>数据流可以通过RTSP或来自本地文件系统或直接来自摄像机的网络来传输。使用CPU捕获流。一旦帧进入内存，就使用NVDEC加速器发送它们以进行解码。用于解码的插件称为<a target="_blank" rel="noopener" href="https://docs.nvidia.com/metropolis/deepstream/dev-guide/text/DS_plugin_gst-nvvideo4linux2.html">Gst-nvvideo4linux2</a>。</p>
+</li>
+<li><p>解码后，有一个可选的图像预处理步骤。预处理可以是图像变形或色彩空间转换。<a target="_blank" rel="noopener" href="https://docs.nvidia.com/metropolis/deepstream/dev-guide/text/DS_plugin_gst-nvdewarper.html">Gst-nvdewarper</a>插件可以使鱼眼镜头或360度相机的图像变形。<a target="_blank" rel="noopener" href="https://docs.nvidia.com/metropolis/deepstream/dev-guide/text/DS_plugin_gst-nvvideoconvert.html">Gst-nvvideoconvert</a>插件可以在框架上执行颜色格式转换。这些插件使用GPU或VIC（视觉图像合成器）。</p>
+</li>
+<li><p>下一步是批处理帧以获得最佳推理性能。批处理使用<a target="_blank" rel="noopener" href="https://docs.nvidia.com/metropolis/deepstream/dev-guide/text/DS_plugin_gst-nvstreammux.html">Gst-nvstreammux</a>插件完成。</p>
+</li>
+<li><p>批处理帧后，将其发送以进行推理。可以使用NVIDIA的推理加速器运行时TensorRT进行推理，也可以使用Triton推理服务器在本机框架（如TensorFlow或PyTorch）中进行推理。本地TensorRT推理是使用<a target="_blank" rel="noopener" href="https://docs.nvidia.com/metropolis/deepstream/dev-guide/text/DS_plugin_gst-nvinfer.html">Gst-nvinfer</a>插件实现，用Triton推理是通过<a target="_blank" rel="noopener" href="https://docs.nvidia.com/metropolis/deepstream/dev-guide/text/DS_plugin_gst-nvinferserver.html">Gst-nvinferserver</a>插件实现。对于Jetson AGX Xavier和Xavier NX，推理可以使用GPU或DLA（深度学习加速器）。</p>
+</li>
+<li><p>推断之后，下一步可能涉及跟踪对象。SDK中有多个内置参考跟踪器，范围从高性能到高精度。使用<a target="_blank" rel="noopener" href="https://docs.nvidia.com/metropolis/deepstream/dev-guide/text/DS_plugin_gst-nvtracker.html">Gst-nvtracker</a>插件执行对象跟踪。</p>
+</li>
+<li><p>为了创建可视化工件，例如边界框，分割蒙版，标签，有一个名为<a target="_blank" rel="noopener" href="https://docs.nvidia.com/metropolis/deepstream/dev-guide/text/DS_plugin_gst-nvdsosd.html">Gst-nvdsosd</a>的可视化插件。</p>
+</li>
+<li><p>最后，要输出结果，DeepStream提供了各种选项：在屏幕上用边框显示输出，将输出保存到本地磁盘，通过RTSP进行流传输或仅将元数据发送到云。为了将元数据发送到云，DeepStream使用Gst-nvmsgconv和Gst-nvmsgbroker插件。<a target="_blank" rel="noopener" href="https://docs.nvidia.com/metropolis/deepstream/dev-guide/text/DS_plugin_gst-nvmsgconv.html">Gst-nvmsgconv</a>将元数据转换为架构有效负载，而<a target="_blank" rel="noopener" href="https://docs.nvidia.com/metropolis/deepstream/dev-guide/text/DS_plugin_gst-nvmsgbroker.html">Gst-nvmsgbroker</a>建立与云的连接并发送遥测数据。有几种内置的代理协议，例如Kafka，MQTT，AMQP和Azure IoT。你可以创建自定义代理适配器（broker adapters）。</p>
+</li>
+</ol>
+<h3 id="DeepStream参考应用"><a href="#DeepStream参考应用" class="headerlink" title="DeepStream参考应用"></a><a target="_blank" rel="noopener" href="https://docs.nvidia.com/metropolis/deepstream/dev-guide/text/DS_Overview.html#deepstream-reference-app">DeepStream参考应用</a></h3><p>为了上手deepstream，开发人员可以使用我们提供的参考应用程序，这些应用程序包括了它们的源代码。我么这里称呼端到端应用程序称为deepstream-app。该应用程序是完全可配置的-它允许用户配置任何类型和数量的源，配置运行推理的神经网络类型，它预先内置了一个推理插件来进行目标检测，还有一个配置目标跟踪器的选项。对于输出，用户可以选择在屏幕上渲染，保存输出文件或通过RTSP传输视频。</p>
+<p><img src="https://img-blog.csdnimg.cn/20201220103254473.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM1NjQ5MDcy,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>这是开始学习DeepStream功能的很好的参考应用程序。<a target="_blank" rel="noopener" href="https://docs.nvidia.com/metropolis/deepstream/dev-guide/text/DS_ref_app_deepstream.html">DeepStream参考应用程序-deepstream-app</a>一章将更详细地介绍此应用程序。该应用程序的源代码位于<code>/opt/nvidia/deepstream/deepstream-5.0/sources/apps/sample_apps/deepstream-app</code>。该应用程序适用于所有AI模型，并在各个README文件中提供详细说明。性能基准测试也使用此应用程序运行。</p>
+<h3 id="建立应用程序入门"><a href="#建立应用程序入门" class="headerlink" title="建立应用程序入门"></a>建立应用程序入门</h3><p>对于希望构建自定义应用程序的开发人员而言，刚开始开发deepstream-app可能会有些不知所措。SDK附带了几个简单的应用程序，开发人员可以在其中学习DeepStream的基本概念，构造一个简单的管道，然后逐步构建更复杂的应用程序。</p>
+<p><img src="https://i.loli.net/2020/12/20/y46GqoNKIYJ2TDt.png" alt="img"></p>
+<p>开发人员可以从deepstream-test1开始，它几乎像DeepStream的hello world。在此应用程序中，开发人员将学习如何使用各种DeepStream插件构建GStreamer管道。他们将从文件中获取视频，进行解码，批处理，然后进行对象检测，最后在屏幕上呈现这些框。deepstream-test2在test1的目标检测后面增加了目标分类。deepstream-test3展示了如何添加多个视频源，最后test4将演示如何使用消息代理插件为IoT服务。这4个入门应用程序在本机C / C ++和Python中均可用。要了解有关DeepStream中这些应用程序和其他示例应用程序的更多信息，请参见<a target="_blank" rel="noopener" href="https://docs.nvidia.com/metropolis/deepstream/dev-guide/text/DS_C_Sample_Apps.html">C / C ++示例应用程序源详细信息</a>和<a target="_blank" rel="noopener" href="https://docs.nvidia.com/metropolis/deepstream/dev-guide/text/DS_Python_Sample_Apps.html">Python示例应用程序源详细信息</a>.</p>
+<h3 id="用Python的DeepStream"><a href="#用Python的DeepStream" class="headerlink" title="用Python的DeepStream"></a><a target="_blank" rel="noopener" href="https://docs.nvidia.com/metropolis/deepstream/dev-guide/text/DS_Overview.html#deepstream-in-python">用Python的DeepStream</a></h3><p>NVIDIA引入了GStreamer框架的Python绑定 - Gst-Python，以帮助您使用Python构建高性能的AI应用程序。</p>
+<p><img src="https://i.loli.net/2020/12/20/oNgUtAyYQ4r8sPM.png" alt="img"></p>
+<p>DeepStream Python应用程序使用Gst-Python API构造管道，并使用probe函数访问管道中各个点的数据。数据类型全部是原生C语言（上图灰色部分），并且需要通过PyBindings或NumPy层才能从Python应用程序访问它们。张量数据是推断后得出的原始张量输出。如果要检测对象，则需要通过解析和聚类算法对该张量数据进行后处理，以在检测到的对象周围创建边界框。要开始使用Python，请参阅本指南中的<a target="_blank" rel="noopener" href="https://docs.nvidia.com/metropolis/deepstream/dev-guide/text/DS_Python_Sample_Apps.html">Python示例应用程序源详细信息</a>以及DeepStream Python API指南中的“ DeepStream Python”。</p>
+<h2 id="快速入门指南"><a href="#快速入门指南" class="headerlink" title="快速入门指南"></a>快速入门指南</h2><h3 id="Jetson准备"><a href="#Jetson准备" class="headerlink" title="Jetson准备"></a>Jetson准备</h3><h4 id="安装Jetson-SDK组件"><a href="#安装Jetson-SDK组件" class="headerlink" title="安装Jetson SDK组件"></a>安装Jetson SDK组件</h4><p>从以下位置下载NVIDIA SDK Manager，您将用它来安装JetPack 4.4 GA（对应于L4T 32.4.3版本）：</p>
+<p><a target="_blank" rel="noopener" href="https://developer.nvidia.com/embedded/jetpack">https://developer.nvidia.com/embedded/jetpack</a></p>
+<ul>
+<li>NVIDIA SDK Manager是一个图形界面应用程序，可刷新并安装JetPack软件包。</li>
+<li>根据主机系统的不同，刷新过程大约需要10-30分钟。</li>
+<li>如果您使用的是Jetson Nano或Jetson Xavier NX开发者套件，则可以从<a target="_blank" rel="noopener" href="https://developer.nvidia.com/embedded/jetpack%E4%B8%8B%E8%BD%BDSD%E5%8D%A1%E9%95%9C%E5%83%8F%EF%BC%8C%E5%AE%83%E5%B7%B2%E7%BB%8F%E9%9A%8F%E9%99%84%E4%BA%86CUDA%EF%BC%8CTensorRT%E5%92%8CcuDNN%E3%80%82">https://developer.nvidia.com/embedded/jetpack下载SD卡镜像，它已经随附了CUDA，TensorRT和cuDNN。</a></li>
+</ul>
+<h4 id="安装依赖项"><a href="#安装依赖项" class="headerlink" title="安装依赖项"></a>安装依赖项</h4><p>输入以下命令以安装必备软件包：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt install \</span><br><span class="line">libssl1.0.0 \</span><br><span class="line">libgstreamer1.0-0 \</span><br><span class="line">gstreamer1.0-tools \</span><br><span class="line">gstreamer1.0-plugins-good \</span><br><span class="line">gstreamer1.0-plugins-bad \</span><br><span class="line">gstreamer1.0-plugins-ugly \</span><br><span class="line">gstreamer1.0-libav \</span><br><span class="line">libgstrtspserver-1.0-0 \</span><br><span class="line">libjansson4&#x3D;2.11-1</span><br></pre></td></tr></table></figure>
+
+<h4 id="安装librdkafka（为消息代理启用Kafka协议适配器）"><a href="#安装librdkafka（为消息代理启用Kafka协议适配器）" class="headerlink" title="安装librdkafka（为消息代理启用Kafka协议适配器）"></a>安装librdkafka（为消息代理启用Kafka协议适配器）</h4><ol>
+<li>从GitHub克隆librdkafka存储库：</li>
+</ol>
+<blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git clone https:&#x2F;&#x2F;github.com&#x2F;edenhill&#x2F;librdkafka.git</span><br></pre></td></tr></table></figure>
+</blockquote>
+<ol>
+<li><p>配置和构建库：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ cd librdkafka</span><br><span class="line">$ git reset --hard 7101c2310341ab3f4675fc565f64f0967e135a6a</span><br><span class="line">.&#x2F;configure</span><br><span class="line">$ make</span><br><span class="line">$ sudo make install</span><br></pre></td></tr></table></figure></li>
+<li><p>将生成的库复制到deepstream目录：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ sudo mkdir -p &#x2F;opt&#x2F;nvidia&#x2F;deepstream&#x2F;deepstream-5.0&#x2F;lib</span><br><span class="line">$ sudo cp &#x2F;usr&#x2F;local&#x2F;lib&#x2F;librdkafka* &#x2F;opt&#x2F;nvidia&#x2F;deepstream&#x2F;deepstream-5.0&#x2F;lib</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h4 id="安装NVIDIA-V4L2-GStreamer插件"><a href="#安装NVIDIA-V4L2-GStreamer插件" class="headerlink" title="安装NVIDIA V4L2 GStreamer插件"></a>安装NVIDIA V4L2 GStreamer插件</h4><ol>
+<li><p>在文本编辑器中打开apt源配置文件，例如： <code>$ sudo vi /etc/apt/sources.list.d/nvidia-l4t-apt-source.list</code></p>
+</li>
+<li><p>在如下所示的deb命令中更改存储库名称并下载URL：</p>
+</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">deb https:&#x2F;&#x2F;repo.download.nvidia.com&#x2F;jetson&#x2F;common r32.4 main</span><br><span class="line">deb https:&#x2F;&#x2F;repo.download.nvidia.com&#x2F;jetson&#x2F;&lt;platform&gt; r32.4 main</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<ul>
+<li><p>其中<platform>标识平台的处理器：</p>
+<p><code>t186</code> 用于Jetson TX2系列，<code>t194</code> 适用于Jetson AGX Xavier系列或Jetson Xavier NX，<code>t210</code> 用于Jetson Nano或Jetson TX1</p>
+</li>
+</ul>
+<p>例如，如果您的平台是Jetson Xavier NX：</p>
+<ul>
+<li>deb <a target="_blank" rel="noopener" href="https://repo.download.nvidia.com/jetson/common">https://repo.download.nvidia.com/jetson/common</a> r32.4 main</li>
+<li>deb <a target="_blank" rel="noopener" href="https://repo.download.nvidia.com/jetson/t194">https://repo.download.nvidia.com/jetson/t194</a> r32.4 main</li>
+</ul>
+</blockquote>
+<ol start="3">
+<li><p>保存并关闭源配置文件。</p>
+</li>
+<li><p>输入命令：</p>
+</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt update</span><br><span class="line">$ sudo apt install --reinstall nvidia-l4t-gstreamer</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>如果apt提示您选择配置文件，请选择<code>Y</code>（YES）（以使用NVIDIA更新版本的文件）。</p>
+<p>注意：从SDK Manager刷新Jetson OS后，应更新NVIDIA V4L2 GStreamer插件。</p>
+</blockquote>
+<h4 id="安装DeepStream-SDK"><a href="#安装DeepStream-SDK" class="headerlink" title="安装DeepStream SDK"></a>安装DeepStream SDK</h4><ul>
+<li><p><strong>方法1</strong>：使用SDK Manager</p>
+<p>从<code>Additional SDKs</code>中选择DeepStreamSDK以及 JP 4.4 软件组件进行安装。</p>
+</li>
+<li><p><strong>方法2</strong>：使用DeepStream tar包</p>
+<ol>
+<li><p>将DeepStream 5.0 Jetson tar包<code>deepstream_sdk_v5.0.1_jetson.tbz2</code>下载到Jetson设备。</p>
+</li>
+<li><p>输入以下命令以提取并安装DeepStream SDK：</p>
+</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ sudo tar -xvf deepstream_sdk_v5.0.1_jetson.tbz2 -C &#x2F;</span><br><span class="line">$ cd &#x2F;opt&#x2F;nvidia&#x2F;deepstream&#x2F;deepstream-5.0</span><br><span class="line">$ sudo .&#x2F;install.sh</span><br><span class="line">$ sudo ldconfig</span><br></pre></td></tr></table></figure></li>
+<li><p><strong>方法3</strong>：使用DeepStream Debian软件包</p>
+<p>将DeepStream 5.0 Jetson Debian软件包<code>deepstream-5.0_5.0.1-1_arm64.deb</code>下载到Jetson设备。然后输入命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt-get install .&#x2F;deepstream-5.0_5.0.1-1_arm64.deb</span><br></pre></td></tr></table></figure>
+
+<p>注意：如果使用<code>dpkg</code>命令安装DeepStream SDK Debian软件包，则必须在安装DeepStream deb软件包之前安装以下软件包：</p>
+<blockquote>
+<ul>
+<li><code>libgstrtspserver-1.0-0</code></li>
+<li><code>libgstreamer-plugins-base1.0-dev</code></li>
+</ul>
+</blockquote>
+</li>
+<li><p><strong>方法4</strong>：使用apt服务器</p>
+<ol>
+<li><p>使用类似于以下命令的命令在文本编辑器中打开apt源配置文件。</p>
+<p><code>$ sudo vi /etc/apt/sources.list.d/nvidia-l4t-apt-source.list</code></p>
+</li>
+<li><p>在如下所示的deb命令中更改存储库名称并下载URL：</p>
+<p> <code>deb https://repo.download.nvidia.com/jetson/common r32.4 main</code></p>
+</li>
+<li><p>保存并关闭源配置文件。</p>
+</li>
+<li><p>输入命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt update</span><br><span class="line">$ sudo apt install deepstream-5.0</span><br></pre></td></tr></table></figure></li>
+</ol>
+</li>
+<li><p><strong>方法5</strong>：使用NGC上的DeepStream Docker容器。请参阅<a target="_blank" rel="noopener" href="https://docs.nvidia.com/metropolis/deepstream/dev-guide/text/DS_docker_containers.html">Docker容器</a>部分以了解有关使用Docker容器开发和部署DeepStream的信息。</p>
+</li>
+</ul>
+<h4 id="运行deepstream-app（参考应用程序）"><a href="#运行deepstream-app（参考应用程序）" class="headerlink" title="运行deepstream-app（参考应用程序）"></a>运行deepstream-app（参考应用程序）</h4><ol>
+<li>导航到<code>samples</code>目录</li>
+<li>输入以下命令以运行参考应用程序：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ deepstream-app -c &lt;path_to_config_file&gt;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<p>注意：</p>
+<ul>
+<li><path_to_config_file>是参考应用程序配置文件之一的路径名，您可以在<code>/opt/nvidia/deepstream/deepstream-5.0/samples/configs/deepstream-app/</code>目录下找到示例配置文件。 输入此命令<code>$ deepstream-app --help</code>以查看应用程序用法。</li>
+<li>要保存TensorRT Engine / Plan文件，请运行以下命令：<br><code>$ sudo deepstream-app -c &lt;路径配置文件&gt;</code></li>
+</ul>
+<p>​       ???这不和上面一样吗，到底这个命令能干啥？暂时不知道</p>
+<ul>
+<li>要在2D平铺显示视图中显示标签，请在源上单击鼠标左键以展开感兴趣的源。 要返回平铺显示，请在窗口中的任意位置单击鼠标右键。</li>
+<li>也支持键盘来选择源。 在运行应用程序的控制台上，按<code>z</code>键，然后按所需的行索引（0到9），然后按列索引（0到9）以展开源。 要恢复2D平铺显示视图，请再次按<code>z</code>。</li>
+</ul>
+<h4 id="提高时钟"><a href="#提高时钟" class="headerlink" title="提高时钟"></a>提高时钟</h4><p>安装DeepStream SDK之后，请在Jetson设备上运行以下命令以提高时钟：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ sudo nvpmodel -m 0</span><br><span class="line">$ sudo jetson_clocks</span><br></pre></td></tr></table></figure>
+
+<h4 id="运行预编译的示例应用程序"><a href="#运行预编译的示例应用程序" class="headerlink" title="运行预编译的示例应用程序"></a>运行预编译的示例应用程序</h4><ol>
+<li><p>导航到<code>sources/apps/sample_apps</code>选定的应用程序目录中。</p>
+</li>
+<li><p>按照目录的README文件运行该应用程序。</p>
+<blockquote>
+<p>注意:</p>
+<p>如果应用程序遇到错误且无法创建Gst元素，请删除GStreamer缓存，然后重试。要删除GStreamer缓存，请输入以下命令：</p>
+<p> <code>$ rm $&#123;HOME&#125;/.cache/gstreamer-1.0/registry.aarch64.bin</code></p>
+<p>当运行应用程序用到的模型没有现有的引擎文件时，可能要花费几分钟的时间，具体取决于要生成引擎文件的平台和模型。为了方便以后运行，可以再次使用这些生成的引擎文件以加快加载速度。</p>
+</blockquote>
+</li>
+</ol>
+<h3 id="适用于Ubuntu的dGPU设置"><a href="#适用于Ubuntu的dGPU设置" class="headerlink" title="适用于Ubuntu的dGPU设置"></a>适用于Ubuntu的dGPU设置</h3><p>本节说明在安装DeepStream SDK之前如何准备使用了NVIDIA dGPU设备的<code>Ubuntu x86_64</code>系统。</p>
+<blockquote>
+<p>注意 :</p>
+<p>本文档使用术语dGPU（“discrete GPU”）来指代NVIDIA GPU扩展卡产品，例如NVIDIA Tesla®T4和P4，NVIDIA GeForce® GTX 1080和NVIDIA GeForce® RTX2080。此版本的DeepStream SDK运行在x86_64平台上的特定的dGPU产品。支持NVIDIA驱动程序450.51和NVIDIA TensorRT™7.0及更高版本。</p>
+</blockquote>
+<p>您必须安装以下组件：Ubuntu 18.04，GStreamer 1.14.1，NVIDIA驱动程序450.51，CUDA 10.2，TensorRT 7.0.X。</p>
+<p>以下内容我就不翻译了，我改成用自己的话来写。<br>我的环境是Ubuntu18.04, tensorrt 7.2.1.6, cuda 10.2.89。<br><a target="_blank" rel="noopener" href="https://docs.nvidia.com/metropolis/deepstream/dev-guide/index.html">official docs</a>里有详细的安装步骤教程，分<a target="_blank" rel="noopener" href="https://docs.nvidia.com/metropolis/deepstream/dev-guide/index.html">jetson版</a>和<a target="_blank" rel="noopener" href="https://docs.nvidia.com/metropolis/deepstream/dev-guide/index.html">dGPU版</a>，我最初是想在ubuntu上先安装deepstream，走完一个流程看看，所以我选择的是dGPU的安装教程。文档上提供了4种安装方式，我选择的是第2种方式，用tar包，第1种用deb包的方式我这边有报错。注意点有：</p>
+<ol>
+<li>确保安装路径是：/opt/nvidia/deepstream/deepstream-5.0，<code>sudo tar -xvf deepstream_sdk_v5.0.1_jetson.tbz2 -C /</code>这句命令最后的<code> -C /</code>是关键。</li>
+<li>执行 sudo ldconfig时，我遇到了下面的警告：</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">(base) weidawang@weidawang-TUF-Gaming-FX506LU-FX506LU:/opt/nvidia/deepstream/deepstream-<span class="number">5.0</span>$ sudo ldconfig</span><br><span class="line">[sudo] weidawang 的密码： </span><br><span class="line">/sbin/ldconfig.real: /usr/local/cuda-<span class="number">10.2</span>/targets/x86_64-linux/lib/libcudnn_cnn_train.so<span class="number">.8</span> 不是符号链接</span><br><span class="line">/sbin/ldconfig.real: /usr/local/cuda-<span class="number">10.2</span>/targets/x86_64-linux/lib/libcudnn_ops_train.so<span class="number">.8</span> 不是符号链接</span><br><span class="line">/sbin/ldconfig.real: /usr/local/cuda-<span class="number">10.2</span>/targets/x86_64-linux/lib/libcudnn_adv_train.so<span class="number">.8</span> 不是符号链接</span><br><span class="line">/sbin/ldconfig.real: /usr/local/cuda-<span class="number">10.2</span>/targets/x86_64-linux/lib/libcudnn_adv_infer.so<span class="number">.8</span> 不是符号链接</span><br><span class="line">/sbin/ldconfig.real: /usr/local/cuda-<span class="number">10.2</span>/targets/x86_64-linux/lib/libcudnn_ops_infer.so<span class="number">.8</span> 不是符号链接</span><br><span class="line">/sbin/ldconfig.real: /usr/local/cuda-<span class="number">10.2</span>/targets/x86_64-linux/lib/libcudnn_cnn_infer.so<span class="number">.8</span> 不是符号链接</span><br></pre></td></tr></table></figure>
+<p>按<a target="_blank" rel="noopener" href="https://blog.csdn.net/langb2014/article/details/54376716/">这篇博客</a>的思路，我这边依次执行下面的命令就好了：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">sudo ln -sf /usr/<span class="built_in">local</span>/cuda-10.2/targets/x86_64-linux/lib/libcudnn.so.8.0.4 /usr/<span class="built_in">local</span>/cuda-10.2/targets/x86_64-linux/lib/libcudnn.so.8</span><br><span class="line">sudo ln -sf /usr/<span class="built_in">local</span>/cuda-10.2/targets/x86_64-linux/lib/libcudnn_cnn_train.so.8.0.4 /usr/<span class="built_in">local</span>/cuda-10.2/targets/x86_64-linux/lib/libcudnn_cnn_train.so.8</span><br><span class="line">sudo ln -sf /usr/<span class="built_in">local</span>/cuda-10.2/targets/x86_64-linux/lib/libcudnn_ops_train.so.8.0.4 /usr/<span class="built_in">local</span>/cuda-10.2/targets/x86_64-linux/lib/libcudnn_ops_train.so.8</span><br><span class="line">sudo ln -sf /usr/<span class="built_in">local</span>/cuda-10.2/targets/x86_64-linux/lib/libcudnn_adv_train.so.8.0.4 /usr/<span class="built_in">local</span>/cuda-10.2/targets/x86_64-linux/lib/libcudnn_adv_train.so.8</span><br><span class="line">sudo ln -sf /usr/<span class="built_in">local</span>/cuda-10.2/targets/x86_64-linux/lib/libcudnn_adv_infer.so.8.0.4 /usr/<span class="built_in">local</span>/cuda-10.2/targets/x86_64-linux/lib/libcudnn_adv_infer.so.8</span><br><span class="line">sudo ln -sf /usr/<span class="built_in">local</span>/cuda-10.2/targets/x86_64-linux/lib/libcudnn_ops_infer.so.8.0.4 /usr/<span class="built_in">local</span>/cuda-10.2/targets/x86_64-linux/lib/libcudnn_ops_infer.so.8</span><br><span class="line">sudo ln -sf /usr/<span class="built_in">local</span>/cuda-10.2/targets/x86_64-linux/lib/libcudnn_cnn_infer.so.8.0.4 /usr/<span class="built_in">local</span>/cuda-10.2/targets/x86_64-linux/lib/libcudnn_cnn_infer.so.8</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>安装好后我试着用<code>deepstream-app --version-all</code>验证是否安装成功，它的输出是：</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">(gst-plugin-scanner:6378): GStreamer-WARNING **: 08:44:44.000: Failed to load plugin <span class="string">&#x27;/usr/lib/x86_64-linux-gnu/gstreamer-1.0/deepstream/libnvdsgst_inferserver.so&#x27;</span>: libtrtserver.so: cannot open shared object file: No such file or directory</span><br><span class="line">deepstream-app version 5.0.0</span><br><span class="line">DeepStreamSDK 5.0.0</span><br><span class="line">CUDA Driver Version: 11.1</span><br><span class="line">CUDA Runtime Version: 10.2</span><br><span class="line">TensorRT Version: 7.2</span><br><span class="line">cuDNN Version: 8.0</span><br><span class="line">libNVWarp360 Version: 2.0.1d3</span><br></pre></td></tr></table></figure>
+<p>这个GStreamer-WARNING在<a target="_blank" rel="noopener" href="https://docs.nvidia.com/metropolis/deepstream/dev-guide/text/DS_troubleshooting.html#errors-occur-when-deepstream-app-fails-to-load-plugin-gst-nvinferserver-on-dgpu-only">Troubleshooting</a>里有提到，就是说在ubuntu电脑上安装出现这个警告是预料之中的，如果不需要Triton可以不用管它。</p>
+<p>我原以为这样就安装成功了，后来在跑<a target="_blank" rel="noopener" href="https://github.com/NVIDIA-AI-IOT/deepstream_pose_estimation">deepstream_pose_estimation</a>的时候才意识到我没有完全正确安装，相关的nvidia forum <a target="_blank" rel="noopener" href="https://forums.developer.nvidia.com/t/failed-to-load-plugin-usr-lib-x86-64-linux-gnu-gstreamer-1-0-deepstream-libnvdsgst-osd-so/163662">topic</a>在这里，我方法1 2 3都有报错，最后通过<a target="_blank" rel="noopener" href="https://docs.nvidia.com/metropolis/deepstream/dev-guide/text/DS_docker_containers.html">方法4</a>，即docker成功安装好了，又体验到了用docker安装的爽。。。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull nvcr.io&#x2F;nvidia&#x2F;deepstream:5.0.1-20.09-devel</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run --gpus all -it -v /home/weidawang/volume/deepstream:/home/weidawang/volume/deepstream nvcr.io/nvidia/deepstream:5.0.1-20.09-devel</span><br></pre></td></tr></table></figure>
+
+<p>安装好deepstream的docker镜像之后，我选择用<a target="_blank" rel="noopener" href="https://github.com/NVIDIA-AI-IOT/deepstream_pose_estimation">deepstream_pose_estimation</a>来练手，详细的教程徐需要看它的<a target="_blank" rel="noopener" href="https://developer.nvidia.com/blog/creating-a-human-pose-estimation-application-with-deepstream-sdk">blog</a>。<br>使用这个deepstream_pose_estimation时，有几个注意点：</p>
+<ol>
+<li>克隆下来的仓库已经包含了pose_estimation.onnx，不需要再下载</li>
+<li>作者说要做这一步：<code>sudo cp libnvds_osd.so /opt/nvidia/deepstream/deepstream-5.0/lib</code></li>
+<li>用<code>exit</code>退出容器后, 如果想要重新进入容器，先<code>docker ps -a</code>列出以往你运行过的容器，然后 <code>docker start [container_name]</code>，最后再 <code>docker attach [container_name] </code>进入容器</li>
+</ol>
+<h3 id="DeepStream-Triton-Inference-Server使用指南"><a href="#DeepStream-Triton-Inference-Server使用指南" class="headerlink" title="DeepStream Triton Inference Server使用指南"></a><a target="_blank" rel="noopener" href="https://docs.nvidia.com/metropolis/deepstream/dev-guide/text/DS_Quickstart.html#deepstream-triton-inference-server-usage-guidelines">DeepStream Triton Inference Server使用指南</a></h3><h4 id="dGPU"><a href="#dGPU" class="headerlink" title="dGPU"></a>dGPU</h4><ol>
+<li><p>拉DeepStream Triton Inference Server docker镜像</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull nvcr.io&#x2F;nvidia&#x2F;deepstream:5.0.1-20.09-triton</span><br></pre></td></tr></table></figure></li>
+<li><p>启动 docker镜像</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run --gpus all -it --rm -v &#x2F;tmp&#x2F;.X11-unix:&#x2F;tmp&#x2F;.X11-unix -e DISPLAY&#x3D;$DISPLAY nvcr.io&#x2F;nvidia&#x2F;deepstream:5.0.1-20.09-triton</span><br></pre></td></tr></table></figure></li>
+</ol>
+<p>个人建议，不要加<code>--rm</code>， 否则你退出容器后，你的所有操作都会被情况，<code>docker ps -a</code>都不能找到你刚用过的容器。</p>
+<h4 id="Jetson"><a href="#Jetson" class="headerlink" title="Jetson"></a>Jetson</h4><p>Triton Inference Server共享库是Jetson上DeepStream的预装部分。安装Triton Inference Server不需要额外的步骤。</p>
+<p>对于这两个平台，要运行这些示例，请遵循README文件的<em>Running the Triton Inference Server samples</em>部分的步骤。</p>
+<h2 id="Docker容器"><a href="#Docker容器" class="headerlink" title="Docker容器"></a>Docker容器</h2><p>DeepStream 5.0为dGPU和Jetson平台均提供了Docker容器。这些容器通过将所有相关的依赖关系打包在容器内，提供了一种方便的，即用的方式来部署DeepStream应用程序。相关的Docker映像托管在NGC Web门户<a target="_blank" rel="noopener" href="https://ngc.nvidia.com/">https://ngc.nvidia.com</a>上的NVIDIA容器注册表中。他们使用了<code>nvidia-docker</code>软件包，该软件包使您能够从容器访问所需的GPU资源。</p>
+<blockquote>
+<p>注意：用于dGPU和Jetson的DeepStream 5.0容器是不同的，因此您必须为您的平台获取正确的映像。</p>
+</blockquote>
+<h3 id="dGPU的Docker容器"><a href="#dGPU的Docker容器" class="headerlink" title="dGPU的Docker容器"></a>dGPU的Docker容器</h3><p>NGC Web门户中的“<a target="_blank" rel="noopener" href="https://ngc.nvidia.com/catalog/containers?orderBy=modifiedDESC&pageNumber=0&query=&quickFilter=containers&filters=">容器”</a>页面提供了有关拉取和运行容器以及其内容的说明。dGPU容器称为<code>deepstream</code>，而jetson容器称为<code>deepstream-l4t</code>。与DeepStream 3.0中的容器不同，dGPU DeepStream 5.0容器在容器内支持DeepStream应用程序开发。它包含与DeepStream 5.0 SDK相同的构建工具和开发库。在典型情况下，您将在DeepStream容器中构建，执行和调试DeepStream应用程序。准备好应用程序后，您可以使用DeepStream 5.0容器作为基础映像来创建自己的Docker容器，以容纳应用程序文件（二进制文件，库，模型，配置文件等）。这是一个示例片段用于创建自己的Docker容器的Dockerfile：</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Replace with required `container type` e.g. base, devel etc in the following line</span></span><br><span class="line"><span class="keyword">FROM</span> nvcr.io/nvidia/ deepstream:<span class="number">5.0</span>.<span class="number">1</span>-<span class="number">20.09</span>-&lt;container type&gt;</span><br><span class="line"><span class="keyword">COPY</span><span class="bash"> myapp  /root/apps/myapp</span></span><br><span class="line"><span class="comment"># To get video driver libraries at runtime (libnvidia-encode.so/libnvcuvid.so)</span></span><br><span class="line"><span class="keyword">ENV</span> NVIDIA_DRIVER_CAPABILITIES $NVIDIA_DRIVER_CAPABILITIES,video</span><br></pre></td></tr></table></figure>
+
+<p>该Dockerfile将您的应用程序（从目录<code>mydsapp</code>）复制到容器（<code>pathname /root/apps</code>）中。请注意，您必须确保NGC的DeepStream 5.0映像位置正确。</p>
+<p>下表列出了随DeepStream 5.0发布的dGPU的Docker容器：</p>
+<table>
+<thead>
+<tr>
+<th>容器</th>
+<th>容器拉取命令</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>base docker（仅包含运行时库和GStreamer插件。可以作为为DeepStream应用程序构建一个自定义docker的基础）</td>
+<td><code>docker pull nvcr.io/nvidia/deepstream:5.0.1-20.09-base</code></td>
+</tr>
+<tr>
+<td>devel docker（包含整个SDK以及用于构建DeepStream应用程序的开发环境）</td>
+<td><code>docker pull nvcr.io/nvidia/deepstream:5.0.1-20.09-devel</code></td>
+</tr>
+<tr>
+<td>Triton Inference Server docker（安装了Triton Inference Server和其依赖项以及用于构建DeepStream应用程序的开发环境）</td>
+<td><code>docker pull nvcr.io/nvidia/deepstream:5.0.1-20.09-triton</code></td>
+</tr>
+<tr>
+<td>DeepStream IoT docker（仅包含Deepstream-test5-app，所有其他参考应用程序被删除了）</td>
+<td><code>docker pull nvcr.io/nvidia/deepstream:5.0.1-20.09-iot</code></td>
+</tr>
+<tr>
+<td>DeepStream samples docker（包含运行时库，GStreamer插件，参考应用程序以及示例流，模型和配置）</td>
+<td><code>docker pull nvcr.io/nvidia/deepstream:5.0.1-20.09-samples</code></td>
+</tr>
+</tbody></table>
+<p>有关<code>nvcr.io</code>身份验证等信息，请参阅DeepStream 5.0发行说明。</p>
+<p>请参见NGC上的<a target="_blank" rel="noopener" href="https://ngc.nvidia.com/catalog/containers/nvidia:deepstream">dGPU容器</a>以了解更多运行dGPU容器细节和说明。</p>
+<h3 id="Jetson的Docker容器"><a href="#Jetson的Docker容器" class="headerlink" title="Jetson的Docker容器"></a>Jetson的Docker容器</h3><p>从JetPack 4.2.1版本开始，已添加了用于Jetson的<a target="_blank" rel="noopener" href="https://github.com/NVIDIA/nvidia-docker/wiki/NVIDIA-Container-Runtime-on-Jetson">NVIDIA Container Runtime</a>，使您能够在Jetson设备上运行启用GPU的容器。使用此功能，可以使用NGC上的Docker映像在Jetson设备上的容器内运行DeepStream 5.0。拉出容器并按照<a target="_blank" rel="noopener" href="https://ngc.nvidia.com/catalog/containers?orderBy=modifiedDESC&pageNumber=0&query=&quickFilter=containers&filters=">NGC容器</a>上的说明执行页。DeepStream容器希望将CUDA，TensorRT和VisionWorks安装在Jetson设备上，因为它是从主机安装在容器内的。在启动DeepStream容器之前，请确保已在Jetson上使用JetPack安装了这些实用程序。请注意，Jetson Docker容器仅用于部署。它们不支持容器内的DeepStream软件开发。您可以在Jetson目标上本地构建应用程序，并通过将二进制文件添加到Docker映像中来为其创建容器。或者，您可以按照在x86工作站上构建Jetson容器中的说明从工作站生成Jetson容器NVIDIA Container Runtime for Jetson文档中的“部分”。下表列出了随DeepStream 5.0发布的Jetson的Docker容器：</p>
+<table>
+<thead>
+<tr>
+<th>容器</th>
+<th>容器拉取命令</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Base docker（仅包含运行时库和GStreamer插件。可用作构建DeepStream应用程序的自定义docker的基础）</td>
+<td><code>docker pull nvcr.io/nvidia/deepstream-l4t:5.0.1-20.09-base</code></td>
+</tr>
+<tr>
+<td>DeepStream IoT docker（仅安装了deepstream-test5-app，并删除了所有其他参考应用程序。）</td>
+<td><code>docker pull nvcr.io/nvidia/deepstream-l4t:5.0.1-20.09-iot</code></td>
+</tr>
+<tr>
+<td>DeepStream samples docker（包含运行时库，GStreamer插件，参考应用程序以及示例流，模型和配置）</td>
+<td><code>docker pull nvcr.io/nvidia/deepstream-l4t:5.0.1-20.09-samples</code></td>
+</tr>
+</tbody></table>
+<p>有关<code>nvcr.io</code>身份验证等信息，请参阅DeepStream 5.0发行说明。</p>
+<p>见NGC<a target="_blank" rel="noopener" href="https://ngc.nvidia.com/catalog/containers/nvidia:deepstream-l4t">Jetson container</a> 更多运行jetson容器的细节和说明。</p>
+<h1 id="DeepStream样例"><a href="#DeepStream样例" class="headerlink" title="DeepStream样例"></a><strong>DeepStream样例</strong></h1><h2 id="C-C-示例应用程序源详细信息"><a href="#C-C-示例应用程序源详细信息" class="headerlink" title="C / C ++示例应用程序源详细信息"></a><a target="_blank" rel="noopener" href="https://docs.nvidia.com/metropolis/deepstream/dev-guide/text/DS_C_Sample_Apps.html#c-c-sample-apps-source-details">C / C ++示例应用程序源详细信息</a></h2><table>
+<thead>
+<tr>
+<th>参考测试应用</th>
+<th>源目录内的路径</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Sample test application 1</td>
+<td>sources/apps/sample_apps/deepstream-test1</td>
+<td>如何对单个H.264流使用DeepStream元素的示例：filesrc→decode→nvstreammux→nvinfer（primary detector）→nvdsosd→renderer。</td>
+</tr>
+<tr>
+<td>Sample test application 2</td>
+<td>sources/apps/sample_apps/deepstream-test2</td>
+<td>如何对单个H.264流使用DeepStream元素的示例：filesrc→decode→nvstreammux→nvinfer（primary detector）→nvtracker→nvinfer（secondary classifier）→nvdsosd→renderer。</td>
+</tr>
+<tr>
+<td>Sample test application 3</td>
+<td>sources/apps/sample_apps/deepstream-test3</td>
+<td>基于deepstream-test1构建，演示如何：在管道中使用多个来源；使用uridecodebin接受任何类型的输入（例如RTSP /文件）、任何GStreamer支持的容器格式以及任何编解码器；配置Gst-nvstreammux以生成一批帧并推断出这些帧以提高资源利用率；提取流元数据，其中包含有关批处理缓冲区中帧的有用信息</td>
+</tr>
+<tr>
+<td>Sample test application 4</td>
+<td>sources/apps/sample_apps/deepstream-test4</td>
+<td>基于deepstream-test1构建，演示如何：在管道中使用Gst-nvmsgconv和Gst-nvmsgbroker插件；创建NVDS_META_EVENT_MSG类型的元数据并将其attach到缓冲区；将NVDS_META_EVENT_MSG用于不同类型的对象，例如车辆和人；Implement “copy” and “free” functions for use if metadata is extended through the extMsg field</td>
+</tr>
+<tr>
+<td>Sample test application 5</td>
+<td>sources/apps/sample_apps/deepstream-test5</td>
+<td>建立在deepstream-app的基础上，演示如何：在多流管道中使用Gst-nvmsgconv和Gst-nvmsgbroker插件；如何从配置文件中将Gst-nvmsgbroker插件配置为接收器插件（适用于KAFKA，Azure等）；如何处理来自RTSP服务器或摄像机的RTCP sender reports，以及如何将Gst Buffer PTS转换为UTC时间戳。                                              有关更多详细信息，请参考位于<code>deepstream_test5_app_main.c</code>中的RTCP sender report回调函数<code>test5_rtcp_sender_report_callback()</code>的注册和用法。GStreamer callback registration with rtpmanager element’s “handle-sync” signal is documented in <code>apps-common/src/deepstream_source_bin.c</code>。</td>
+</tr>
+<tr>
+<td>AMQP协议测试应用</td>
+<td>sources/libs/amqp_protocol_adaptor</td>
+<td>用于测试AMQP协议的应用程序。</td>
+</tr>
+<tr>
+<td>Azure MQTT测试应用程序</td>
+<td>sources/libs /azure_protocol_adaptor</td>
+<td>测试应用程序以显示使用MQTT的Azure IoT device2edge消息传递和device2cloud消息传递。</td>
+</tr>
+<tr>
+<td>DeepStream参考应用程序</td>
+<td>sources/apps/sample_apps/deepstream-app</td>
+<td>DeepStream参考应用程序的源代码。</td>
+</tr>
+<tr>
+<td>UFF SSD detector</td>
+<td>sources/objectDetector_SSD</td>
+<td>SSD检测器模型的配置文件和自定义库实现。</td>
+</tr>
+<tr>
+<td>Faster RCNN detector</td>
+<td>sources/objectDetector_FasterRCNN</td>
+<td>FasterRCNN模型的配置文件和自定义库实现。</td>
+</tr>
+<tr>
+<td>Yolo detector</td>
+<td>sources/objectDetector_Yolo</td>
+<td>Yolo模型（当前为Yolo v2，v2 tiny，v3和v3 tiny）的配置文件和自定义库实现。</td>
+</tr>
+<tr>
+<td>Dewarper示例</td>
+<td>apps / sample_apps / deepstream-dewarper-test</td>
+<td>演示单个或多个360度摄像机流的扭曲功能。从CSV文件中读取相机校准参数，并在显示屏上渲染过道和斑点表面。</td>
+</tr>
+<tr>
+<td>光流示例</td>
+<td>apps / sample_apps / deepstream-nvof-test</td>
+<td>演示单个或多个流的光流功能。本示例使用两个GStreamer插件（Gst-nvof和Gst-nvofvisual）。Gst-nvof元素生成MV（运动矢量）数据并将其作为用户元数据附加。Gst-nvofvisual元素使用预定义的色轮矩阵可视化MV数据。</td>
+</tr>
+<tr>
+<td>自定义元数据示例</td>
+<td>apps / sample_apps / deepstream-user-metadata-test</td>
+<td>演示如何向DeepStream的任何组件中添加自定义或用户特定的元数据。测试代码将一个填充有用户数据的16字节数组附加到所选组件。数据在另一个组件中检索。</td>
+</tr>
+<tr>
+<td>MJPEG和JPEG解码器以及推理示例</td>
+<td>apps / sample_apps / deepstream-image-decode-test</td>
+<td>建立在deepstream-test3的基础上，以演示图像解码而不是视频。本示例使用自定义解码箱，因此可以将MJPEG编解码器用作输入。</td>
+</tr>
+<tr>
+<td>图像/视频分割示例</td>
+<td>apps / sample_apps / deepstream-segmentation-test</td>
+<td>演示使用语义或工业神经网络对多流视频或图像进行分段并将输出呈现到显示器。</td>
+</tr>
+<tr>
+<td>在Gst-nvstreammux之前处理元数据</td>
+<td>apps / sample_apps / deepstream-gst-metadata-test</td>
+<td>演示如何在DeepStream管道中的Gst-nvstreammux插件之前设置元数据，以及如何在Gst-nvstreammux之后访问元数据。</td>
+</tr>
+<tr>
+<td>GST-Nvinfer张量元流示例</td>
+<td>apps / sample_apps / deepstream-infer-tensor-meta-app</td>
+<td>演示如何将nvinfer张量输出作为元数据传递和访问。</td>
+</tr>
+<tr>
+<td>性能演示</td>
+<td>apps / sample_apps / deepstream-perf-demo</td>
+<td>对目录中的所有流顺序执行单通道级联推理和对象跟踪。</td>
+</tr>
+<tr>
+<td>分析示例</td>
+<td>apps / sample_apps / deepstream-nvdsanalytics-test</td>
+<td>演示批处理分析，例如ROI过滤，线交叉，方向检测和拥挤</td>
+</tr>
+<tr>
+<td>OpenCV示例</td>
+<td>apps / sample_apps / deepstream-opencv-test</td>
+<td>演示在dsexample插件中使用OpenCV</td>
+</tr>
+<tr>
+<td>图像作为元数据示例</td>
+<td>Apps / sample_apps / deepstream-image-meta-test</td>
+<td>演示如何将编码的图像附加为元数据并以jpeg格式保存图像。</td>
+</tr>
+<tr>
+<td>Appsrc和Appsink示例</td>
+<td>apps / sample_apps / deepstream-appsrc-test</td>
+<td>演示AppSrc和AppSink的用法，分别使用和提供非DeepStream代码中的数据。</td>
+</tr>
+<tr>
+<td>迁移学习的例子</td>
+<td>apps / sample_apps / deepstream-transfer-learning-app</td>
+<td>演示了一种将图像保存为置信度较小的对象的机制，该机制可用于进一步训练</td>
+</tr>
+<tr>
+<td>Mask-RCNN示例</td>
+<td>apps / sample_apps / deepstream-mrcnn-test</td>
+<td>使用Mask-RCNN模型演示实例分割</td>
+</tr>
+</tbody></table>
+<h3 id="插件和库源详细信息"><a href="#插件和库源详细信息" class="headerlink" title="插件和库源详细信息"></a>插件和库源详细信息</h3><p>下表描述了源目录的内容，但参考测试应用程序除外，它们在下面分别列出：</p>
+<table>
+<thead>
+<tr>
+<th>插件或库</th>
+<th>源目录内的路径</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>DsExample GStreamer插件</td>
+<td>gst-plugins / gst-dsexample</td>
+<td>用于将自定义算法集成到DeepStream SDK图中的模板插件。</td>
+</tr>
+<tr>
+<td>GStreamer Gst-nvmsgconv插件</td>
+<td>gst-plugins / gst-nvmsgconv</td>
+<td>GStreamer Gst-nvmsgconv插件的源代码，用于将元数据转换为架构格式。</td>
+</tr>
+<tr>
+<td>GStreamer Gst-nvmsgbroker插件</td>
+<td>gst-plugins / gst-nvmsgbroker</td>
+<td>GStreamer Gst-nvmsgbroker插件的源代码，用于将数据发送到服务器。</td>
+</tr>
+<tr>
+<td>GStreamer Gst-nvinfer插件</td>
+<td>gst-plugins / gst-nvinfer</td>
+<td>用于推断的GStreamer Gst-nvinfer插件的源代码。</td>
+</tr>
+<tr>
+<td>GStreamer Gst-nvdsosd插件</td>
+<td>gst-plugins / gst-nvdsosd</td>
+<td>GStreamer Gst-nvdsosd插件的源代码，用于绘制bbox，文本和其他对象。</td>
+</tr>
+<tr>
+<td>NvDsInfer库</td>
+<td>libs / nvdsinfer</td>
+<td>NvDsInfer库的源代码，由Gst-nvinfer GStreamer插件使用。</td>
+</tr>
+<tr>
+<td>NvMsgConv库</td>
+<td>libs / nvmsgsconv</td>
+<td>Gst-nvmsgconv GStreamer插件所需的NvMsgConv库的源代码。</td>
+</tr>
+<tr>
+<td>Kafka协议适配器</td>
+<td>libs / kafka_protocol_adapter</td>
+<td>Kafka的协议适配器。</td>
+</tr>
+<tr>
+<td>nvdsinfer_customparser</td>
+<td>libs / nvdsinfer_customparser</td>
+<td>用于检测器和分类器的定制模型输出解析示例。</td>
+</tr>
+<tr>
+<td>GST-V4L2</td>
+<td>请参阅下面的注释 <a target="_blank" rel="noopener" href="https://docs.nvidia.com/metropolis/deepstream/dev-guide/text/DS_C_Sample_Apps.html#f1">1</a></td>
+<td>v4l2编解码器的源代码。</td>
+</tr>
+</tbody></table>
+<p>脚注1：</p>
+<p>DeepStream软件包中不存在Gst-<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/V4L2">v4l2</a>源。要下载，请按照下列步骤操作：</p>
+<p>转到：<a target="_blank" rel="noopener" href="https://developer.nvidia.com/embedded/downloads">https</a> : <a target="_blank" rel="noopener" href="https://developer.nvidia.com/embedded/downloads">//developer.nvidia.com/embedded/downloads</a>。在字段中输入<code>Search filter``L4T sources</code>为L4T Release选择适当的项目<code>32.4.3</code>。下载文件并将其解压缩以获取<code>.tbz2</code>文件，展开<code>.tbz2</code>文件，<code>Gst-v4l2</code>源文件在<code>gst-nvvideo4linux2_src.tbz2</code></p>
+<h2 id="Python示例应用程序源详细信息"><a href="#Python示例应用程序源详细信息" class="headerlink" title="Python示例应用程序源详细信息"></a><a target="_blank" rel="noopener" href="https://docs.nvidia.com/metropolis/deepstream/dev-guide/text/DS_Python_Sample_Apps.html#python-sample-apps-source-details">Python示例应用程序源详细信息</a></h2><h3 id="Python绑定"><a href="#Python绑定" class="headerlink" title="Python绑定"></a>Python绑定</h3><p>本节提供有关使用Python进行DeepStream应用程序开发的详细信息。DeepStream 5.0 SDK中包含Python绑定，可在以下位置找到示例应用程序： <a target="_blank" rel="noopener" href="https://github.com/NVIDIA-AI-IOT/deepstream_python_apps">https://github.com/NVIDIA-AI-IOT/deepstream_python_apps</a>。在此处阅读有关PyDS API的更多信息：<a target="_blank" rel="noopener" href="https://docs.nvidia.com/metropolis/deepstream/python-api/">https://docs.nvidia.com/metropolis/deepstream/python-api/</a> </p>
+<h3 id="先决条件"><a href="#先决条件" class="headerlink" title="先决条件"></a>先决条件</h3><ul>
+<li><p>Ubuntu 18.04</p>
+</li>
+<li><p>DeepStream SDK 5.0或更高版本</p>
+</li>
+<li><p>Python 3.6</p>
+</li>
+<li><p>Gst Python v1.14.5</p>
+<p>如果Jetson上缺少Gst python安装，请使用以下命令进行安装：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt-get install python-gi-dev</span><br><span class="line">$ export GST_LIBS&#x3D;&quot;-lgstreamer-1.0 -lgobject-2.0 -lglib-2.0&quot;</span><br><span class="line">$ export GST_CFLAGS&#x3D;&quot;-pthread -I&#x2F;usr&#x2F;include&#x2F;gstreamer-1.0 -I&#x2F;usr&#x2F;include&#x2F;glib-2.0 -I&#x2F;usr&#x2F;lib&#x2F;x86_64-linux-gnu&#x2F;glib-2.0&#x2F;include&quot;</span><br><span class="line">$ git clone https:&#x2F;&#x2F;github.com&#x2F;GStreamer&#x2F;gst-python.git</span><br><span class="line">$ cd gst-python</span><br><span class="line">$ git checkout 1a8f48a</span><br><span class="line">$ .&#x2F;autogen.sh PYTHON&#x3D;python3</span><br><span class="line">$ .&#x2F;configure PYTHON&#x3D;python3</span><br><span class="line">$ make</span><br><span class="line">$ sudo make install</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="运行示例应用程序"><a href="#运行示例应用程序" class="headerlink" title="运行示例应用程序"></a>运行示例应用程序</h3><ol>
+<li><p>在以下位置<code>&lt;DeepStream 5.0 ROOT&gt;/sources</code>克隆仓库<code>deepstream_python_apps</code>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone https:&#x2F;&#x2F;github.com&#x2F;NVIDIA-AI-IOT&#x2F;deepstream_python_apps</span><br></pre></td></tr></table></figure></li>
+<li><p>这将创建以下目录：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;DeepStream 5.0 ROOT&gt;&#x2F;sources&#x2F;deepstream_python_apps</span><br></pre></td></tr></table></figure></li>
+<li><p>Python应用程序位于apps`目录下。进入每个应用程序目录，并按照自述文件中的说明进行操作。</p>
+<p>注意 : 应用程序配置文件包含模型的相对路径。</p>
+</li>
+</ol>
+<h3 id="管道建设"><a href="#管道建设" class="headerlink" title="管道建设"></a>管道建设</h3><p>可以使用Gst Python（GStreamer框架的Python绑定）构造DeepStream管道。有关管道构造示例，请参见示例应用程序的主要功能。</p>
+<h3 id="元数据访问"><a href="#元数据访问" class="headerlink" title="元数据访问"></a>元数据访问</h3><p>DeepStream MetaData包含推理结果和分析中使用的其他信息。元数据被附加到每个管道组件接收到的<code>Gst Buffer</code>。SDK元数据文档和API指南中详细描述了元数据格式。SDK MetaData库是用C / C ++开发的。Python绑定提供了从Python应用程序对MetaData的访问。绑定在已编译的模块中提供，可用于x86_64和Jetson平台。<code>pyds.so</code>模块位于DeepStream SDK安装目录<code>/lib</code>下。示例应用程序通过common / utils.py获取此模块的导入路径。<code>/lib</code>目录还包括setup.py，用于将模块安装到标准路径中：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd &#x2F;opt&#x2F;nvidia&#x2F;deepstream&#x2F;deepstream&#x2F;lib</span><br><span class="line">python3 setup.py install</span><br></pre></td></tr></table></figure>
+
+<p>由于python用法是可选的，因此当前没有通过SDK安装程序自动完成。绑定通常遵循与C / C ++库相同的API，以下几节详细介绍了一些例外。</p>
+<h3 id="内存管理"><a href="#内存管理" class="headerlink" title="内存管理"></a>内存管理</h3><p>MetaData的内存由Python和C / C ++代码路径共享。例如，可以通过用Python编写的探测函数添加MetaData项，并且需要由用C / C ++编写的下游插件访问。deepstream-test4应用程序包含此类用法。Python垃圾收集器无法查看C / C ++中的内存引用，因此无法安全地管理此类共享内存的生存期。由于这种复杂性，Python通常通过引用实现对MetaData内存的访问，而无需声明所有权。</p>
+<h3 id="分配"><a href="#分配" class="headerlink" title="分配"></a>分配</h3><p>在Python中分配MetaData对象时，绑定将提供分配功能，以确保该对象具有适当的内存所有权。如果使用了构造函数，则垃圾回收器在其Python引用终止时将声明该对象。但是，仍然需要下游的C / C ++代码访问该对象，因此该对象必须在这些Python引用之外仍然存在。示例：要分配<code>NvDsEventMsgMeta</code>实例，请使用此命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">msg_meta &#x3D; pyds.alloc_nvds_event_msg_meta() *# get reference to allocated instance without claiming memory ownership*</span><br></pre></td></tr></table></figure>
+
+<p>不是这个：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">msg_meta &#x3D; NvDsEventMsgMeta() *# memory will be freed by the garbage collector when msg_meta goes out of scope in Python*</span><br></pre></td></tr></table></figure>
+
+<p>分配器可用于以下结构：</p>
+<ul>
+<li><code>NvDsVehicleObject: alloc_nvds_vehicle_object()</code></li>
+<li><code>NvDsPersonObject: alloc_nvds_person_object()</code></li>
+<li><code>NvDsFaceObject: alloc_nvds_face_object()</code></li>
+<li><code>NvDsEventMsgMeta: alloc_nvds_event_msg_meta()</code></li>
+<li><code>NvDsEvent: alloc_nvds_event()</code></li>
+<li><code>NvDsPayload: alloc_nvds_payload()</code></li>
+<li><code>Generic buffer: alloc_buffer(size)</code></li>
+</ul>
+<h3 id="字符串访问"><a href="#字符串访问" class="headerlink" title="字符串访问"></a>字符串访问</h3><p>一些MetaData结构包含字符串字段。以下各节提供了有关访问它们的详细信息。</p>
+<h4 id="设置字符串字段"><a href="#设置字符串字段" class="headerlink" title="设置字符串字段"></a>设置字符串字段</h4><p>设置字符串字段会导致在基础C ++代码中分配字符串缓冲区。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">obj.type &#x3D; &quot;Type&quot;</span><br></pre></td></tr></table></figure>
+
+<p>这将导致分配内存缓冲区，并将字符串“ TYPE”复制到其中。该内存归C代码所有，稍后将释放。要释放Python代码中的缓冲区，请使用：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pyds.free_buffer(obj.type)</span><br></pre></td></tr></table></figure>
+
+<p>注意</p>
+<p><code>NvOSD_TextParams.display_text</code> 现在，分配新字符串后，字符串会自动释放。</p>
+<h4 id="读取字符串字段"><a href="#读取字符串字段" class="headerlink" title="读取字符串字段"></a>读取字符串字段</h4><p>直接读取字符串字段将以int的形式返回该字段的C地址，例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">obj &#x3D; pyds.NvDsVehicleObject.cast(data);</span><br><span class="line">print(obj.type)</span><br></pre></td></tr></table></figure>
+
+<p>这将打印一个int表示<code>obj.type</code>C中的地址（这是一个char *）。要检索此字段的字符串值，请使用<code>pyds.get_string()</code>，例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">print(pyds.get_string(obj.type))</span><br></pre></td></tr></table></figure>
+
+<h3 id="Casting"><a href="#Casting" class="headerlink" title="Casting"></a>Casting</h3><p>一些MetaData实例以GList形式存储。要访问GList节点中的数据，需要将数据字段强制转换为适当的结构。该转换通过针对目标类型的cast（）成员函数完成：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">NvDsBatchMeta.cast</span><br><span class="line">NvDsFrameMeta.cast</span><br><span class="line">NvDsObjectMeta.cast</span><br><span class="line">NvDsUserMeta.cast</span><br><span class="line">NvDsClassifierMeta.cast</span><br><span class="line">NvDsDisplayMeta.cast</span><br><span class="line">NvDsLabelInfo.cast</span><br><span class="line">NvDsEventMsgMeta.cast</span><br><span class="line">NvDsVehicleObject.cast</span><br><span class="line">NvDsPersonObject.cast</span><br></pre></td></tr></table></figure>
+
+<p>在v0.5版中，提供了独立的强制转换功能。现在，上面的cast（）函数已弃用并取代了这些函数：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">glist_get_nvds_batch_meta</span><br><span class="line">glist_get_nvds_frame_meta</span><br><span class="line">glist_get_nvds_object_meta</span><br><span class="line">glist_get_nvds_user_meta</span><br><span class="line">glist_get_nvds_classifier_meta</span><br><span class="line">glist_get_nvds_display_meta</span><br><span class="line">glist_get_nvds_label_info</span><br><span class="line">glist_get_nvds_event_msg_meta</span><br><span class="line">glist_get_nvds_vehicle_object</span><br><span class="line">glist_get_nvds_person_object</span><br></pre></td></tr></table></figure>
+
+<p>例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">l_frame &#x3D; batch_meta.frame_meta_list</span><br><span class="line">frame_meta &#x3D; pyds.NvDsFrameMeta.cast(l_frame.data)</span><br></pre></td></tr></table></figure>
+
+<h3 id="回调功能注册"><a href="#回调功能注册" class="headerlink" title="回调功能注册"></a>回调功能注册</h3><p>添加到NvDsUserMeta的自定义元数据需要自定义复制和发布功能。MetaData库依赖于这些自定义功能来对自定义结构进行深度复制，并释放已分配的资源。这些函数在NvDsUserMeta结构中注册为回调函数指针。使用以下功能注册回调功能：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pyds.set_user_copyfunc(NvDsUserMeta_instance, copy_function)</span><br><span class="line">pyds.set_user_releasefunc(NvDsUserMeta_instance, free_func)</span><br></pre></td></tr></table></figure>
+
+<p>注意</p>
+<p>在应用程序退出之前，需要在绑定库中取消注册回调。绑定库当前保留对已注册函数的全局引用，并且这些引用不能超过绑定库在应用程序退出时发生的卸载。使用以下函数注销所有回调：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pyds.unset_callback_funcs()</span><br></pre></td></tr></table></figure>
+
+<p>有关回调注册和注销的示例，请参见deepstream-test4示例应用程序。</p>
+<p><strong>限制</strong>：绑定库当前仅为每个应用程序支持一组回调函数。将使用最后注册的功能。</p>
+<h3 id="优化和实用程序"><a href="#优化和实用程序" class="headerlink" title="优化和实用程序"></a>优化和实用程序</h3><p>通常，Python解释比运行已编译的C / C ++代码要慢。为了提供更好的性能，某些操作在C中实现，并通过绑定接口公开。目前这是实验性的，并将随着时间的推移而扩展。提供以下优化功能：</p>
+<ul>
+<li><p><code>pyds.NvOSD_ColorParams.set(double red, double green, double blue, double alpha)</code></p>
+<blockquote>
+<p>这是一个简单的函数，其执行与以下操作相同的操作：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">txt_params.text_bg_clr.red &#x3D; red</span><br><span class="line">txt_params.text_bg_clr.green &#x3D; green</span><br><span class="line">txt_params.text_bg_clr.blue &#x3D; blue</span><br><span class="line">txt_params.text_bg_clr.alpha &#x3D; alpha</span><br></pre></td></tr></table></figure>
+
+<p>这些操作是在deepstream_test_4.py中的每个对象上执行的，从而导致合计处理时间减慢了管道的速度。将此功能推入C层有助于提高性能。</p>
+</blockquote>
+</li>
+<li><p><code>generate_ts_rfc3339 (buffer, buffer_size)</code></p>
+<blockquote>
+<p>此函数使用根据RFC3339生成的时间戳填充输入缓冲区： <code>%Y-%m-%dT%H:%M:%S.nnnZ\0</code></p>
+</blockquote>
+</li>
+</ul>
+<h3 id="图像数据访问"><a href="#图像数据访问" class="headerlink" title="图像数据访问"></a>图像数据访问</h3><p>解码后的图像可以<code>NumPy</code>通过该<code>get_nvds_buf_surface</code>函数作为数组访问。API指南中记录了此功能。有关<code>deepstream-imagedata-multistream</code>图像数据使用的示例，请参见示例应用程序。</p>
+<h2 id="样本应用程序源详细信息"><a href="#样本应用程序源详细信息" class="headerlink" title="样本应用程序源详细信息"></a>样本应用程序源详细信息</h2><p>下表显示了<a target="_blank" rel="noopener" href="https://github.com/NVIDIA-AI-IOT/deepstream_python_apps%E4%B8%8BPython%E7%A4%BA%E4%BE%8B%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F%E7%9A%84%E4%BD%8D%E7%BD%AE">https://github.com/NVIDIA-AI-IOT/deepstream_python_apps下Python示例应用程序的位置</a></p>
+<table>
+<thead>
+<tr>
+<th>参考测试应用</th>
+<th>GitHub存储库中的路径</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>简单测试应用程序1</td>
+<td>apps / deepstream-test1</td>
+<td>如何对单个H.264流使用DeepStream元素的简单示例：filesrc→解码→nvstreammux→nvinfer（主检测器）→nvdsosd→渲染器。</td>
+</tr>
+<tr>
+<td>简单测试应用程序2</td>
+<td>apps / deepstream-test2</td>
+<td>如何对单个H.264流使用DeepStream元素的简单示例：filesrc→解码→nvstreammux→nvinfer（主检测器）→nvtracker→nvinfer（辅助分类器）→nvdsosd→渲染器。</td>
+</tr>
+<tr>
+<td>简单测试应用程序3</td>
+<td>apps / deepstream-test3</td>
+<td>基于deepstream-test1（简单测试应用程序1）构建，以演示如何：在管道中使用多个来源使用uridecodebin接受任何类型的输入（例如RTSP /文件），任何GStreamer支持的容器格式以及任何编解码器配置Gst-nvstreammux以生成一批帧并推断出这些帧以提高资源利用率提取流元数据，其中包含有关批处理缓冲区中帧的有用信息</td>
+</tr>
+<tr>
+<td>简单测试应用程序4</td>
+<td>应用程序/ deepstream-test4</td>
+<td>基于deepstream-test1构建单个H.264流：filesrc，decode，nvstreammux，nvinfer，nvdsosd，renderer演示如何：在管道中使用Gst-nvmsgconv和Gst-nvmsgbroker插件创建NVDS_META_EVENT_MSG类型的元数据并将其附加到缓冲区将NVDS_META_EVENT_MSG用于不同类型的对象，例如车辆和人如果通过extMsg字段扩展了元数据，则实现“复制”和“免费”功能以供使用</td>
+</tr>
+<tr>
+<td>USB摄像头源应用</td>
+<td>apps / deepstream-test1-usbcam</td>
+<td>简单测试应用程序1已修改为处理来自USB摄像机的单个流。</td>
+</tr>
+<tr>
+<td>RTSP输出应用</td>
+<td>apps / deepstream-test1-rtsp-out</td>
+<td>简单测试应用程序1已修改为通过RTSP输出可视化流。</td>
+</tr>
+<tr>
+<td>图像数据访问应用</td>
+<td>apps / deepstream-imagedata-multistream</td>
+<td>以简单的测试应用程序3为基础，演示如何：在管道中将解码的帧作为NumPy数组访问检查检测到的对象的检测置信度（需要DBSCAN或NMS群集）使用OpenCV注释框架并将其保存到文件</td>
+</tr>
+<tr>
+<td>SSD检测器输出解析器应用</td>
+<td>apps / deepstream-ssd-parser</td>
+<td>演示如何对Triton Inference Server的推理输出执行自定义后处理：在Triton Inference Server上使用SSD模型进行对象检测通过配置文件设置为Triton Inference Server启用自定义后处理和原始张量导出访问管道中的推断输出张量以在Python中进行后处理将检测到的对象添加到元数据将OSD可视化输出到MP4文件</td>
+</tr>
+</tbody></table>
+<h3 id="DeepStream参考应用程序-deepstream-test5应用程序"><a href="#DeepStream参考应用程序-deepstream-test5应用程序" class="headerlink" title="DeepStream参考应用程序-deepstream-test5应用程序"></a>DeepStream参考应用程序-deepstream-test5应用程序</h3><p>除常规推理管道外，Test5应用程序还支持以下功能：</p>
+<ul>
+<li>将消息发送到后端服务器。</li>
+<li>充当使用者以从后端服务器接收消息。</li>
+<li>基于从服务器收到的消息触发基于事件的记录。</li>
+<li>OTA模型更新。</li>
+</ul>
+<h4 id="支持物联网协议和云配置"><a href="#支持物联网协议和云配置" class="headerlink" title="支持物联网协议和云配置"></a>支持物联网协议和云配置</h4><p><code>nvmsgbroker</code>DeepStream插件指南中列出了插件支持的IoT协议（如KAFKA，Azure，AMQP等）的详细信息。DeepStream Public文档可参考特定于所使用协议的设置IoT中心/服务器/经纪人。与<code>type=6</code>for<code>nvmsgconv</code>和<code>nvmsgbroker</code>configuration相关联的[sink]组密钥在：ref：config-groups-label中讨论。</p>
+<h4 id="消息使用者"><a href="#消息使用者" class="headerlink" title="消息使用者"></a>消息使用者</h4><p><code>deepstream-test5-app</code>可以配置为充当云消息的消息使用者。解析收到的消息后，可以根据消息的内容触发特定的操作。例如，保存智能记录上下文的NvDsSrcParentBin *作为参数传递，该参数<code>start_cloud_to_device_messaging()</code>用于触发智能记录的启动/停止。默认情况下，已实现基于事件的记录以演示消息使用方的用法。用户需要实现自定义逻辑，以处理其他类型的接收消息。请参阅<code>deepstream_c2d_msg*</code>文件以获取有关实现的更多详细信息。要订阅云消息，请相应地配置<code>[message-consumer]</code>组。</p>
+<h4 id="智能记录-基于事件的记录"><a href="#智能记录-基于事件的记录" class="headerlink" title="智能记录-基于事件的记录"></a>智能记录-基于事件的记录</h4><p>可以将Test5应用程序配置为基于从服务器收到的事件来记录原始视频提要。这样，无需始终保存数据，此功能仅允许记录感兴趣的事件。请参阅《 DeepStream插件手册》，并在“组”下。当前，test5应用仅支持源类型= 4（RTSP）。类似的方法也可以用于其他类型的源。可通过两种方式触发智能记录事件：<code>gst-nvdssr.h ``header file for more details about smart record. Event based recording can be enabled by setting ``smart-record``[sourceX]</code></p>
+<p>1.通过云消息。要通过云消息触发智能记录，应将Test5应用程序配置为充当消息使用者。可以通过相应地配置[message-consumerX]组来完成。配置消息使用者之后，应在需要基于事件的记录的源上启用智能记录。可以按照以下步骤进行操作： <code>smart-record=1</code> 预计以下最小json消息将触发智能记录的开始/停止。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"> &#123;</span><br><span class="line">command: string   &#x2F;&#x2F; &lt;start-recording &#x2F; stop-recording&gt;</span><br><span class="line">start: string     &#x2F;&#x2F; &quot;2020-05-18T20:02:00.051Z&quot;</span><br><span class="line">end: string       &#x2F;&#x2F; &quot;2020-05-18T20:02:02.851Z&quot;,</span><br><span class="line">sensor: &#123;</span><br><span class="line">id: string</span><br><span class="line"> &#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+<p>2.通过当地活动。set <code>smart-record=2</code>，这将通过云消息以及本地事件启用智能记录。为了演示通过本地事件进行的基于事件的记录，默认情况下，应用程序每十秒钟触发一次启动/停止事件。此间隔和其他参数是可配置的。</p>
+<h4 id="OTA模型更新"><a href="#OTA模型更新" class="headerlink" title="OTA模型更新"></a>OTA模型更新</h4><p>Test5应用程序可以动态更新正在运行的管道中的模型。为此，该应用程序提供了命令行选项<code>-o</code>。如果使用<code>-o</code>（ota_override_file）选项启动了test5应用，则将监视对该文件的任何更改，并基于该文件中的更改，使用新模型即时更新正在运行的管道。</p>
+<h4 id="使用OTA功能"><a href="#使用OTA功能" class="headerlink" title="使用OTA功能"></a>使用OTA功能</h4><p>执行以下操作以使用OTA功能：</p>
+<ol>
+<li><code>deepstream-test5-app</code>使用选项运行<code>-o &lt;ota_override_file&gt;</code></li>
+<li>在DS应用程序运行时，<code>&lt;ota_override_file&gt;</code>使用新的模型详细信息进行更新并保存</li>
+<li>文件内容更改被检测到<code>deepstream-test5-app</code>，然后开始模型更新过程。当前，仅模型更新功能受支持为OTA功能的一部分。</li>
+</ol>
+<p><strong>即时模型更新的假设</strong>：</p>
+<ol>
+<li>新模型必须具有与先前模型相同的网络参数配置（例如，网络分辨率，网络体系结构，类数）</li>
+<li>开发人员将提供的新模型的引擎文件或缓存文件</li>
+<li>对于其它更新的值的配置参数等，，，，等等，如果在覆盖文件提供，将不具有模型开关之后的任何效果。<code>primary gie``group-threshold``bbox color``gpu-id``nvbuf-memory-type</code></li>
+<li><code>Secondary gie</code> 模型更新未通过验证，仅主模型更新通过了验证。</li>
+<li>在动态模型更新过程中，不应观察到丢帧/无推断的帧</li>
+<li>如果模型更新失败，错误消息将打印在控制台上，并且管道应继续在旧模型配置下运行</li>
+<li>需要config-file参数来抑制配置文件解析错误打印，在模型切换过程中不使用该配置文件中的值</li>
+</ol>
+ 
+      <!-- reward -->
+      
+      <div id="reword-out">
+        <div id="reward-btn">
+          Donate
+        </div>
+      </div>
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <div class="declare">
+      <ul class="post-copyright">
+        <li>
+          <i class="ri-copyright-line"></i>
+          <strong>Copyright： </strong>
+          
+          Copyright is owned by the author. For commercial reprints, please contact the author for authorization. For non-commercial reprints, please indicate the source.
+          
+        </li>
+      </ul>
+    </div>
+    
+    <footer class="article-footer">
+       
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://example.com/2020/12/20/DeepStream/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>  
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/NVIDIA/" rel="tag">NVIDIA</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+  <nav class="article-nav">
+    
+      <a href="/2021/01/30/RNN%E3%80%81LSTM%E3%80%81Transformer/" class="article-nav-link">
+        <strong class="article-nav-caption">上一篇</strong>
+        <div class="article-nav-title">
+          
+            RNN、LSTM、Transformer
+          
+        </div>
+      </a>
+    
+    
+      <a href="/2020/11/29/NCNN/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">NCNN</div>
+      </a>
+    
+  </nav>
+
+   
+<!-- valine评论 -->
+<div id="vcomments-box">
+  <div id="vcomments"></div>
+</div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js"></script>
+<script>
+  new Valine({
+    el: "#vcomments",
+    app_id: "Y8oqscHrnLuIwp1649iHgWjM-gzGzoHsz",
+    app_key: "IjneyzqTD2fkFsPSEFKEW0lN",
+    path: window.location.pathname,
+    avatar: "monsterid",
+    placeholder: "有什么想说的请在此留言~",
+    recordIP: true,
+  });
+  const infoEle = document.querySelector("#vcomments .info");
+  if (infoEle && infoEle.childNodes && infoEle.childNodes.length > 0) {
+    infoEle.childNodes.forEach(function (item) {
+      item.parentNode.removeChild(item);
+    });
+  }
+</script>
+<style>
+  #vcomments-box {
+    padding: 5px 30px;
+  }
+
+  @media screen and (max-width: 800px) {
+    #vcomments-box {
+      padding: 5px 0px;
+    }
+  }
+
+  #vcomments-box #vcomments {
+    background-color: #fff;
+  }
+
+  .v .vlist .vcard .vh {
+    padding-right: 20px;
+  }
+
+  .v .vlist .vcard {
+    padding-left: 10px;
+  }
+</style>
+
+ 
+     
+</article>
+
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul>
+      <li>
+        Copyrights &copy;
+        2020-2021
+        <i class="ri-heart-fill heart_icon"></i> Wade Wang
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+        
+        
+        Powered by <a href="https://hexo.io" target="_blank">Hexo</a>
+        <span class="division">|</span>
+        Theme - <a href="https://github.com/Shen-Yu/hexo-theme-ayer" target="_blank">Ayer</a>
+        
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+        
+        <span>
+  <span><i class="ri-user-3-fill"></i>Visitors:<span id="busuanzi_value_site_uv"></span></s>
+  <span class="division">|</span>
+  <span><i class="ri-eye-fill"></i>Views:<span id="busuanzi_value_page_pv"></span></span>
+</span>
+        
+      </li>
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      <li>
+        <!-- cnzz统计 -->
+        
+        <script type="text/javascript" src='https://s9.cnzz.com/z_stat.php?id=1278069914&amp;web_id=1278069914'></script>
+        
+      </li>
+    </ul>
+  </div>
+</footer>
+      <div class="float_btns">
+        <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+
+      </div>
+    </main>
+    <aside class="sidebar on">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/yoga.png" alt="Hello World"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" target="_blank" rel="noopener" href="http://wwdok.lofter.com">摄影</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/friends">友链</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/about">关于我</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="Search">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <script>
+      if (window.matchMedia("(max-width: 768px)").matches) {
+        document.querySelector('.content').classList.remove('on');
+        document.querySelector('.sidebar').classList.remove('on');
+      }
+    </script>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯果汁吧~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/alipay.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/wechat.png">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+    
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+<!-- Tocbot -->
+
+
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3, h4, h5, h6',
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer: 'main',
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto'
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.css">
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/dist/main.js"></script>
+
+<!-- ImageViewer -->
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css">
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script>
+
+<!-- MathJax -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+      tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+  });
+
+  MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for(i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.6/unpacked/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script>
+  var ayerConfig = {
+    mathjax: true
+  }
+</script>
+
+<!-- Katex -->
+
+<!-- busuanzi  -->
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+<!-- ClickLove -->
+
+<!-- ClickBoom1 -->
+
+<!-- ClickBoom2 -->
+
+<!-- CodeCopy -->
+
+
+<link rel="stylesheet" href="/css/clipboard.css">
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="ri-file-copy-2-line"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-checkbox-circle-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-checkbox-circle-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-time-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-time-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+
+
+<!-- CanvasBackground -->
+
+
+    
+  </div>
+</body>
+
+</html>

@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+
+
+<html lang="ch">
+
+
+<head>
+  <meta charset="utf-8" />
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>
+    RNN、LSTM、Transformer |  Hello World
+  </title>
+  <meta name="generator" content="hexo-theme-ayer">
+  
+  <link rel="shortcut icon" href="/planets.ico" />
+  
+  
+<link rel="stylesheet" href="/dist/main.css">
+
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Shen-Yu/cdn/css/remixicon.min.css">
+
+  
+<link rel="stylesheet" href="/css/custom.css">
+
+  
+  
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+
+  
+  
+
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-172408389-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+
+
+
+  
+<script>
+var _hmt = _hmt || [];
+(function() {
+	var hm = document.createElement("script");
+	hm.src = "https://hm.baidu.com/hm.js?da92a6672e51fa2d1c3bacf2dba555c6";
+	var s = document.getElementsByTagName("script")[0]; 
+	s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+</head>
+
+</html>
+
+<body>
+  <div id="app">
+    
+      
+    <main class="content on">
+      <section class="outer">
+  <article
+  id="post-RNN、LSTM、Transformer"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  RNN、LSTM、Transformer
+</h1>
+ 
+
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2021/01/30/RNN%E3%80%81LSTM%E3%80%81Transformer/" class="article-date">
+  <time datetime="2021-01-30T07:00:25.000Z" itemprop="datePublished">2021-01-30</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a>
+  </div>
+  
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> Word count:</span>
+            <span class="post-count">1.5k</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> Reading time≈</span>
+            <span class="post-count">5 min</span>
+        </span>
+    </span>
+</div>
+ 
+    </div>
+      
+    <div class="tocbot"></div>
+
+
+
+
+  
+    <div class="article-entry" itemprop="articleBody">
+       
+  <p>最近频繁被Tansformer刷屏，于是我决定学习一下Transformer，看看它的厉害之处在哪里。</p>
+<p>本篇博客就像是一个链接中枢，我会放很多我认为不错的教程链接，因为到现在，网上已经有不少好教程了，我不会再摘抄一遍它们的内容，我只会放上链接，加上一点个人的理解补充。</p>
+<p>Shusen Wang做了一个Transformer的youtube系列视频：《<a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=aButdUV0dxI&list=PLvOO0btloRntpSWSxFbwPIjIum3Ub4GSC">Transformer模型</a>》，但是在学习这个系列视频之前，还需要对RNN、LSTM、Attention这些专业术语有所了解，这就需要再去看一下他的另一个YouTube系列视频：<a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=NWcShtqr8kc&list=PLvOO0btloRnuTUGN4XqO85eKPeFSZsEqK">《RNN模型与NLP应用》</a>（建议1.5倍速观看哈）。</p>
+<p>本博客将以这两个系列视频为主线展开，对其中的一些知识点进行补充说明。</p>
+<ul>
+<li><p>《RNN模型与NLP应用(1/9)：数据处理基础》：这一节比较简单，无需补充说明</p>
+</li>
+<li><p>《RNN模型与NLP应用(2/9)：文本处理与词嵌入》：</p>
+<p>本节首次提到了embedding这个重要概念，但介绍的不多，更多embedding的资料可以参考这篇<a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_42078618/article/details/84553940">博客</a>以及网上的其他一些资料。</p>
+<p>视频中有一页ppt是下图这样的，我这里注释了x1和x2，这样从左边的Parameter matrix到右边的坐标位置就很简单易懂了。</p>
+</li>
+</ul>
+<img src="https://i.loli.net/2021/01/30/d6jkSXZOEMvplri.png" alt="image-20210130172025692" style="zoom: 67%;" />
+
+<ul>
+<li><p>《RNN模型与NLP应用(3/9)：Simple RNN模型》：</p>
+<p>这一节跟下一节视频用到的一些插图来自这篇英语博客<a target="_blank" rel="noopener" href="http://colah.github.io/posts/2015-08-Understanding-LSTMs/">《Understanding LSTM Networks》</a>，这篇博客强烈推荐阅读，英语不太好的可以搭配看这篇翻译版<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/95d5c461924c">博客</a>。插图中C和h的含义，C代表Cell state （也有人说是Conveyor）， h代表Hidden state。</p>
+<p>由下图圆圈可知，上一个RNN模块传给下一个RNN模块的东西就是hidden state，同一个东西拷贝了两份而已：</p>
+<img src="https://i.loli.net/2021/01/30/SfY6Ja4EPqpOTu1.png" alt="image-20210130231449052" style="zoom:50%;" />
+
+<p>而下面要介绍的LSTM每个模块输出的不仅有hidden state，还有cell state。</p>
+</li>
+<li><p>《RNN模型与NLP应用(4/9)：LSTM模型》：</p>
+<p>补充一些个人对这篇英语博客的理解：sigmoid函数输出（0，1）中间的数值，适合用来决定矩阵元素被保留多少，而tanh函数输出范围是（-1，1），适合用来决定更新量是多少，因为更新肯定有增有减，所以用tanh。</p>
+</li>
+<li><p>《RNN模型与NLP应用(5/9)：多层RNN、双向RNN、预训练》：</p>
+</li>
+</ul>
+<p>这一节主要讲了通过RNN的变体和预训练来提高模型的推理准确率，视频中8:27提到embedding的参数很大，而训练数据很少，容易导致过拟合，这一点我深有感受，因为我之前用kinetics400的模型训练我的4个动作类别，就感受到了过拟合。</p>
+<ul>
+<li>《RNN模型与NLP应用(6/9)：Text Generation (自动文本生成)》：</li>
+</ul>
+<p>这一节讲得很通俗易懂，无需补充说明</p>
+<ul>
+<li>《RNN模型与NLP应用(7/9)：机器翻译与Seq2Seq模型》：</li>
+</ul>
+<p>Seq2Seq这个模型的原理一个视频的讲解量应该不够，大家可以再看一下B站的这个<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1Eb411J7Qm?p=1">视频</a>作为补充，同样建议1.5倍速播放。</p>
+<ul>
+<li>《RNN模型与NLP应用(8/9)：Attention (注意力机制)》：</li>
+</ul>
+<p>不是说LSTM就是用来解决记忆久远信息的吗，怎么Seq2Seq还会有记不住太长信息的问题？我的理解是因为不管Encoder输入的词量是多少，Encoder和Decoder中间的那个语义向量Thought Vector的长度总是固定不变的，如果Encoder输入的词量非常多，那么Thought   Vector就容不下那么多语义信息。</p>
+<p><img src="https://camo.githubusercontent.com/e63bf968fbd0095c5474d241434a72b4a59df473860857a3871039a73eab2bae/68747470733a2f2f73757269796164656570616e2e6769746875622e696f2f696d672f736571327365712f73657132736571322e706e67" alt="img"></p>
+<p>借用下图说明一下这一点，图中800×800和3000×3000代表输入Encoder的不同长度的词量，100KB就是Thought Vector的长度，可见过于密集的输入信息最后编码成Thought Vector必然会变得稀疏：</p>
+<img src="https://easy-ai.oss-cn-shanghai.aliyuncs.com/2019-10-28-yasuo.png" alt="Encoder-Decoder的缺点：输入过长会损失信息" style="zoom:50%;" />
+
+<p>而Attention会考虑到每一个输入词向量产生的$h_i$，有多少个输入词向量，后面Decoder更新每个$s_i$时就考虑多少个Encoder的$h_i$。</p>
+<ul>
+<li><p>《RNN模型与NLP应用(9/9)：Self-Attention (自注意力机制)》：</p>
+<p>听过前面的视频，这个视频的内容不难理解。</p>
+</li>
+</ul>
+<p>———————————————-分割线————————————————-</p>
+<p>了解完RNN和LSTM，现在你应该对NLP领域的一些名词有些概念了，开始学习Transformer。</p>
+<p>网上有很多讲解Transoformer的博客，但很多博客的内容和图片都来自这篇英文博客《<a target="_blank" rel="noopener" href="http://jalammar.github.io/illustrated-transformer/">The Illustrated Transformer</a>》，这位<a target="_blank" rel="noopener" href="http://jalammar.github.io/">Jay Alammar</a>的博客主页还有很多利用可视化图片视频讲解机器学习原理的博客，推荐各位去看一看！</p>
+<p>在看完Shusen Wan的<a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=aButdUV0dxI&list=PLvOO0btloRntpSWSxFbwPIjIum3Ub4GSC">Transformer模型</a>系列视频，我还是很难完全理解positional encoding的原理，在youtube搜索positional encoding时，我遇到了另一个宝藏博主 - <a target="_blank" rel="noopener" href="https://www.youtube.com/channel/UCmUi2gnk9EbJQjvWo2VdZCA">Hedu - Mathematics of Intelligence</a>，目前她推出的<a target="_blank" rel="noopener" href="https://www.youtube.com/playlist?list=PL86uXYUJ7999zE8u2-97i4KG_2Zpufkfb">Visual Guide to Transformer Neural Networks</a>系列视频包含3部分：</p>
+<ul>
+<li><p><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=dichIcUZfOw&t=611s">Visual Guide to Transformer Neural Networks - (Part 1) Position Embeddings</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=mMa2PmYJlCo">Visual Guide to Transformer Neural Networks - (Part 2) Multi-Head &amp; Self-Attention</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=gJ9kaJsE78k&t=2s">Visual Guide to Transformer Neural Networks - (Part 3) Decoder’s Masked Attention</a></p>
+</li>
+</ul>
+<p>其中(Part 1) Position Embeddings就很生动易懂地解释了位置编码地原理（有一定基础的人可以从6:04分开始观看），而她地(Part 2) Multi-Head &amp; Self-Attention视频则讲清楚了为什么两个矩阵相乘可以用来求相似度（不像其他博客都想当然），总之，你可以先去看看其他人的Transformer博客，再去看Hedu - Mathematics of Intelligence的视频，你就知道她的视频有多好了！</p>
+<p>拓展链接：</p>
+<p><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=4Bdc55j80l8">《Illustrated Guide to Transformers Neural Network: A step by step explanation》</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=TrdevFK_am4">《An Image is Worth 16x16 Words: Transformers for Image Recognition at Scale (Paper Explained)》</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=TQQlZhbC5ps">《Transformer Neural Networks - EXPLAINED! (Attention is all you need)》</a></p>
+<h2 id="Transformer-在CV领域的应用"><a href="#Transformer-在CV领域的应用" class="headerlink" title="Transformer 在CV领域的应用"></a>Transformer 在CV领域的应用</h2><p>facebook 提出了用transformer执行目标检测的<strong>DETR</strong> (<strong>DE</strong>tection <strong>TR</strong>ansformer)</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/facebookresearch/detr">https://github.com/facebookresearch/detr</a></p>
+<p>我在跑colab notebook时，发现<code>detr_demo.ipynb</code>的效果不是很好，如下图所示：</p>
+<p><img src="https://user-images.githubusercontent.com/43233772/110281620-0a946580-8018-11eb-91d4-4b123419e9df.png" alt="image"></p>
+<p>而 <code>detr_attention.ipynb</code> 的效果则正常得多了：</p>
+<p><img src="https://user-images.githubusercontent.com/43233772/110487672-c3e26080-8128-11eb-96e1-7090395ee6ba.png" alt="下载"></p>
+<p>测试原图在<a target="_blank" rel="noopener" href="https://drive.google.com/file/d/1X8fC8ZtlH_S7WQVE6jSeXL7jr4oQPDYD/view?usp=sharing">这里</a>。</p>
+ 
+      <!-- reward -->
+      
+      <div id="reword-out">
+        <div id="reward-btn">
+          Donate
+        </div>
+      </div>
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <div class="declare">
+      <ul class="post-copyright">
+        <li>
+          <i class="ri-copyright-line"></i>
+          <strong>Copyright： </strong>
+          
+          Copyright is owned by the author. For commercial reprints, please contact the author for authorization. For non-commercial reprints, please indicate the source.
+          
+        </li>
+      </ul>
+    </div>
+    
+    <footer class="article-footer">
+       
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://example.com/2021/01/30/RNN%E3%80%81LSTM%E3%80%81Transformer/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>  
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/LSTM/" rel="tag">LSTM</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/RNN/" rel="tag">RNN</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Transformer/" rel="tag">Transformer</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+  <nav class="article-nav">
+    
+    
+      <a href="/2020/12/20/DeepStream/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">DeepStream</div>
+      </a>
+    
+  </nav>
+
+   
+<!-- valine评论 -->
+<div id="vcomments-box">
+  <div id="vcomments"></div>
+</div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js"></script>
+<script>
+  new Valine({
+    el: "#vcomments",
+    app_id: "Y8oqscHrnLuIwp1649iHgWjM-gzGzoHsz",
+    app_key: "IjneyzqTD2fkFsPSEFKEW0lN",
+    path: window.location.pathname,
+    avatar: "monsterid",
+    placeholder: "有什么想说的请在此留言~",
+    recordIP: true,
+  });
+  const infoEle = document.querySelector("#vcomments .info");
+  if (infoEle && infoEle.childNodes && infoEle.childNodes.length > 0) {
+    infoEle.childNodes.forEach(function (item) {
+      item.parentNode.removeChild(item);
+    });
+  }
+</script>
+<style>
+  #vcomments-box {
+    padding: 5px 30px;
+  }
+
+  @media screen and (max-width: 800px) {
+    #vcomments-box {
+      padding: 5px 0px;
+    }
+  }
+
+  #vcomments-box #vcomments {
+    background-color: #fff;
+  }
+
+  .v .vlist .vcard .vh {
+    padding-right: 20px;
+  }
+
+  .v .vlist .vcard {
+    padding-left: 10px;
+  }
+</style>
+
+ 
+     
+</article>
+
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul>
+      <li>
+        Copyrights &copy;
+        2020-2021
+        <i class="ri-heart-fill heart_icon"></i> Wade Wang
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+        
+        
+        Powered by <a href="https://hexo.io" target="_blank">Hexo</a>
+        <span class="division">|</span>
+        Theme - <a href="https://github.com/Shen-Yu/hexo-theme-ayer" target="_blank">Ayer</a>
+        
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+        
+        <span>
+  <span><i class="ri-user-3-fill"></i>Visitors:<span id="busuanzi_value_site_uv"></span></s>
+  <span class="division">|</span>
+  <span><i class="ri-eye-fill"></i>Views:<span id="busuanzi_value_page_pv"></span></span>
+</span>
+        
+      </li>
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      <li>
+        <!-- cnzz统计 -->
+        
+        <script type="text/javascript" src='https://s9.cnzz.com/z_stat.php?id=1278069914&amp;web_id=1278069914'></script>
+        
+      </li>
+    </ul>
+  </div>
+</footer>
+      <div class="float_btns">
+        <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+
+      </div>
+    </main>
+    <aside class="sidebar on">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/yoga.png" alt="Hello World"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" target="_blank" rel="noopener" href="http://wwdok.lofter.com">摄影</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/friends">友链</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/about">关于我</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="Search">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <script>
+      if (window.matchMedia("(max-width: 768px)").matches) {
+        document.querySelector('.content').classList.remove('on');
+        document.querySelector('.sidebar').classList.remove('on');
+      }
+    </script>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯果汁吧~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/alipay.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/wechat.png">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+    
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+<!-- Tocbot -->
+
+
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3, h4, h5, h6',
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer: 'main',
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto'
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.css">
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/dist/main.js"></script>
+
+<!-- ImageViewer -->
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css">
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script>
+
+<!-- MathJax -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+      tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+  });
+
+  MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for(i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.6/unpacked/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script>
+  var ayerConfig = {
+    mathjax: true
+  }
+</script>
+
+<!-- Katex -->
+
+<!-- busuanzi  -->
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+<!-- ClickLove -->
+
+<!-- ClickBoom1 -->
+
+<!-- ClickBoom2 -->
+
+<!-- CodeCopy -->
+
+
+<link rel="stylesheet" href="/css/clipboard.css">
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="ri-file-copy-2-line"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-checkbox-circle-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-checkbox-circle-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-time-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-time-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+
+
+<!-- CanvasBackground -->
+
+
+    
+  </div>
+</body>
+
+</html>

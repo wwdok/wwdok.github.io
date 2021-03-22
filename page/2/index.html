@@ -1,0 +1,1417 @@
+<!DOCTYPE html>
+
+
+<html lang="ch">
+
+
+<head>
+  <meta charset="utf-8" />
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>
+     Hello World
+  </title>
+  <meta name="generator" content="hexo-theme-ayer">
+  
+  <link rel="shortcut icon" href="/planets.ico" />
+  
+  
+<link rel="stylesheet" href="/dist/main.css">
+
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Shen-Yu/cdn/css/remixicon.min.css">
+
+  
+<link rel="stylesheet" href="/css/custom.css">
+
+  
+  
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+
+  
+  
+
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-172408389-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+
+
+
+  
+<script>
+var _hmt = _hmt || [];
+(function() {
+	var hm = document.createElement("script");
+	hm.src = "https://hm.baidu.com/hm.js?da92a6672e51fa2d1c3bacf2dba555c6";
+	var s = document.getElementsByTagName("script")[0]; 
+	s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+</head>
+
+</html>
+
+<body>
+  <div id="app">
+    
+      
+    <main class="content on">
+      
+<section class="cover">
+    
+  <div class="cover-frame">
+    <div class="bg-box">
+      <img src="/images/earth-1388003_1920.jpg" alt="image frame" />
+    </div>
+    <div class="cover-inner text-center text-white">
+      <h1><a href="/">Hello World</a></h1>
+      <div id="subtitle-box">
+        
+        <span id="subtitle"></span>
+        
+      </div>
+      <div>
+        
+      </div>
+    </div>
+  </div>
+  <div class="cover-learn-more">
+    <a href="javascript:void(0)" class="anchor"><i class="ri-arrow-down-line"></i></a>
+  </div>
+</section>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js"></script>
+
+
+<!-- Subtitle -->
+
+  <script>
+    try {
+      var typed = new Typed("#subtitle", {
+        strings: ['面朝大海，春暖花开', '与时间赛跑', '人类发展的终极目标是让人类成为多星球物种'],
+        startDelay: 0,
+        typeSpeed: 200,
+        loop: true,
+        backSpeed: 100,
+        showCursor: true
+      });
+    } catch (err) {
+      console.log(err)
+    }
+  </script>
+  
+<div id="main">
+  <section class="outer">
+  
+  
+
+<div class="notice" style="margin-top:50px">
+    <i class="ri-heart-fill"></i>
+    <div class="notice-content" id="broad"></div>
+</div>
+<script type="text/javascript">
+    fetch('https://v1.hitokoto.cn')
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById("broad").innerHTML = data.hitokoto;
+        })
+        .catch(console.error)
+</script>
+
+<style>
+    .notice {
+        padding: 20px;
+        border: 1px dashed #e6e6e6;
+        color: #969696;
+        position: relative;
+        display: inline-block;
+        width: 100%;
+        background: #fbfbfb50;
+        border-radius: 10px;
+    }
+
+    .notice i {
+        float: left;
+        color: #999;
+        font-size: 16px;
+        padding-right: 10px;
+        vertical-align: middle;
+        margin-top: -2px;
+    }
+
+    .notice-content {
+        display: initial;
+        vertical-align: middle;
+    }
+</style>
+  
+  <article class="articles">
+    
+    
+    
+    
+    <article
+  id="post-深度学习模型的压缩与加速"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2020/08/29/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%A8%A1%E5%9E%8B%E7%9A%84%E5%8E%8B%E7%BC%A9%E4%B8%8E%E5%8A%A0%E9%80%9F/"
+    >深度学习模型的压缩与加速</a> 
+</h2>
+ 
+
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2020/08/29/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%A8%A1%E5%9E%8B%E7%9A%84%E5%8E%8B%E7%BC%A9%E4%B8%8E%E5%8A%A0%E9%80%9F/" class="article-date">
+  <time datetime="2020-08-29T04:04:42.000Z" itemprop="datePublished">2020-08-29</time>
+</a>    
+    </div>
+      
+    <div class="article-entry" itemprop="articleBody">
+       
+  <p>要在算力有限的移动端设备部署深度学习模型，必须对模型进行压缩和加速，不然那极慢的推理速度会让模型失去了它原本的作用和意义。同时，你在移动设备上运行深度学习模型，还会面临发热严重、耗电快的痛点。</p>
+<p>从定义上来说，模型压缩就是让模型大小降低，比如一个tflite模型大小从16M降到4M，模型加速就是让模型推理速度更快，比如一个tflite模型在手机上目标检测一帧需要50mm快到只需要25ms。</p>
+<h2 id="权重共享-参数共享"><a href="#权重共享-参数共享" class="headerlink" title="权重共享/参数共享"></a><strong>权重共享/参数共享</strong></h2><p>参数共享包括权重（weight）共享和偏置(bias)共享。</p>
+<p>在我学习深度神经网络时，看到的已经时下面动图所示的原理，并想当然地认为深度神经网络一开始就是这么设计的</p>
+<img src=https://pic2.zhimg.com/v2-54fbd436effac6d20d75afbeae1604e7_b.webp>
+
+<p>简单点，就是下图这个样子：</p>
+<img src=https://pic1.zhimg.com/50/v2-a35a29688a764b9ec5e438d53bc1d35a_hd.webp>
+
+<p>其实一开始的深度神经网络是下图这样子的：</p>
+<img src=https://pic4.zhimg.com/80/v2-5b79eb2d4ca654d514af834517889c28_720w.jpg>
+
+<p>可以看到，图片上不同片区使用了不同的卷积核。</p>
+<p>权重共享/参数共享的含义就是一张图片上使用同一个卷积核去滑动扫描。这意味着一个卷积核专门用来检测某一个特征，这些特征位于图片的不同位置。比如有一组weights和bias是某个局部感知域学到的用来识别一个垂直的边。那么预测的时候不管这条边在图片上哪个位置，它都会被这个局部感知域检测到。更具体一点，卷积网络能很好的适应目标在图片中的位置变化：把图片中的狗稍微移动一下位置，它仍然知道这是一只狗。</p>
+<p>因为这个原因，我们有时把输入层到隐藏层的映射叫做特征映射(feature map)。我们把定义特征映射的权重叫做共享的权重(shared weights)，bias叫做共享的bias(shared bais)。这组weights和bias定义了一个kernel或者filter。</p>
+<p>但是，这种一张图像上不同位置使用不同卷积核的思想不是永远没用或不行的。Facebook创建的的DeepFace网络使用了另一种类型的层来加快他们的训练并获得惊人的结果，该层称为权重未共享的本地连接层。</p>
+<table><tr>
+<td><img src=https://wx1.sbimg.cn/2020/08/29/61eSK.png border=0></td>
+<td><img src=https://wx1.sbimg.cn/2020/08/29/61Whl.png border=0></td>
+</tr></table>
+
+
+<h2 id="分组卷积"><a href="#分组卷积" class="headerlink" title="分组卷积"></a><strong>分组卷积</strong></h2><p>AlexNet的Group Convolution，对输入进行分组，卷积核数量不变，但channel数减少，<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_41554005/article/details/102722895">更多详细说明</a>：</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL1pob3V6aXF1blpaUVpaUS9waWNCZWQvbWFzdGVyLzIwMTkxMDIzMTkyODU2LnBuZw?x-oss-process=image/format,png" alt="img"></p>
+<h2 id="矩阵分解"><a href="#矩阵分解" class="headerlink" title="矩阵分解"></a><strong>矩阵分解</strong></h2><p>矩阵分解本质上就是一个低秩因式分解的操作，将M x N的矩阵分解为M x K + K x N，只要让K &lt;&lt; M 且 K &lt;&lt; N，就可以大大降低模型体积。</p>
+<p>在最初的BERT中，以Base为例，Embedding层的维度与隐藏层的维度一样都是768，但是我们知道，对于词的分布式表示，往往并不需要这么高的维度，比如在Word2Vec时代就多采用50或300这样的维度。那么一个很简单的思想就是，通过将Embedding部分分解来达到降低参数量的作用。</p>
+<img src="https://wx1.sbimg.cn/2020/08/29/6usFJ.png" alt="6usFJ.png" border="0" />
+
+<p>V：词汇表(<strong>V</strong>ocabulary)大小 ；H：隐藏层(<strong>H</strong>idden)维度 ；E：词向量维度</p>
+<p>上图中，Base中的隐藏层大小H=768， 词汇表大小V=3w，此时的参数量为：768 * 3w = 23040000。 后来出现的ALBERT就应用了矩阵分解的方法，它将 Embedding 的维度改为 128，那么此时Embedding层的参数量为：128 * 3w + 128 * 768 = 3938304。二者的参数量相差为19101696，大约为19M，Embedding参数量从BERT的23M变为了ALBERT的4M。</p>
+<p><strong>使用小卷积核代替大卷积核</strong></p>
+<p>AlexNet中用到了一些非常大的卷积核，比如11×11、7×7卷积核，之前人们的观念是，卷积核越大，receptive field（感受野）越大，看到的图片信息越多，因此获得的特征越好。虽说如此，但是大的卷积核会导致计算量的暴增，不利于模型深度的增加，计算性能也会降低。于是在VGG（最早使用）、Inception网络中，利用2个3×3卷积核的组合比1个5×5卷积核的效果更佳(如下图所示)，同时参数量（3×3×2+1 VS 5×5×1+1）被降低，因此后来3×3卷积核被广泛应用在各种模型中。</p>
+<ul>
+<li><p>用两个3 * 3卷积核可以代替一个5 * 5卷积核</p>
+</li>
+<li><p>用三个3 * 3卷积核可以代替一个7 * 7卷积核</p>
+</li>
+</ul>
+<img src="https://pic.downk.cc/item/5f4bcb42160a154a678a99c9.jpg" width=80%>
+
+<h2 id="深度可分离卷积"><a href="#深度可分离卷积" class="headerlink" title="深度可分离卷积"></a><strong>深度可分离卷积</strong></h2><img src=https://img-blog.csdnimg.cn/20190706183157843.png>
+
+<img src=https://img-blog.csdnimg.cn/20190706184127821.png>
+
+<p>卷积核参数量和计算量的对比：</p>
+<img src=https://img-blog.csdnimg.cn/20190706184232915.png>
+
+<img src=https://img-blog.csdnimg.cn/20190706184703985.png>
+
+<img src=https://img-blog.csdnimg.cn/20190706185010762.png>
+
+<p>可见参数量和乘加操作的运算量均下降为原来的</p>
+<p>$1/N + 1/(D^2_k)$</p>
+<p>我们通常所使用的是3×3的卷积核，也就是会下降到原来的九分之一到八分之一。</p>
+<p>[<a target="_blank" rel="noopener" href="https://blog.csdn.net/u010712012/article/details/94888053">图片来源</a>]</p>
+<h2 id="全局平均值"><a href="#全局平均值" class="headerlink" title="全局平均值"></a><strong>全局平均值</strong></h2><p>以下图的MNIST神经网络为例，这是一个识别数字的简单网络<br><img src="https://wx1.sbimg.cn/2020/08/29/6u9wG.png" alt="6u9wG.png" border="0" /><br>我们看最后的全连接层，它就是用宽度为12、高度为12、通道数为20的卷积核重复操作100次卷积得到结果。对于输入的每一张图，用了一个和图像一样大小的核卷积，各个通道卷积之后得到一个数，将这20个数相加得到一个小球的结果，重复100次。这样就能把一张图高度浓缩成一个数了。</p>
+<p>但是全连接的参数实在是太多了，你想这张图里就有12x12x20x100个参数。所以现在的趋势是尽量避免全连接，目前主流的一个方法是全局平均值。也就是最后那一层的feature map（最后一层卷积的输出结果），直接求平均值。有多少种分类就训练出多少层。</p>
+<p>AlexNet和VGGNet中，全连接层几乎占据了90%的参数量。inceptionV1创造性的使用全局平均池化来代替最后的全连接层，使得其在网络结构更深的情况下（22层，AlexNet仅8层），参数量只有500万，仅为AlexNet的1/12。</p>
+<h2 id="伪量化"><a href="#伪量化" class="headerlink" title="伪量化"></a><strong>伪量化</strong></h2><p>伪量化是指在保存模型每一层时，利用低精度（比如8bit）来保存每一个网络参数，同时也保存拉伸比例scale和零值对应的浮点数zero_point。推理阶段，利用如下公式来网络参数还原为32bit浮点：</p>
+<img src="https://pic.downk.cc/item/5f4bcde0160a154a678b7470.jpg" width=80%>
+
+<p>这个过程被称为伪量化。 伪量化之所以得名，是因为存储时使用了低精度进行量化，但推理时会还原为正常高精度。为什么推理时不仍然使用低精度呢？这是因为一方面框架层有些算子只支持浮点运算，需要专门实现算子定点化才行。另一方面，高精度推理准确率相对高一些。伪量化可以实现模型压缩，但对模型加速没有多大效果。</p>
+<h2 id="定点化"><a href="#定点化" class="headerlink" title="定点化"></a><strong>定点化</strong></h2><p>与伪量化不同的是，定点化在推理时，不需要还原为浮点数。这需要框架实现算子的定点化运算支持。</p>
+<h2 id="剪枝"><a href="#剪枝" class="headerlink" title="剪枝"></a><strong>剪枝</strong></h2><img src="https://pic.downk.cc/item/5f4bd1d6160a154a678cca88.jpg" width=50%>
+
+<p><strong>非结构化剪枝：</strong></p>
+<p>非结构化修剪：对网络上任意位置的单个权重置零，这意味着删除神经元之间的单个连接（在密集层中）或删除卷积过滤器的单个权重（在卷积层中）。<br>请注意，生成的权重张量虽然稀疏了，但仍然保持其原始形状，这导致无法帮助模型降低推理成本，因为CPU、GPU并未针对稀疏矩阵乘法进行优化。</p>
+<img src="https://pic.downk.cc/item/5f4bd29f160a154a678d145e.jpg">
+
+<p><strong>结构化剪枝：</strong></p>
+<p>结构化修剪：通过删除张量的整行/列来减小重量张量的尺寸。这转化为去除神经元及其所有传入和传出连接（在密集层中）或整个卷积过滤器（在卷积层中）。</p>
+<img src="https://pic.downk.cc/item/5f4bcf81160a154a678c0387.jpg">
+
+
+
+<p><strong>相关项目：</strong></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/tanluren/yolov3-channel-and-layer-pruning/blob/master/train.py%EF%BC%88%E7%9B%B8%E5%85%B3%E5%8D%9A%E5%AE%A2%EF%BC%9Ahttps://blog.csdn.net/weixin_41397123/article/details/103828931%EF%BC%89">https://github.com/tanluren/yolov3-channel-and-layer-pruning/blob/master/train.py（相关博客：https://blog.csdn.net/weixin_41397123/article/details/103828931）</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/Lam1360/YOLOv3-model-pruning">https://github.com/Lam1360/YOLOv3-model-pruning</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/coldlarry/YOLOv3-complete-pruning">https://github.com/coldlarry/YOLOv3-complete-pruning</a>  （相关博客：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/153496637%EF%BC%89">https://zhuanlan.zhihu.com/p/153496637）</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/PengyiZhang/SlimYOLOv3">https://github.com/PengyiZhang/SlimYOLOv3</a></p>
+<h2 id="论文研读"><a href="#论文研读" class="headerlink" title="论文研读"></a><strong>论文研读</strong></h2><h3 id="《Learning-both-Weights-and-Connections-for-Efficient-Neural-Networks》"><a href="#《Learning-both-Weights-and-Connections-for-Efficient-Neural-Networks》" class="headerlink" title="《Learning both Weights and Connections for Efficient Neural Networks》"></a><strong>《Learning both Weights and Connections for Efficient Neural Networks》</strong></h3><p>【<a target="_blank" rel="noopener" href="https://arxiv.org/abs/1506.02626v3">英文原文</a>】<br>【<a target="_blank" rel="noopener" href="https://xmfbit.github.io/2018/03/14/paper-network-prune-hansong/">中文解读</a>】</p>
+<h3 id="《Deep-Compression：Compressing-Deep-Neural-Networks-with-Pruning-Trained-Quantization-and-Huffman-coding》"><a href="#《Deep-Compression：Compressing-Deep-Neural-Networks-with-Pruning-Trained-Quantization-and-Huffman-coding》" class="headerlink" title="《Deep Compression：Compressing Deep Neural Networks with Pruning, Trained Quantization and Huffman coding》"></a><strong>《Deep Compression：Compressing Deep Neural Networks with Pruning, Trained Quantization and Huffman coding》</strong></h3><p>【<a target="_blank" rel="noopener" href="https://arxiv.org/abs/1510.00149">英文原文</a>】<br>【<a target="_blank" rel="noopener" href="https://blog.csdn.net/u011995719/article/details/79126531">中文解读</a>】</p>
+<h2 id="《Learning-Structured-Sparsity-in-Deep-Neural-Networks》"><a href="#《Learning-Structured-Sparsity-in-Deep-Neural-Networks》" class="headerlink" title="《Learning Structured Sparsity in Deep Neural Networks》"></a><strong>《Learning Structured Sparsity in Deep Neural Networks》</strong></h2><p>【<a target="_blank" rel="noopener" href="https://arxiv.org/abs/1608.03665">英文原文</a>】<br>【<a target="_blank" rel="noopener" href="https://xmfbit.github.io/2018/02/24/paper-ssl-dnn/">中文解读</a>】</p>
+<h3 id="《Non-Structured-DNN-Weight-Pruning-–-Is-It-Beneficial-in-Any-Platform-》"><a href="#《Non-Structured-DNN-Weight-Pruning-–-Is-It-Beneficial-in-Any-Platform-》" class="headerlink" title="《Non-Structured DNN Weight Pruning – Is It Beneficial in Any Platform?》"></a><strong>《Non-Structured DNN Weight Pruning – Is It Beneficial in Any Platform?》</strong></h3><p>【<a target="_blank" rel="noopener" href="https://arxiv.org/abs/1907.02124">英文原文</a>】</p>
+<h1 id="轻量模型项目"><a href="#轻量模型项目" class="headerlink" title="轻量模型项目"></a>轻量模型项目</h1><ul>
+<li><h2 id="Nanodet"><a href="#Nanodet" class="headerlink" title="Nanodet"></a>Nanodet</h2></li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://github.com/RangiLyu/nanodet">Github项目地址</a></p>
+<h3 id="训练Nanodet"><a href="#训练Nanodet" class="headerlink" title="训练Nanodet"></a>训练Nanodet</h3><p>目前nanodet的数据集格式是coco，我这边标好的数据集是yolo格式的，其他人可能是voc格式，所以需要转换。我找到两处yolo转coco的脚本<a target="_blank" rel="noopener" href="https://www.programmersought.com/article/43131872583/">【1】</a><a target="_blank" rel="noopener" href="https://github.com/RangiLyu/nanodet/issues/10#issuecomment-732726417">【2】</a>，但最终我用的是<a target="_blank" rel="noopener" href="https://roboflow.com/convert/yolo-darknet-txt-to-coco-json">roboflow</a>，不过对于担心数据泄漏的问题，还请自己用脚本生成。</p>
+<p>它的数据增强配置位于<code>config/nanodet-m.yml</code>：</p>
+<p><img src="https://gitee.com/wwdok/my-image-bed/raw/master/img/20201124225411.png" alt="image-20201124225411418"></p>
+<p>因为代码基于pytorch框架写的，所以用的数据增强也是基于torchvision的transforms实现的，更多图像增强说明请见：</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/pytorch/vision/blob/master/torchvision/transforms/transforms.py">torchvision transforms 源码</a></p>
+<p><a target="_blank" rel="noopener" href="https://pytorch.org/docs/stable/torchvision/transforms.html">torchvision transforms文档</a></p>
+<p><a target="_blank" rel="noopener" href="http://noahsnail.com/2020/06/12/2020-06-12-%E7%8E%A9%E8%BD%ACpytorch%E4%B8%AD%E7%9A%84torchvision.transforms/">博客1</a> <a target="_blank" rel="noopener" href="https://www.it610.com/article/1275734689881014272.htm">博客2</a></p>
+<p>perspective的效果就像下图（<a target="_blank" rel="noopener" href="https://www.researchgate.net/publication/338184137_Perspective_Transformation_Data_Augmentation_for_Object_Detection">来源</a>）这样：</p>
+<img src="https://gitee.com/wwdok/my-image-bed/raw/master/img/20201124234944.png" alt="image-20201124234943933" style="zoom:67%;" />
+
+<p>里面的normalize引起了我的兴趣。<a target="_blank" rel="noopener" href="https://medium.com/@dibyadas/visualizing-different-normalization-techniques-84ea5cc8c378">《Visualizing Different Normalization Techniques》</a>这篇文章试验了3种图像归一化技巧</p>
+<p>我写了个<a target="_blank" rel="noopener" href="https://colab.research.google.com/drive/1CcHcE0qiwZ_HEyTSRJLS6NrbVMt5ko99">colab脚本</a>测试看看这个normalize会把输入图像处理成什么样子，结果是下面这个样子：</p>
+<p><img src="https://gitee.com/wwdok/my-image-bed/raw/master/img/20201125143221.png" alt="image-20201125143221549"></p>
+<p>有人做了一个可以体验Image Normalization效果的<a target="_blank" rel="noopener" href="http://ipolcore.ipol.im/demo/clientApp/demo.html?id=77777000040">网页</a>，用它提供的几个样本图片效果比较明显，不过我用自己的图片测试基本看不出什么变化。</p>
+<p>有位日本大哥维护着一个<a target="_blank" rel="noopener" href="https://github.com/PINTO0309/PINTO_model_zoo">PINTO_model_zoo</a>，nanodet也成为了他的入选目标之一，它的仓库了提供了现成的coco类别的nanodet tflite model，不过我有个问题，就是如果我们自己训练了pytorch模型，要怎么转换成tflite格式，这位日本大哥在这个<a target="_blank" rel="noopener" href="https://github.com/PINTO0309/PINTO_model_zoo/issues/55">issue</a>里耐心地回答了我，感谢！对于从pytorch格式转到tflite格式，网上应该也有其他办法，有没有更简短地转换路线有待研究，这位<a target="_blank" rel="noopener" href="https://github.com/zldrobit">中国大哥</a>的一些repo就是关于tflite模型转换的。</p>
+<h2 id="参考阅读"><a href="#参考阅读" class="headerlink" title="参考阅读"></a><strong>参考阅读</strong></h2><p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/179945324">《一文深入 - 深度学习模型压缩和加速》</a></p>
+<p><a target="_blank" rel="noopener" href="https://xmfbit.github.io/2018/10/03/paper-summary-model-pruning/">《论文总结 - 模型剪枝 Model Pruning》</a></p>
+<p><a target="_blank" rel="noopener" href="http://www.easemob.com/press/535">《环信人工智能专家李理：详解卷积神经网络》</a></p>
+<p><a target="_blank" rel="noopener" href="https://amitness.com/2020/02/albert-visual-summary/">《Visual Paper Sumgailunwenmary: ALBERT (A Lite BERT)》</a></p>
+<p><a target="_blank" rel="noopener" href="https://prateekvjoshi.com/2016/04/12/understanding-locally-connected-layers-in-convolutional-neural-networks/">《Understanding Locally Connected Layers In Convolutional Neural Networks》</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.zhihu.com/column/zhangxiaolongOptimization">《AI移动端优化》</a></p>
+ 
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <footer class="article-footer">
+       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CV/" rel="tag">CV</a></li></ul>
+
+    </footer>
+  </div>
+
+    
+ 
+   
+</article>
+
+    
+    <article
+  id="post-C++学习笔记"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2020/08/23/C++%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"
+    >C++学习笔记</a> 
+</h2>
+ 
+
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2020/08/23/C++%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" class="article-date">
+  <time datetime="2020-08-23T12:19:17.000Z" itemprop="datePublished">2020-08-23</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/C/">C++</a>
+  </div>
+   
+    </div>
+      
+    <div class="article-entry" itemprop="articleBody">
+       
+  <h2 id="1-为什么源文件-cpp中要引用它自己的头文件-h-hpp？"><a href="#1-为什么源文件-cpp中要引用它自己的头文件-h-hpp？" class="headerlink" title="1.为什么源文件.cpp中要引用它自己的头文件.h/.hpp？"></a><strong>1.为什么源文件.cpp中要引用它自己的头文件.h/.hpp？</strong></h2><p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/30817570/whats-the-benefit-for-a-c-source-file-include-its-own-header-file">回答出处</a></p>
+<p>假设我们的工程中有下面3个文件，<strong>main.c</strong>里有 <strong>#include “foo.h”</strong> 好理解，那为什么 <strong>foo.c</strong> 里也需要有 <strong>#include “foo.h”</strong> 呢？</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;* foo.h *&#x2F;</span><br><span class="line">#ifndef FOO_H</span><br><span class="line">#define FOO_H</span><br><span class="line">double foo( int x );</span><br><span class="line">#endif</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;* foo.c *&#x2F;</span><br><span class="line">int foo( int x )</span><br><span class="line">&#123;</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;* main.c *&#x2F;</span><br><span class="line">#include &quot;foo.h&quot;</span><br><span class="line"></span><br><span class="line">int main( void )</span><br><span class="line">&#123;</span><br><span class="line">  double x &#x3D; foo( 1 );</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>注意，<code>foo.h</code>中的函数声明与<code>foo.c</code> 中的函数定义不匹配 : 返回类型不同 ! <code>foo.h</code> 里的foo函数声明返回的数据类型是<strong>double</strong>，而 <code>foo.c</code> 中foo函数定义返回的数据类型是 <strong>int</strong> ！</p>
+<p>如下图所示，<code>foo.c</code> 和 <code>main.c</code> 彼此分开编译。由于main.c调用已在 <code>foo.h</code> 中声明的foo函数，因此 <code>main.o</code> 能编译成功。类似的，由于 <code>foo.c</code> 里没有 include  <code>foo.h</code>，编译器不知道声明和定义的函数类型不匹配，所以 <code>foo.o</code> (相当于下图的 <code>add.o</code> )也能编译成功。。。</p>
+<img src=https://www.learncpp.com/images/CppTutorial/Section1/IncludeHeader.png>
+
+<p>但当最后你要将两个目标文件（.o/.obj）链接在一起时，问题就来了，两处的函数返回类型不一致终将导致报错。</p>
+<p>而如果你有把 <code>foo.h</code> 包含在 <code>foo.c</code> 里，那么在你运行程序之前，编译器就能发现这个不匹配的问题，让你及时debug掉这个问题。</p>
+<p>还有，如果 <code>foo.h</code> 定义了 <code>foo.c</code> 所使用的任何类型或常量，那么这时候<code>foo.c</code>肯定需要包含 <code>foo.h</code> 。</p>
+ 
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <footer class="article-footer">
+       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/C/" rel="tag">C++</a></li></ul>
+
+    </footer>
+  </div>
+
+    
+ 
+   
+</article>
+
+    
+    <article
+  id="post-在Android中使用OpenCV"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2020/08/17/%E5%9C%A8Android%E4%B8%AD%E4%BD%BF%E7%94%A8OpenCV/"
+    >在Android中使用OpenCV</a> 
+</h2>
+ 
+
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2020/08/17/%E5%9C%A8Android%E4%B8%AD%E4%BD%BF%E7%94%A8OpenCV/" class="article-date">
+  <time datetime="2020-08-17T13:23:47.000Z" itemprop="datePublished">2020-08-17</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/CV/">CV</a> / <a class="article-category-link" href="/categories/CV/Android/">Android</a>
+  </div>
+   
+    </div>
+      
+    <div class="article-entry" itemprop="articleBody">
+       
+  <h1 id="在Android中使用OpenCV-C"><a href="#在Android中使用OpenCV-C" class="headerlink" title="在Android中使用OpenCV C++"></a>在Android中使用OpenCV C++</h1><blockquote>
+<p>本部分内容大部分翻译自<a target="_blank" rel="noopener" href="https://www.thecodingnotebook.com/2020/04/image-processing-with-opencv-in-android.html">《OpenCV in Android native using C++》</a></p>
+</blockquote>
+<p>在本文中，我们将介绍如何在Android项目上使用C++版的OpenCV，以及如何在 Java / Kotlin 和 c++ 代码之间传递图像。</p>
+<img src=https://1.bp.blogspot.com/-p8Ms-R-fCQc/XoOr-o8PLgI/AAAAAAAAA64/_kXEzvP0txMaZxMMiRqvWfMjZVlbAFc_wCNcBGAsYHQ/s1600/androidopencv.jpg width=80%>
+
+<p><strong><a target="_blank" rel="noopener" href="https://github.com/ValYouW/AndroidOpenCVDemo">GitHub上的源代码</a></strong> </p>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/Sn3YhfY5jqg" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> 
+      <a class="article-more-link" href="/2020/08/17/%E5%9C%A8Android%E4%B8%AD%E4%BD%BF%E7%94%A8OpenCV/"
+        >阅读更多...</a
+      >
+       
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <footer class="article-footer">
+       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/C/" rel="tag">C++</a></li></ul>
+
+    </footer>
+  </div>
+
+    
+ 
+   
+</article>
+
+    
+    <article
+  id="post-基金涨跌幅每日邮件提醒"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2020/07/27/%E5%9F%BA%E9%87%91%E6%B6%A8%E8%B7%8C%E5%B9%85%E6%AF%8F%E6%97%A5%E9%82%AE%E4%BB%B6%E6%8F%90%E9%86%92/"
+    >基金涨跌幅每日邮件提醒</a> 
+</h2>
+ 
+
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2020/07/27/%E5%9F%BA%E9%87%91%E6%B6%A8%E8%B7%8C%E5%B9%85%E6%AF%8F%E6%97%A5%E9%82%AE%E4%BB%B6%E6%8F%90%E9%86%92/" class="article-date">
+  <time datetime="2020-07-26T17:05:44.000Z" itemprop="datePublished">2020-07-27</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/python/">python</a> / <a class="article-category-link" href="/categories/python/%E7%90%86%E8%B4%A2/">理财</a>
+  </div>
+   
+    </div>
+      
+    <div class="article-entry" itemprop="articleBody">
+       
+  <p>本文是基于这篇文章<a target="_blank" rel="noopener" href="https://www.yuque.com/aicv/lab/mumndo">《Python自动发邮件》</a>实践得到的笔记和经验。</p>
+<p><strong>购买服务器</strong></p>
+<p>还没有云服务器的可以购买阿里云的ECS学生专享套餐，我买了一个月，花了10块钱。<br>写这篇文章的时候，我还花了99元买了一年的腾讯标准型SA2云服务器。</p>
+<p>后面我们要让云服务器通知邮箱服务器发邮件，就需要开启云服务器的25号端口，但两个云服务器默认都是关闭25号端口，我尝试用465端口代替，但最后又遇到了其他问题，最后索性都提交了工单。</p>
+<p>这里我要评价一下这两个服务器。首先结论是腾讯云的售后服务比阿里云好很多。先讲阿里云，我要在阿里云申请解封25号端口，要填一些信息，但填完信息后报出“非本人资产”的错误，阿里云也没说这个错误是怎么意思，怎么解决，感觉就是故意刁难你申请解封，最后我被折腾到想提工单，阿里云就扔给你一个智能机器人，几经周转终于召唤出提工单入口，提完阿里云的工单后，我又去腾讯云提工单，腾讯云的工单入口一眼就能找到，1分钟就完事了。到了隔天，腾讯云的售后又是留言回复，又是打电话，又是加qq，最后告诉试试解封25号端口，腾讯云的解封25号端口也比阿里云方便，不会报什么错，而且不用审核，马上解封生效，代码马上能发邮件。而过了一天，阿里云的售后聊了几句后就没回应了，问题也还没解决。难道是阿里云太忙？反正我用起来腾讯云的售后体验更好！</p>
+<p><img src="https://s1.ax1x.com/2020/08/13/dpBgpj.png" alt="dpBgpj.png"></p>
+<p><strong>安装python3</strong></p>
+<p>我刚买的centos只安装了python2.7，为了更好的兼容现在流行的代码，我们需要再安装python3，命令很简单：<code>yum install python3</code>，安装成功的样子：<br><img src="https://s1.ax1x.com/2020/08/12/aX60sK.png" alt="aX60sK.png"></p> 
+      <a class="article-more-link" href="/2020/07/27/%E5%9F%BA%E9%87%91%E6%B6%A8%E8%B7%8C%E5%B9%85%E6%AF%8F%E6%97%A5%E9%82%AE%E4%BB%B6%E6%8F%90%E9%86%92/"
+        >阅读更多...</a
+      >
+       
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <footer class="article-footer">
+       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%9F%BA%E9%87%91/" rel="tag">基金</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/" rel="tag">服务器</a></li></ul>
+
+    </footer>
+  </div>
+
+    
+ 
+   
+</article>
+
+    
+    <article
+  id="post-SORT目标跟踪算法"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2020/07/25/SORT%E7%9B%AE%E6%A0%87%E8%B7%9F%E8%B8%AA%E7%AE%97%E6%B3%95/"
+    >SORT系列目标跟踪</a> 
+</h2>
+ 
+
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2020/07/25/SORT%E7%9B%AE%E6%A0%87%E8%B7%9F%E8%B8%AA%E7%AE%97%E6%B3%95/" class="article-date">
+  <time datetime="2020-07-25T13:34:13.000Z" itemprop="datePublished">2020-07-25</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/CV/">CV</a>
+  </div>
+   
+    </div>
+      
+    <div class="article-entry" itemprop="articleBody">
+       
+  <p>这篇文章<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_42374559/article/details/96032672">《多目标跟踪入门篇(1)：SORT算法详解》</a>对SORT算法进行了一个很好的概括，字字珠玑。我觉得配上下面这张图(<a target="_blank" rel="noopener" href="https://blog.csdn.net/HaoBBNuanMM/article/details/85555547">来源</a>)能更好的理解匈牙利算法的背景和作用：</p>
+<h1 id="C-版SORT"><a href="#C-版SORT" class="headerlink" title="C++ 版SORT"></a>C++ 版SORT</h1><img src="https://s1.ax1x.com/2020/07/26/a9vvBF.png" alt="a9vvBF.png" border="0" />
+
+<p>匈牙利算法就是通过计算预测跟检测的BBOX的IOU值来完成前后两帧里的所有BBOX的匹配。</p>
+<p>下面将介绍如何跑通这个SORT算法的C++版本（<a target="_blank" rel="noopener" href="https://github.com/mcximing/sort-cpp%EF%BC%89%EF%BC%9A">https://github.com/mcximing/sort-cpp）：</a></p>
+<h2 id="1-下载安装opencv"><a href="#1-下载安装opencv" class="headerlink" title="1.下载安装opencv"></a>1.下载安装opencv</h2><p>因为这个SORT项目用到了opencv，所以需要先配置opencv的环境，去opencv官网：<a target="_blank" rel="noopener" href="https://opencv.org/releases/%EF%BC%8C">https://opencv.org/releases/，</a> 选择Windows版下载。安装好后是这样子的：</p>
+<p><img src="https://s1.ax1x.com/2020/07/25/aSvcYq.png" alt="aSvcYq.png"></p>
+<h2 id="2-设置环境变量："><a href="#2-设置环境变量：" class="headerlink" title="2.设置环境变量："></a>2.设置环境变量：</h2><p>将<code>opencv\build\x64\vc15\bin</code>加入用户或者系统的环境变量path里面，如果你已经启动Visual studio，那么得重启才生效。不做该步骤的话后面会提示“找不到 opencv_world430.dll”<br><img src="https://s1.ax1x.com/2020/07/25/aSvo79.png" alt="aSvo79.png" border="0" width=70%/></p>
+<p><img src="https://s1.ax1x.com/2020/07/25/aShrX6.png" alt="aShrX6.png"></p>
+<h2 id="3-在VS打开项目-解决方案"><a href="#3-在VS打开项目-解决方案" class="headerlink" title="3.在VS打开项目/解决方案"></a>3.在VS打开项目/解决方案</h2><p>用VS打开下载下来的仓库的文件夹，打开后大概是这个样子：</p>
+<img src="https://s1.ax1x.com/2020/07/25/aSxm7j.png" alt="aSxm7j.png" border="0" /> 
+      <a class="article-more-link" href="/2020/07/25/SORT%E7%9B%AE%E6%A0%87%E8%B7%9F%E8%B8%AA%E7%AE%97%E6%B3%95/"
+        >阅读更多...</a
+      >
+       
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <footer class="article-footer">
+       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/opencv/" rel="tag">opencv</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%9B%AE%E6%A0%87%E8%B7%9F%E8%B8%AA/" rel="tag">目标跟踪</a></li></ul>
+
+    </footer>
+  </div>
+
+    
+ 
+   
+</article>
+
+    
+    <article
+  id="post-使用nodemailer发送邮件"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2020/07/18/%E4%BD%BF%E7%94%A8nodemailer%E5%8F%91%E9%80%81%E9%82%AE%E4%BB%B6/"
+    >使用nodemailer发送邮件</a> 
+</h2>
+ 
+
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2020/07/18/%E4%BD%BF%E7%94%A8nodemailer%E5%8F%91%E9%80%81%E9%82%AE%E4%BB%B6/" class="article-date">
+  <time datetime="2020-07-18T12:05:33.000Z" itemprop="datePublished">2020-07-18</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Web%E5%BC%80%E5%8F%91/">Web开发</a>
+  </div>
+   
+    </div>
+      
+    <div class="article-entry" itemprop="articleBody">
+       
+  <p>最近想做一个通过邮箱验证码来注册微信小程序账号的功能，这个可以通过nodemailer实现。</p>
+<p><strong>Nodemailer：</strong></p>
+<ul>
+<li>支持Unicode编码</li>
+<li>支持Window系统环境</li>
+<li>支持HTML内容和普通文本内容</li>
+<li>支持附件(传送大附件)</li>
+<li>支持HTML内容中嵌入图片</li>
+<li>支持SSL/STARTTLS安全的邮件发送</li>
+<li>支持内置的transport方法和其他插件实现的transport方法</li>
+<li>支持自定义插件处理消息</li>
+<li>支持XOAUTH2登录验证</li>
+</ul>
+<p><strong>先决条件</strong>：<strong>已安装node.js</strong></p>
+<h2 id="第一步："><a href="#第一步：" class="headerlink" title="第一步："></a><strong>第一步：</strong></h2><p>我这里重新注册了一个163邮箱为例，注册完进入邮箱，点击设置，开启<strong>IMAP/SMTP服务</strong>，为什么要开启这个服务？因为正如页面下方所说的“<strong>POP3/SMTP/IMAP服务能让你在本地客户端上收发邮件</strong>”，我们运行脚本发送邮件就是在本地电脑上实现的。</p>
+<p>开启后先是手机验证，验证成功会给你一串密钥，<strong>这串密码务必保存备份好</strong>，后面要写入代码中，没它不行。</p>
+<img src="https://s1.ax1x.com/2020/07/18/U2K4mT.png" alt="U2K4mT.png" border="0" />
+
+<h2 id="第二步："><a href="#第二步：" class="headerlink" title="第二步："></a><strong>第二步：</strong></h2><p>新建一个存放本程序的文件夹，比如“send-email”。然后进入该文件夹在当前路径下打开命令行窗口，敲写<code>npm init -y</code>, 这时候会在文件夹下面生成一个package.json文件，不用管它。</p>
+<h2 id="第三步："><a href="#第三步：" class="headerlink" title="第三步："></a><strong>第三步：</strong></h2><p>安装nodemailer</p>
+<p><code>npm install nodemailer -S</code></p>
+<h2 id="第四步："><a href="#第四步：" class="headerlink" title="第四步："></a><strong>第四步：</strong></h2><p>敲写<code>touch send-email.js</code>创建js脚本，接下来我们要在里面写代码</p>
+<h2 id="第五步："><a href="#第五步：" class="headerlink" title="第五步："></a><strong>第五步：</strong></h2><p>用VSCODE 打开send-email.js, 敲入下面的代码：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> nodemailer = <span class="built_in">require</span>(<span class="string">&#x27;nodemailer&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> transporter = nodemailer.createTransport(&#123;</span><br><span class="line">  service: <span class="string">&#x27;163&#x27;</span>,</span><br><span class="line">  <span class="comment">//支持的邮箱类型 :https://nodemailer.com/smtp/well-known/</span></span><br><span class="line"><span class="comment">//   port: 465, // SMTP 端口</span></span><br><span class="line"><span class="comment">//   secureConnection: true, // 使用了 SSL</span></span><br><span class="line">  auth: &#123;</span><br><span class="line">    user: <span class="string">&#x27;abcdefg@163.com&#x27;</span>,<span class="comment">//发件箱地址</span></span><br><span class="line">    <span class="comment">// 下面填写163邮箱的smtp授权码，就是刚刚第一步说的密钥</span></span><br><span class="line">    pass: <span class="string">&#x27;UEOG*******EGOCR&#x27;</span>,</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> mailOptions  = &#123;</span><br><span class="line">  <span class="keyword">from</span>: <span class="string">&#x27;&quot;某某小程序&quot; &lt;abcdefg@163.com&gt;&#x27;</span>, <span class="comment">// 发送地址</span></span><br><span class="line">  to: <span class="string">&#x27;xxxx.xxxx@outlook.com&#x27;</span>, <span class="comment">// 接收地址</span></span><br><span class="line">  subject: <span class="string">&#x27;注册某某微信小程序&#x27;</span>, <span class="comment">// 邮件标题</span></span><br><span class="line">  <span class="comment">// 发送text或者html</span></span><br><span class="line">  <span class="comment">// text: &#x27;Hello World&#x27;,</span></span><br><span class="line">  html: <span class="string">&#x27;&lt;h1&gt;您的注册验证码为123456&lt;/h1&gt;&#x27;</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">transporter.sendMail(mailOptions, <span class="function">(<span class="params">err, data</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">if</span> (err) &#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="built_in">console</span>.log(<span class="string">&#x27;Error occurs&#x27;</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> <span class="built_in">console</span>.log(<span class="string">&#x27;Email sent!!!&#x27;</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>在代码区右击Run Code或者<code>node send-email.js</code>，一切正常的话，就会出现下面的’Email sent!!!’</p>
+<img src="https://s1.ax1x.com/2020/07/18/U2nvgx.png" alt="U2nvgx.png" border="0" />
+
+<p>如果发送的内容是比较复杂的HTML页面，那么可以通过Node的fs模块加载一个HTML文件来实现</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> mailOptions  = &#123;</span><br><span class="line">  <span class="keyword">from</span>: <span class="string">&#x27;&quot;某某小程序&quot; &lt;abcdefg@163.com&gt;&#x27;</span>, <span class="comment">// 发送地址</span></span><br><span class="line">  to: <span class="string">&#x27;xxxx.xxxx@outlook.com&#x27;</span>, <span class="comment">// 接收地址</span></span><br><span class="line">  subject: <span class="string">&#x27;注册某某微信小程序&#x27;</span>, <span class="comment">// 邮件标题</span></span><br><span class="line">  html: fs.createReadStream(path.resolve(__dirname, <span class="string">&#x27;email.html&#x27;</span>))</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h2 id="第六步："><a href="#第六步：" class="headerlink" title="第六步："></a><strong>第六步：</strong></h2><p>邮件内容里的验证码我的想法是通过加密算法实现对任意输入字符串输出一个固定长度（比如6位）的字符串，这时先不讲。</p>
+<p><strong>拓展阅读</strong></p>
+<ol>
+<li><p>更多使用node.js处理邮件问题的教程请见这个仓库：<br><a target="_blank" rel="noopener" href="https://github.com/accimeesterlin/nodemailer-examples">https://github.com/accimeesterlin/nodemailer-examples</a></p>
+ <img src="https://s1.ax1x.com/2020/07/18/U2QWZT.png" alt="U2QWZT.png" border="0" width=60%/></li>
+<li><p>短信验证码的教程请见这篇公众号文章《<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/tZINGlt3TplBJfdGNRJQpw">10分钟实现短信验证码</a>》</p>
+</li>
+</ol>
+ 
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <footer class="article-footer">
+       
+    </footer>
+  </div>
+
+    
+ 
+   
+</article>
+
+    
+    <article
+  id="post-理解batch-normalization"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2020/07/12/%E7%90%86%E8%A7%A3batch-normalization/"
+    >理解batch normalization</a> 
+</h2>
+ 
+
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2020/07/12/%E7%90%86%E8%A7%A3batch-normalization/" class="article-date">
+  <time datetime="2020-07-12T06:43:59.000Z" itemprop="datePublished">2020-07-12</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a> / <a class="article-category-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/CV/">CV</a>
+  </div>
+   
+    </div>
+      
+    <div class="article-entry" itemprop="articleBody">
+       
+  <p>网上关于批量标准化/归一化的的介绍文章有不少，这里先贴上几个不错的教程：</p>
+<p>周莫烦的这个视频<a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=-5hESl-Lj-4">《为什么要批标准化（Batch Normalization）？》</a>会给你一个直观的感受，知道为什么要批量标准化。</p>
+<p>吴恩达的这个视频<a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=5qefnAek8OA&list=PLkDaE6sCZn6Hn0vK8co82zjQtt3T2Nkqc&index=30">《Batch Norm At Test Time (C2W3L07)》</a>告诉你测试时的批量归一化跟训练时有何不同</p>
+<p>这篇文章<a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1591375">《【AlexeyAB DarkNet框架解析】十一，BN层代码详解(batchnorm_layer.c)》</a>给出了BN层的代码。</p>
+<p>在配置文件（比如samples\configs\ssd_mobilenet_v2_quantized_300x300_coco.config”）里，box_predictor{}和feature_extractor{}里都有一个batch_norm:</p>
+<pre><code>batch_norm &#123;
+    train: true,
+    scale: true,
+    center: true,
+    decay: 0.97,
+    epsilon: 0.001,
+&#125;
+</code></pre>
+<p>这里面的decay是什么意思呢？</p>
+<p>在上面那篇文章的代码里，有这样一段代码：</p>
+<pre><code>running_mean = momentum * running_mean + (1 - momentum) * sample_mean
+running_var = momentum * running_var + (1 - momentum) * sample_var
+</code></pre>
+<p>这个公式里的momentum就是上面tensorflow config里说的decay。而running_mean和running_var就是给后面测试用的均值和方差的估计值。</p>
+<p>从源代码里还可以知道sample_mean和sample_var就是训练时当下mini batch算出来的均值和方差。</p>
+<ul>
+<li><p>如果momentum/decay = 0：</p>
+<pre><code>  running_mean = 1 * sample_mean
+  running_var = 1  * sample_var
+</code></pre>
+<p>  则运行均值和运行方差始终是当下那个小批量的均值和方差，完全不考虑之前的批次得到的均值和方差，该种情况下训练性能和验证性能可能存在显着差异。</p>
+</li>
+<li><p>如果momentum/decay = 1：</p>
+<pre><code>  running_mean = 1 * running_mean  
+  running_var = 1 * running_var 
+</code></pre>
+<p>  则运行均值和运行方差始终是第一个小批量的均值和方差，完全不考虑之后的批次得到的均值和方差，毫无疑问，跟前面一种情况类似，只考虑某一个批次计算得到的均值和方差，只不过一个是总是变成最新的，一个总是保持一开始的均值和方差不变。</p>
+</li>
+</ul>
+<p>由于我们希望对尽可能多的样本进行“平均”，并且过去小批次中的样本很重要，因此对代表着历史均值和历史方差的running_mean和running_var应赋予较大的权重（0.9以上），而对当下批次的均值和方差（sample_mean和sample_var）赋予一个小的权重（小于0.1），毕竟假如我们要训练5万个批次，第5万次批次的均值和方差的权重总不能给到0.1或更大吧，那之前49999个批次的均值和方差不就没有参与的意义了吗，这样就不平衡了。momentum/decay一般设置成0.99、0.99、0.9些数值之一，而且训练步数/批次越多，这个值应该越接近1，即有更多的9。</p>
+<h2 id="融合Batch-Normalization"><a href="#融合Batch-Normalization" class="headerlink" title="融合Batch Normalization"></a><strong>融合Batch Normalization</strong></h2><p>关于融合BN的原理可以看这篇文章，那这个在tensorflow里怎么实现呢</p>
+<p>参考阅读：<br><a target="_blank" rel="noopener" href="https://leimao.github.io/blog/Batch-Normalization/">《Batch Normalization Explained- Lei Mao》</a></p>
+ 
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <footer class="article-footer">
+       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%B0%83%E5%8F%82/" rel="tag">调参</a></li></ul>
+
+    </footer>
+  </div>
+
+    
+ 
+   
+</article>
+
+    
+    <article
+  id="post-将Vue项目部署到Gitee-Page上"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2020/07/11/%E5%B0%86Vue%E9%A1%B9%E7%9B%AE%E9%83%A8%E7%BD%B2%E5%88%B0Gitee-Page%E4%B8%8A/"
+    >将Vue项目部署到Gitee Page上</a> 
+</h2>
+ 
+
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2020/07/11/%E5%B0%86Vue%E9%A1%B9%E7%9B%AE%E9%83%A8%E7%BD%B2%E5%88%B0Gitee-Page%E4%B8%8A/" class="article-date">
+  <time datetime="2020-07-11T01:37:11.000Z" itemprop="datePublished">2020-07-11</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Web%E5%BC%80%E5%8F%91/">Web开发</a>
+  </div>
+   
+    </div>
+      
+    <div class="article-entry" itemprop="articleBody">
+       
+  <p>最近我们的小团队接了一个开发微信小程序的活，因为是给企业用的，我觉得有必要做一个后台管理系统，用来后期给企业里的人自己管理小程序上一些内容的更新和发布，这样才是长久之计。我在github上随便找了个相关的 repo - <a target="_blank" rel="noopener" href="https://github.com/lin-xin/vue-manage-system">vue-manage-system</a> ，决定自己先跑通看看，就是把它的后台管理系统从<a target="_blank" rel="noopener" href="https://lin-xin.gitee.io/example/work/">作者的域名</a>部署到我自定义的域名上。</p>
+<img src="https://pic.downk.cc/item/5f905dc61cd1bbb86b8fc5e3.jpg">
+
+<img src="https://pic.downk.cc/item/5f905db01cd1bbb86b8fc04e.jpg"> 
+      <a class="article-more-link" href="/2020/07/11/%E5%B0%86Vue%E9%A1%B9%E7%9B%AE%E9%83%A8%E7%BD%B2%E5%88%B0Gitee-Page%E4%B8%8A/"
+        >阅读更多...</a
+      >
+       
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <footer class="article-footer">
+       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/gitee/" rel="tag">gitee</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/vue/" rel="tag">vue</a></li></ul>
+
+    </footer>
+  </div>
+
+    
+ 
+   
+</article>
+
+    
+    <article
+  id="post-百科知识大收藏"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2020/07/04/%E7%99%BE%E7%A7%91%E7%9F%A5%E8%AF%86%E5%A4%A7%E6%94%B6%E8%97%8F/"
+    >百科知识大收藏</a> 
+</h2>
+ 
+
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2020/07/04/%E7%99%BE%E7%A7%91%E7%9F%A5%E8%AF%86%E5%A4%A7%E6%94%B6%E8%97%8F/" class="article-date">
+  <time datetime="2020-07-04T08:04:14.000Z" itemprop="datePublished">2020-07-04</time>
+</a>    
+    </div>
+      
+    <div class="article-entry" itemprop="articleBody">
+       
+  <p>虽然我开这个博客网站的目的就是为了记录自己学过的各种知识点，但网上也不乏那种做的很好的知识科普资料，比如它是视频形式，那我把它翻译成文字实在是耗时又没创造性，于是我专门创建了这篇博客来汇总这些我有兴趣的且认为干货满满的知识科普视频!</p>
+<h1 id="金融理财"><a href="#金融理财" class="headerlink" title="金融理财"></a>金融理财</h1><table>
+<thead>
+<tr>
+<th align="left">标题</th>
+<th align="center">形式</th>
+<th align="center">链接</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">《力哥说理财_基金生财一课通》</td>
+<td align="center">YouTube视频列表</td>
+<td align="center"><a target="_blank" rel="noopener" href="https://www.youtube.com/playlist?list=PLYtO8EzdUTxettH9QRNS74BRH2CbqGEyA">点击前往</a></td>
+</tr>
+<tr>
+<td align="left">《力哥说理财_股票赚钱一课通》</td>
+<td align="center">YouTube视频列表</td>
+<td align="center"><a target="_blank" rel="noopener" href="https://www.youtube.com/playlist?list=PLYtO8EzdUTxecWrKrgnebWhP-ZF0rJoiF">点击前往</a></td>
+</tr>
+<tr>
+<td align="left">《富爸爸│金融知識101系列(2) 融券與做空》</td>
+<td align="center">YouTube视频</td>
+<td align="center"><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=eW94MvJWMvM">点击前往</a></td>
+</tr>
+</tbody></table>
+<br>
+<br>
+
+<h1 id="计算机科学"><a href="#计算机科学" class="headerlink" title="计算机科学"></a>计算机科学</h1><table>
+<thead>
+<tr>
+<th align="left">标题</th>
+<th align="center">作者</th>
+<th align="center">形式</th>
+<th align="center">链接</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">《最好的C++教程》</td>
+<td align="center">Cherno</td>
+<td align="center">bilibili视频列表 / 英语+中文字幕</td>
+<td align="center"><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1VJ411M7WR">点击前往</a></td>
+</tr>
+<tr>
+<td align="left">《Python Tutorials》</td>
+<td align="center">Corey Schafer</td>
+<td align="center">youtube视频列表 / 纯英语</td>
+<td align="center"><a target="_blank" rel="noopener" href="https://www.youtube.com/playlist?list=PL-osiE80TeTt2d9bfVyTiXJA-UTHn6WwU">点击前往</a></td>
+</tr>
+<tr>
+<td align="left"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+</tbody></table>
+<br>
+<br>
+
+<h1 id="机械工程"><a href="#机械工程" class="headerlink" title="机械工程"></a>机械工程</h1><table>
+<thead>
+<tr>
+<th align="left">标题</th>
+<th align="center">形式</th>
+<th align="center">链接</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">Learn Engineering</td>
+<td align="center">blog &amp; YouTube视频</td>
+<td align="center"><a target="_blank" rel="noopener" href="https://learnengineering.org/">点击前往</a></td>
+</tr>
+</tbody></table>
+<br>
+<br>
+
+<h1 id="物理"><a href="#物理" class="headerlink" title="物理"></a>物理</h1><table>
+<thead>
+<tr>
+<th>标题</th>
+<th>形式</th>
+<th>链接</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>《Physics Videos by Eugene Khutoryansky》</td>
+<td>youtube频道</td>
+<td><a target="_blank" rel="noopener" href="https://www.youtube.com/user/EugeneKhutoryansky/videos">点击前往</a></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>JavaLab</td>
+<td>动画仿真</td>
+<td><a target="_blank" rel="noopener" href="https://javalab.org/en/">点击前往</a></td>
+</tr>
+</tbody></table>
+<h1 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h1><p><strong>魔术揭秘教学</strong>：魔术师晓东 <a target="_blank" rel="noopener" href="https://v.qq.com/s/videoplus/528637840">腾讯视频</a> | <a target="_blank" rel="noopener" href="https://space.bilibili.com/97469480">B站视频</a></p>
+ 
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <footer class="article-footer">
+       
+    </footer>
+  </div>
+
+    
+ 
+   
+</article>
+
+    
+    <article
+  id="post-object-detection-api调参详解"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2020/07/01/object-detection-api%E8%B0%83%E5%8F%82%E8%AF%A6%E8%A7%A3/"
+    >object detection api调参详解</a> 
+</h2>
+ 
+
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2020/07/01/object-detection-api%E8%B0%83%E5%8F%82%E8%AF%A6%E8%A7%A3/" class="article-date">
+  <time datetime="2020-07-01T13:53:45.000Z" itemprop="datePublished">2020-07-01</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/CV/">CV</a>
+  </div>
+   
+    </div>
+      
+    <div class="article-entry" itemprop="articleBody">
+       
+  <h2 id="一、引言"><a href="#一、引言" class="headerlink" title="一、引言"></a><strong>一、引言</strong></h2><p>使用谷歌提供的<code>object detection api</code>图像识别框架，我们可以很方便地重新训练一个预训练模型，用于自己的具体业务。以我所使用的ssd_mobilenet_v1预训练模型为例，训练所需参数都在<code>research\object_detection\samples\configs</code>文件夹下的<code>ssd_mobilenet_v1_coco.config</code>中预先配置了，只需对少量参数做修改即可训练。</p>
+<p>但是如果你只会修改里面的类别数目和文件路径，那么就有很多缺点：一是无法理解训练参数背后的原理，不利于技术积累；二是一旦遇到需要优化的问题时，不知道如何调整训练参数。例如，我使用默认配置的训练参数对模型进行长期训练后，发现模型始终无法收敛，loss值一直在3~5的范围内波动，没有继续下降。但在没有弄清楚训练参数如何调整之前，我一直没能解决该问题。</p>
+<p>所以，我们必须弄清楚每个训练参数的出处、含义、数值调整范围，才能自行对训练文件做合理配置，从而灵活解决各类训练问题。</p>
+<p>本文以ssd_mobilenet_v1预训练模型为例，详细解释其训练参数的含义及调整范围。对其它预训练模型的训练参数的分析方法类似，不再逐一展开。</p>
+<h2 id="二、正文"><a href="#二、正文" class="headerlink" title="二、正文"></a><strong>二、正文</strong></h2><p>首先简单解释一下，object_detection api框架将训练参数的配置、参数的可配置数值的声明、参数类的定义，分开放置在不同文件夹里。训练参数的配置放在了<code>object_detection\samples\configs</code>文件夹下的.config文件中，参数的可配置数值的声明写在了<code>object_detection\protos</code>文件夹下对应参数名的.proto文件中，参数类的定义则放在了object_detection总文件夹下对应参数名的子文件夹里或者是<code>object_detection\core</code>文件夹里。</p>
+<p>***.config文件里包含5个部分：model, train_config, train_input_reader, eval_config, eval_input_reader。以ssd_mobilenet_v1_pets.config为例，打开该文件，按照从上到下、从外层到内层的顺序，依次解释各训练参数。</p> 
+      <a class="article-more-link" href="/2020/07/01/object-detection-api%E8%B0%83%E5%8F%82%E8%AF%A6%E8%A7%A3/"
+        >阅读更多...</a
+      >
+       
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <footer class="article-footer">
+       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SSD/" rel="tag">SSD</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%B0%83%E5%8F%82/" rel="tag">调参</a></li></ul>
+
+    </footer>
+  </div>
+
+    
+ 
+   
+</article>
+
+    
+  </article>
+  
+
+  
+  <nav class="page-nav">
+    
+    <a class="extend prev" rel="prev" href="/">上一页</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/3/">下一页</a>
+  </nav>
+  
+</section>
+</div>
+
+      <footer class="footer">
+  <div class="outer">
+    <ul>
+      <li>
+        Copyrights &copy;
+        2020-2021
+        <i class="ri-heart-fill heart_icon"></i> Wade Wang
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+        
+        
+        Powered by <a href="https://hexo.io" target="_blank">Hexo</a>
+        <span class="division">|</span>
+        Theme - <a href="https://github.com/Shen-Yu/hexo-theme-ayer" target="_blank">Ayer</a>
+        
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+        
+        <span>
+  <span><i class="ri-user-3-fill"></i>Visitors:<span id="busuanzi_value_site_uv"></span></s>
+  <span class="division">|</span>
+  <span><i class="ri-eye-fill"></i>Views:<span id="busuanzi_value_page_pv"></span></span>
+</span>
+        
+      </li>
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      <li>
+        <!-- cnzz统计 -->
+        
+        <script type="text/javascript" src='https://s9.cnzz.com/z_stat.php?id=1278069914&amp;web_id=1278069914'></script>
+        
+      </li>
+    </ul>
+  </div>
+</footer>
+      <div class="float_btns">
+        <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+
+      </div>
+    </main>
+    <aside class="sidebar on">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/yoga.png" alt="Hello World"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" target="_blank" rel="noopener" href="http://wwdok.lofter.com">摄影</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/friends">友链</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/about">关于我</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="Search">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <script>
+      if (window.matchMedia("(max-width: 768px)").matches) {
+        document.querySelector('.content').classList.remove('on');
+        document.querySelector('.sidebar').classList.remove('on');
+      }
+    </script>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯果汁吧~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/alipay.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/wechat.png">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+    
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+<!-- Tocbot -->
+
+<script src="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.css">
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/dist/main.js"></script>
+
+<!-- ImageViewer -->
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css">
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script>
+
+<!-- MathJax -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+      tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+  });
+
+  MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for(i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.6/unpacked/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script>
+  var ayerConfig = {
+    mathjax: true
+  }
+</script>
+
+<!-- Katex -->
+
+<!-- busuanzi  -->
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+<!-- ClickLove -->
+
+<!-- ClickBoom1 -->
+
+<!-- ClickBoom2 -->
+
+<!-- CodeCopy -->
+
+
+<link rel="stylesheet" href="/css/clipboard.css">
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="ri-file-copy-2-line"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-checkbox-circle-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-checkbox-circle-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-time-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-time-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+
+
+<!-- CanvasBackground -->
+
+
+    
+  </div>
+</body>
+
+</html>

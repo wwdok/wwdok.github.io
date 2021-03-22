@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+
+
+<html lang="ch">
+
+
+<head>
+  <meta charset="utf-8" />
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>
+    在Android中使用OpenCV |  Hello World
+  </title>
+  <meta name="generator" content="hexo-theme-ayer">
+  
+  <link rel="shortcut icon" href="/planets.ico" />
+  
+  
+<link rel="stylesheet" href="/dist/main.css">
+
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Shen-Yu/cdn/css/remixicon.min.css">
+
+  
+<link rel="stylesheet" href="/css/custom.css">
+
+  
+  
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+
+  
+  
+
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-172408389-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+
+
+
+  
+<script>
+var _hmt = _hmt || [];
+(function() {
+	var hm = document.createElement("script");
+	hm.src = "https://hm.baidu.com/hm.js?da92a6672e51fa2d1c3bacf2dba555c6";
+	var s = document.getElementsByTagName("script")[0]; 
+	s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+</head>
+
+</html>
+
+<body>
+  <div id="app">
+    
+      
+    <main class="content on">
+      <section class="outer">
+  <article
+  id="post-在Android中使用OpenCV"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  在Android中使用OpenCV
+</h1>
+ 
+
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2020/08/17/%E5%9C%A8Android%E4%B8%AD%E4%BD%BF%E7%94%A8OpenCV/" class="article-date">
+  <time datetime="2020-08-17T13:23:47.000Z" itemprop="datePublished">2020-08-17</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/CV/">CV</a> / <a class="article-category-link" href="/categories/CV/Android/">Android</a>
+  </div>
+  
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> Word count:</span>
+            <span class="post-count">2.7k</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> Reading time≈</span>
+            <span class="post-count">12 min</span>
+        </span>
+    </span>
+</div>
+ 
+    </div>
+      
+    <div class="tocbot"></div>
+
+
+
+
+  
+    <div class="article-entry" itemprop="articleBody">
+       
+  <h1 id="在Android中使用OpenCV-C"><a href="#在Android中使用OpenCV-C" class="headerlink" title="在Android中使用OpenCV C++"></a>在Android中使用OpenCV C++</h1><blockquote>
+<p>本部分内容大部分翻译自<a target="_blank" rel="noopener" href="https://www.thecodingnotebook.com/2020/04/image-processing-with-opencv-in-android.html">《OpenCV in Android native using C++》</a></p>
+</blockquote>
+<p>在本文中，我们将介绍如何在Android项目上使用C++版的OpenCV，以及如何在 Java / Kotlin 和 c++ 代码之间传递图像。</p>
+<img src=https://1.bp.blogspot.com/-p8Ms-R-fCQc/XoOr-o8PLgI/AAAAAAAAA64/_kXEzvP0txMaZxMMiRqvWfMjZVlbAFc_wCNcBGAsYHQ/s1600/androidopencv.jpg width=80%>
+
+<p><strong><a target="_blank" rel="noopener" href="https://github.com/ValYouW/AndroidOpenCVDemo">GitHub上的源代码</a></strong> </p>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/Sn3YhfY5jqg" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+<span id="more"></span>
+
+<h2 id="1-下载OpenCV-Android-SDK"><a href="#1-下载OpenCV-Android-SDK" class="headerlink" title="1. 下载OpenCV Android SDK"></a><strong>1. 下载OpenCV Android SDK</strong></h2><p>前往 <a target="_blank" rel="noopener" href="https://opencv.org/releases/">https://opencv.org/releases/</a> 下载OpenCV Android SDK：<br><img src="https://s1.ax1x.com/2020/08/17/dnPmon.png" alt="dnPmon.png" border="0" /><br>下载好后是这样的，我的路径是：<code>E:\OpenCV-4.4.0-android-sdk</code><br><img src="https://pic.downk.cc/item/5f426c31160a154a676d6802.jpg"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">so文件所在: sdk -&gt; native -&gt; libs</span><br><span class="line">c++的代码 : sdk -&gt; native -&gt; jni -&gt; include -&gt; opencv2 </span><br></pre></td></tr></table></figure>
+
+<h2 id="2-设置全局环境变量"><a href="#2-设置全局环境变量" class="headerlink" title="2. 设置全局环境变量"></a><strong>2. 设置全局环境变量</strong></h2><p>定义一个<strong>OPENCV_ANDROID</strong>指向opencv android sdk（即<code>E:\OpenCV-4.4.0-android-sdk</code>）的根文件夹的全局环境变量。<br><img src="https://pic.downk.cc/item/5f426d49160a154a676dd676.jpg"></p>
+<h2 id="3-创建原生安卓工程"><a href="#3-创建原生安卓工程" class="headerlink" title="3.创建原生安卓工程"></a><strong>3.创建原生安卓工程</strong></h2><img src="https://pic.downk.cc/item/5f4273d5160a154a6770835b.jpg" width=80%>
+
+<p>C++ standard 选择默认的 “Toolchain Default”</p>
+<img src="https://pic.downk.cc/item/5f42740c160a154a677098ae.jpg" width=80%>
+
+<h2 id="4-添加一些代码"><a href="#4-添加一些代码" class="headerlink" title="4.添加一些代码"></a><strong>4.添加一些代码</strong></h2><p>使用“ Android”视图查看项目树，您会注意到我们有一个“cpp”文件夹，里面有Android Studio自己生成的2个文件：</p>
+<ul>
+<li>CMakeLists.txt -原生代码的构建指令</li>
+<li>native-lib.cpp -将包含Kotlin / Java 和 c++ 环境之间的“桥”（JNI）代码。</li>
+</ul>
+<p>尽管将所有代码都写在<code>native-lib.cpp</code>内部是完全“合规”的，但我们将使该文件仅包含与jni相关的方法，而我们将在另一个文件上进行真正的C++图像处理。</p>
+<ul>
+<li>右键单击该cpp文件夹，然后选择New –&gt; C/C++ Header file，将其命名opencv-utils.h</li>
+<li>右键单击该cpp文件夹，然后选择New –&gt; C/C++ Source file，将其命名opencv-utils.cpp</li>
+</ul>
+<p>项目树应如下所示：</p>
+<img src="https://pic.downk.cc/item/5f427a5a160a154a6773ebf9.jpg">
+
+<h2 id="5-配置CMakeLists"><a href="#5-配置CMakeLists" class="headerlink" title="5.配置CMakeLists"></a><strong>5.配置CMakeLists</strong></h2><p>打开<code>CMakeLists.txt</code>并在“cmake_minimum_required()”后面添加以下内容：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># opencv</span><br><span class="line">set(OpenCV_STATIC ON)</span><br><span class="line">set(OpenCV_DIR $ENV&#123;OPENCV_ANDROID&#125;&#x2F;sdk&#x2F;native&#x2F;jni)</span><br><span class="line">find_package(OpenCV REQUIRED)</span><br></pre></td></tr></table></figure>
+
+<p>请注意这一行<code>set(OpenCV_DIR $ENV&#123;OPENCV_ANDROID&#125;/sdk/native/jni)</code> 使用了上面定义的环境变量指向opencv sdk，因此请仔细检查它是否指向正确的位置。 </p>
+<p>find_package的作用是在电脑上找到后缀名为.cmake的文件，以此来获取其中的引用路径(.h文件的路径)和库的路径(例如“ /usr/lib/x86_64-linux-gnu/libopencv_video.so”)，所以<code>find_package(OpenCV REQUIRED)</code>会在电脑上中找到<strong>OpenCVConfig.cmake</strong> ： <code>&quot;E:\OpenCV-4.4.0-android-sdk\sdk\native\jni\OpenCVConfig.cmake&quot;</code>，该文件定义了<strong>OpenCV_INCLUDE_DIRS</strong>和<strong>OpenCV_LIBS</strong>等变量，从而后面的include_directories和target_link_libraries就可以使用/访问这两个变量。<br><code>find_package(OpenCV REQUIRED)</code>也可以说是用来添加OPENCV库的，如果要指定OpenCV版本，则代码变成<code>find_package(OpenCV 4.3 REQUIRED)</code>。<br><img src="https://pic.downk.cc/item/5f429f65160a154a67844f37.jpg"></p>
+<p>接下来，我们应该添加前面创建的源文件<code>opencv-utils.cpp</code>，以便对其进行编译。在<code>CMakeLists.txt</code>里向下滚动找到native-lib.cpp，同样都是cpp源文件，<code>native-lib.cpp</code>要编译的话，<code>opencv-utils.cpp</code>也要编译，所以两个cpp都放进add_library()里，即：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">add_library( # Sets the name of the library.</span><br><span class="line">        native-lib</span><br><span class="line"></span><br><span class="line">        # Sets the library as a shared library.</span><br><span class="line">        SHARED</span><br><span class="line"></span><br><span class="line">        # Provides a relative path to your source file(s).</span><br><span class="line">        opencv-utils.cpp</span><br><span class="line">        native-lib.cpp)</span><br></pre></td></tr></table></figure>
+
+<p>这个add_library的作用就是定义一个叫native-lib的库，以及该库包含哪些源文件。另外从它里面的SHARED可以知道，这些源文件最后会被编译成shared object（so）。</p>
+<p>接着滚轮往下滚，添加下面的代码，这个意思是在NDK中查找jnigraphics库，并取它的路径变量名为jnigraphics-lib, jnigraphics包含图形操作的库:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># jnigraphics lib from NDK is used for Bitmap manipulation in native code</span><br><span class="line">find_library(jnigraphics-lib jnigraphics)</span><br></pre></td></tr></table></figure>
+
+<p>Android NDK一般位于<code>C:\Users\[username]\AppData\Local\Android\Sdk\ndk-bundle.</code>感兴趣的朋友可以找一下有没有这个jnigraphics。</p>
+<p>正如find_library这个词汇的词性所表征，它只能找一个库，不能同时找多个库，虽然官网有示例说可以加入option实现，但似乎有坑难以成功。</p>
+<p>最后，我们必须在CMake链接过程中告诉它目标链接库有OpenCV库和jnigraphics库，所以更改target_link_libraries为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">target_link_libraries( # Specifies the target library.</span><br><span class="line">        native-lib</span><br><span class="line"></span><br><span class="line">        $&#123;OpenCV_LIBS&#125;</span><br><span class="line">        $&#123;jnigraphics-lib&#125;</span><br><span class="line">        # Links the target library to the log library</span><br><span class="line">        # included in the NDK.</span><br><span class="line">        $&#123;log-lib&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>jnigraphics-lib就是前面find_library定义的一个路径变量名，然后这时候要加上<code>OpenCV_LIBS</code>不要漏了。</p>
+<h2 id="6-同步与构建"><a href="#6-同步与构建" class="headerlink" title="6.同步与构建"></a><strong>6.同步与构建</strong></h2><p>配置好上面的CMakeLists，那就把项目按这个配置同步一下，并重新构建项目：</p>
+<ul>
+<li>File –&gt; Sync Project with Gradle Files</li>
+<li>Build –&gt; Make Project</li>
+</ul>
+<p>如果构建成功，那就太好了！如果您遇到<code>Error computing CMake server result</code>的错误的话，对我有用的办法是删除app/build.gradle中定义的cmake版本：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">externalNativeBuild &#123;</span><br><span class="line">    cmake &#123;</span><br><span class="line">        path &quot;src&#x2F;main&#x2F;cpp&#x2F;CMakeLists.txt&quot;</span><br><span class="line">        version &quot;3.10.2&quot; # &lt;&lt;-- REMOVE THIS LINE</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="7-开始使用OpenCV"><a href="#7-开始使用OpenCV" class="headerlink" title="7.开始使用OpenCV"></a><strong>7.开始使用OpenCV</strong></h2><p><strong>翻转和模糊</strong></p>
+<p>出于演示目的，我们的应用程序将使用OpenCV翻转和模糊图像，将以下内容添加到<code>opencv-utils.h</code>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">#pragma once</span><br><span class="line"></span><br><span class="line">#include &lt;opencv2&#x2F;core.hpp&gt;</span><br><span class="line"></span><br><span class="line">using namespace cv;</span><br><span class="line"></span><br><span class="line">void myFlip(Mat src);</span><br><span class="line">void myBlur(Mat src, float sigma);</span><br></pre></td></tr></table></figure>
+
+<p>如果遇到Android Studio将这些include opencv2内容标记为红色，没事，构建项目后就好了。</p>
+<p>接着，<code>opencv-utils.cpp</code>里面的实现：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">#include &quot;opencv-utils.h&quot;</span><br><span class="line">#include &lt;opencv2&#x2F;imgproc.hpp&gt;</span><br><span class="line"></span><br><span class="line">void myFlip(Mat src) &#123;</span><br><span class="line">    flip(src, src, 0);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">void myBlur(Mat src, float sigma) &#123;</span><br><span class="line">    GaussianBlur(src, src, Size(), sigma);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>将C++代码暴露给kotlin/java代码</strong></p>
+<p>接下来，我们需要将flip 和 blur方法暴露给“托管”代码，这将发生在native-lib.cpp内部，我们将不讨论有关如何公开方法的jni标准和规则，我们将复制预定义的stringFromJNI方法以用作模板，因此，在我的情况下，Android Studio创建了以下方法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">extern &quot;C&quot; JNIEXPORT jstring JNICALL</span><br><span class="line">Java_com_vyw_opencv_1demo_MainActivity_stringFromJNI(...)&#123;...&#125;</span><br></pre></td></tr></table></figure>
+
+<p>注意,方法名称由Java + activity名称空间 + 方法名 组成。</p>
+<p>因此我们的方法是下面的样子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">extern &quot;C&quot; JNIEXPORT void JNICALL</span><br><span class="line">Java_com_vyw_opencv_1demo_MainActivity_flip(JNIEnv* env, jobject p_this, jobject bitmapIn, jobject bitmapOut) &#123;</span><br><span class="line">    Mat src;</span><br><span class="line">    bitmapToMat(env, bitmapIn, src, false);</span><br><span class="line">    &#x2F;&#x2F; NOTE bitmapToMat returns Mat in RGBA format, if needed convert to BGRA using cvtColor</span><br><span class="line"></span><br><span class="line">    myFlip(src);</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; NOTE matToBitmap expects Mat in GRAY&#x2F;RGB(A) format, if needed convert using cvtColor</span><br><span class="line">    matToBitmap(env, src, bitmapOut, false);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">extern &quot;C&quot; JNIEXPORT void JNICALL</span><br><span class="line">Java_com_vyw_opencv_1demo_MainActivity_blur(JNIEnv* env, jobject p_this, jobject bitmapIn, jobject bitmapOut, jfloat sigma) &#123;</span><br><span class="line">    Mat src;</span><br><span class="line">    bitmapToMat(env, bitmapIn, src, false);</span><br><span class="line">    myBlur(src, sigma);</span><br><span class="line">    matToBitmap(env, src, bitmapOut, false);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>代码几乎是不言自明的，bitmapToMat和matToBitmap，顾名思义，这两种方法在Android Bitmap和OpenCV Mat类之间进行转换，这些方法取自OpenCV源<a target="_blank" rel="noopener" href="https://github.com/opencv/opencv/blob/master/modules/java/generator/src/cpp/utils.cpp">opencv / modules / java / generator / src / cpp / utils.cpp</a>，并进行了一些细微调整。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">bitmapToMat</span><span class="params">(JNIEnv *env, jobject bitmap, Mat&amp; dst, jboolean needUnPremultiplyAlpha)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    AndroidBitmapInfo  info;</span><br><span class="line">    <span class="keyword">void</span>*              pixels = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        CV_Assert( AndroidBitmap_getInfo(env, bitmap, &amp;info) &gt;= <span class="number">0</span> );</span><br><span class="line">        CV_Assert( info.format == ANDROID_BITMAP_FORMAT_RGBA_8888 ||</span><br><span class="line">                   info.format == ANDROID_BITMAP_FORMAT_RGB_565 );</span><br><span class="line">        CV_Assert( AndroidBitmap_lockPixels(env, bitmap, &amp;pixels) &gt;= <span class="number">0</span> );</span><br><span class="line">        CV_Assert( pixels );</span><br><span class="line">        dst.create(info.height, info.width, CV_8UC4);</span><br><span class="line">        <span class="keyword">if</span>( info.format == ANDROID_BITMAP_FORMAT_RGBA_8888 )</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="function">Mat <span class="title">tmp</span><span class="params">(info.height, info.width, CV_8UC4, pixels)</span></span>;</span><br><span class="line">            <span class="keyword">if</span>(needUnPremultiplyAlpha) cvtColor(tmp, dst, COLOR_mRGBA2RGBA);</span><br><span class="line">            <span class="keyword">else</span> tmp.copyTo(dst);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="comment">// info.format == ANDROID_BITMAP_FORMAT_RGB_565</span></span><br><span class="line">            <span class="function">Mat <span class="title">tmp</span><span class="params">(info.height, info.width, CV_8UC2, pixels)</span></span>;</span><br><span class="line">            cvtColor(tmp, dst, COLOR_BGR5652RGBA);</span><br><span class="line">        &#125;</span><br><span class="line">        AndroidBitmap_unlockPixels(env, bitmap);</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125; <span class="keyword">catch</span>(<span class="keyword">const</span> cv::Exception&amp; e) &#123;</span><br><span class="line">        AndroidBitmap_unlockPixels(env, bitmap);</span><br><span class="line">        jclass je = env-&gt;FindClass(<span class="string">&quot;java/lang/Exception&quot;</span>);</span><br><span class="line">        env-&gt;ThrowNew(je, e.what());</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125; <span class="keyword">catch</span> (...) &#123;</span><br><span class="line">        AndroidBitmap_unlockPixels(env, bitmap);</span><br><span class="line">        jclass je = env-&gt;FindClass(<span class="string">&quot;java/lang/Exception&quot;</span>);</span><br><span class="line">        env-&gt;ThrowNew(je, <span class="string">&quot;Unknown exception in JNI code &#123;nBitmapToMat&#125;&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">matToBitmap</span><span class="params">(JNIEnv* env, Mat src, jobject bitmap, jboolean needPremultiplyAlpha)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    AndroidBitmapInfo  info;</span><br><span class="line">    <span class="keyword">void</span>*              pixels = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        CV_Assert( AndroidBitmap_getInfo(env, bitmap, &amp;info) &gt;= <span class="number">0</span> );</span><br><span class="line">        CV_Assert( info.format == ANDROID_BITMAP_FORMAT_RGBA_8888 ||</span><br><span class="line">                   info.format == ANDROID_BITMAP_FORMAT_RGB_565 );</span><br><span class="line">        CV_Assert( src.dims == <span class="number">2</span> &amp;&amp; info.height == (uint32_t)src.rows &amp;&amp; info.width == (uint32_t)src.cols );</span><br><span class="line">        CV_Assert( src.type() == CV_8UC1 || src.type() == CV_8UC3 || src.type() == CV_8UC4 );</span><br><span class="line">        CV_Assert( AndroidBitmap_lockPixels(env, bitmap, &amp;pixels) &gt;= <span class="number">0</span> );</span><br><span class="line">        CV_Assert( pixels );</span><br><span class="line">        <span class="keyword">if</span>( info.format == ANDROID_BITMAP_FORMAT_RGBA_8888 )</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="function">Mat <span class="title">tmp</span><span class="params">(info.height, info.width, CV_8UC4, pixels)</span></span>;</span><br><span class="line">            <span class="keyword">if</span>(src.type() == CV_8UC1)</span><br><span class="line">            &#123;</span><br><span class="line">                cvtColor(src, tmp, COLOR_GRAY2RGBA);</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span>(src.type() == CV_8UC3)&#123;</span><br><span class="line">                cvtColor(src, tmp, COLOR_RGB2RGBA);</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span>(src.type() == CV_8UC4)&#123;</span><br><span class="line">                <span class="keyword">if</span>(needPremultiplyAlpha) cvtColor(src, tmp, COLOR_RGBA2mRGBA);</span><br><span class="line">                <span class="keyword">else</span> src.copyTo(tmp);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="comment">// info.format == ANDROID_BITMAP_FORMAT_RGB_565</span></span><br><span class="line">            <span class="function">Mat <span class="title">tmp</span><span class="params">(info.height, info.width, CV_8UC2, pixels)</span></span>;</span><br><span class="line">            <span class="keyword">if</span>(src.type() == CV_8UC1)</span><br><span class="line">            &#123;</span><br><span class="line">                cvtColor(src, tmp, COLOR_GRAY2BGR565);</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span>(src.type() == CV_8UC3)&#123;</span><br><span class="line">                cvtColor(src, tmp, COLOR_RGB2BGR565);</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span>(src.type() == CV_8UC4)&#123;</span><br><span class="line">                cvtColor(src, tmp, COLOR_RGBA2BGR565);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        AndroidBitmap_unlockPixels(env, bitmap);</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125; <span class="keyword">catch</span>(<span class="keyword">const</span> cv::Exception&amp; e) &#123;</span><br><span class="line">        AndroidBitmap_unlockPixels(env, bitmap);</span><br><span class="line">        jclass je = env-&gt;FindClass(<span class="string">&quot;java/lang/Exception&quot;</span>);</span><br><span class="line">        env-&gt;ThrowNew(je, e.what());</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125; <span class="keyword">catch</span> (...) &#123;</span><br><span class="line">        AndroidBitmap_unlockPixels(env, bitmap);</span><br><span class="line">        jclass je = env-&gt;FindClass(<span class="string">&quot;java/lang/Exception&quot;</span>);</span><br><span class="line">        env-&gt;ThrowNew(je, <span class="string">&quot;Unknown exception in JNI code &#123;nMatToBitmap&#125;&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="8-从kotlin-java里调用C"><a href="#8-从kotlin-java里调用C" class="headerlink" title="8.从kotlin/java里调用C++"></a><strong>8.从kotlin/java里调用C++</strong></h2><p>我们到达了演示的最后部分 : 从MainActivity.kt里调用C++方法。</p>
+<p>首先，我在res/drawable-nodpi文件夹中添加了一张示例图像mountain.jpg（您可能需要自己创建它），我选择了这种no dpi风格，因为我不想让Android放大图像，我使用了一个相对较小的图像（640x427），从而可以实时地地进行模糊处理。</p>
+<p>然后我用以下命令设置MainActivity的UI视图：</p>
+<ul>
+<li>ImageView-预加载的测试图像为 app:srcCompat=”@drawable/mountain”</li>
+<li>Button-将用于翻转图像</li>
+<li>SeekBar-将用于控制模糊西格玛，从0到100（以后的代码将转换为在1-10时浮动）</li>
+</ul>
+<p><strong>声明JNI方法</strong></p>
+<p>为了使用<code>native-lib.cpp</code>中的方法，我们需要在activity中将它们声明为external函数，并且需要加载我们的native-lib库（libnative-lib.so），如果您是使用“ Native C ++”模板创建了项目，那么它理应就写好了。请滚动至最底部MainActivity.kt，添加blur和flip，如下所示：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">external fun <span class="title">stringFromJNI</span><span class="params">()</span>: String</span></span><br><span class="line"><span class="function">external fun <span class="title">blur</span><span class="params">(bitmapIn: Bitmap, bitmapOut: Bitmap, sigma: Float)</span></span></span><br><span class="line"><span class="function">external fun <span class="title">flip</span><span class="params">(bitmapIn: Bitmap, bitmapOut: Bitmap)</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">companion object </span>&#123;</span><br><span class="line">    <span class="comment">// Used to load the &#x27;native-lib&#x27; library on application startup.</span></span><br><span class="line">    init &#123;</span><br><span class="line">        System.loadLibrary(<span class="string">&quot;native-lib&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在java中，则是这样：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * A native method that is implemented by the &#x27;native-lib&#x27; native library,</span></span><br><span class="line"><span class="comment">     * which is packaged with this application.</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">native</span> String <span class="title">stringFromJNI</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>处理Android位图</strong></p>
+<p>现在，我们将翻转并模糊ImageView位图，首先让我们创建2个位图，第一个将保存原始图像（srcBitmap），另一个将用作目标位图（dstBitmap），它可在屏幕上被看到。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">class MainActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener &#123;</span><br><span class="line">    <span class="keyword">var</span> srcBitmap: Bitmap? = <span class="keyword">null</span></span><br><span class="line">    <span class="keyword">var</span> dstBitmap: Bitmap? = <span class="keyword">null</span></span><br><span class="line"></span><br><span class="line">    <span class="function">override fun <span class="title">onCreate</span><span class="params">(savedInstanceState: Bundle?)</span> </span>&#123;</span><br><span class="line">        ...</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Load the original image</span></span><br><span class="line">        srcBitmap = BitmapFactory.decodeResource(<span class="keyword">this</span>.resources, R.drawable.mountain)</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Create and display dstBitmap in image view, we will keep updating</span></span><br><span class="line">        <span class="comment">// dstBitmap and the changes will be displayed on screen</span></span><br><span class="line">        dstBitmap = srcBitmap!!.copy(srcBitmap!!.config, <span class="keyword">true</span>)</span><br><span class="line">        imageView.setImageBitmap(dstBitmap)</span><br><span class="line">    ...</span><br><span class="line">    ...</span><br></pre></td></tr></table></figure>
+
+<p>每当用户移动Seakbar时，我们将使用Seakbar值作为sigma来模糊图像：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// SeekBar event handler</span></span><br><span class="line"><span class="function">override fun <span class="title">onProgressChanged</span><span class="params">(seekBar: SeekBar?, progress: Int, fromUser: Boolean)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.doBlur()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">fun <span class="title">doBlur</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">// The SeekBar range is 0-100 convert it to 0.1-10</span></span><br><span class="line">    val sigma = max(<span class="number">0.1F</span>, sldSigma.progress / <span class="number">10F</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment">// This is the actual call to the blur method inside native-lib.cpp</span></span><br><span class="line">    <span class="keyword">this</span>.blur(srcBitmap!!, dstBitmap!!, sigma)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>最后，我们有了翻转按钮的事件处理程序：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">fun <span class="title">btnFlip_click</span><span class="params">(view: View)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// This is the actual call to the blur method inside native-lib.cpp</span></span><br><span class="line">    <span class="comment">// note we flip srcBitmap (which is not displayed) and then call doBlur which will</span></span><br><span class="line">    <span class="comment">// eventually update dstBitmap (and which is displayed)</span></span><br><span class="line">    <span class="keyword">this</span>.flip(srcBitmap!!, srcBitmap!!)</span><br><span class="line">    <span class="keyword">this</span>.doBlur()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>参考阅读：<br><br><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/90d5ae8ae6c0">《拥抱 C/C++ : Android JNI 的使用》</a><br><br><a target="_blank" rel="noopener" href="https://developer.android.com/ndk/guides/stable_apis?hl=zh-cn">《Android NDK 原生 API》</a></p>
+</blockquote>
+<h1 id="在Android中使用OpenCV-java"><a href="#在Android中使用OpenCV-java" class="headerlink" title="在Android中使用OpenCV java"></a>在Android中使用OpenCV java</h1><p>如果是opencv应用在java代码中，引入opencv的方式略有不同，早期版本的opencv Android sdk引入opencv的方式就像这篇<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/83240808">博客</a>说的这样，但新版的opencv Android sdk引入opencv的方式如这个StackOverflow的<a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/62750486/showing-no-opencv-module-in-dependancies-in-android-studio">答主所说</a>，有所不同，需要更改build.gradle里的两个地方：</p>
+<ol>
+<li>把 apply plugin: ‘com.android.library’ 改成 apply plugin: ‘com.android.library’</li>
+<li>注释掉下面的“applicationId “org.opencv””</li>
+</ol>
+<p>如果导入opencv java库后遇到 “import import android.hardware.camera2.*” 错误的话，很可能是你的<strong>opencvlibrary的build.gradle里的版本</strong>跟<strong>app的build.gradle里的版本</strong>不相同导致的，如果是的话就改成一样：<br><img src="https://pic.downk.cc/item/5f99753b1cd1bbb86b950fb7.jpg"><br><img src="https://pic.downk.cc/item/5f9975901cd1bbb86b9528cc.jpg"></p>
+ 
+      <!-- reward -->
+      
+      <div id="reword-out">
+        <div id="reward-btn">
+          Donate
+        </div>
+      </div>
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <div class="declare">
+      <ul class="post-copyright">
+        <li>
+          <i class="ri-copyright-line"></i>
+          <strong>Copyright： </strong>
+          
+          Copyright is owned by the author. For commercial reprints, please contact the author for authorization. For non-commercial reprints, please indicate the source.
+          
+        </li>
+      </ul>
+    </div>
+    
+    <footer class="article-footer">
+       
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://example.com/2020/08/17/%E5%9C%A8Android%E4%B8%AD%E4%BD%BF%E7%94%A8OpenCV/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>  
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/C/" rel="tag">C++</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+  <nav class="article-nav">
+    
+      <a href="/2020/08/23/C++%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" class="article-nav-link">
+        <strong class="article-nav-caption">上一篇</strong>
+        <div class="article-nav-title">
+          
+            C++学习笔记
+          
+        </div>
+      </a>
+    
+    
+      <a href="/2020/07/27/%E5%9F%BA%E9%87%91%E6%B6%A8%E8%B7%8C%E5%B9%85%E6%AF%8F%E6%97%A5%E9%82%AE%E4%BB%B6%E6%8F%90%E9%86%92/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">基金涨跌幅每日邮件提醒</div>
+      </a>
+    
+  </nav>
+
+   
+<!-- valine评论 -->
+<div id="vcomments-box">
+  <div id="vcomments"></div>
+</div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js"></script>
+<script>
+  new Valine({
+    el: "#vcomments",
+    app_id: "Y8oqscHrnLuIwp1649iHgWjM-gzGzoHsz",
+    app_key: "IjneyzqTD2fkFsPSEFKEW0lN",
+    path: window.location.pathname,
+    avatar: "monsterid",
+    placeholder: "有什么想说的请在此留言~",
+    recordIP: true,
+  });
+  const infoEle = document.querySelector("#vcomments .info");
+  if (infoEle && infoEle.childNodes && infoEle.childNodes.length > 0) {
+    infoEle.childNodes.forEach(function (item) {
+      item.parentNode.removeChild(item);
+    });
+  }
+</script>
+<style>
+  #vcomments-box {
+    padding: 5px 30px;
+  }
+
+  @media screen and (max-width: 800px) {
+    #vcomments-box {
+      padding: 5px 0px;
+    }
+  }
+
+  #vcomments-box #vcomments {
+    background-color: #fff;
+  }
+
+  .v .vlist .vcard .vh {
+    padding-right: 20px;
+  }
+
+  .v .vlist .vcard {
+    padding-left: 10px;
+  }
+</style>
+
+ 
+     
+</article>
+
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul>
+      <li>
+        Copyrights &copy;
+        2020-2021
+        <i class="ri-heart-fill heart_icon"></i> Wade Wang
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+        
+        
+        Powered by <a href="https://hexo.io" target="_blank">Hexo</a>
+        <span class="division">|</span>
+        Theme - <a href="https://github.com/Shen-Yu/hexo-theme-ayer" target="_blank">Ayer</a>
+        
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+        
+        <span>
+  <span><i class="ri-user-3-fill"></i>Visitors:<span id="busuanzi_value_site_uv"></span></s>
+  <span class="division">|</span>
+  <span><i class="ri-eye-fill"></i>Views:<span id="busuanzi_value_page_pv"></span></span>
+</span>
+        
+      </li>
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      <li>
+        <!-- cnzz统计 -->
+        
+        <script type="text/javascript" src='https://s9.cnzz.com/z_stat.php?id=1278069914&amp;web_id=1278069914'></script>
+        
+      </li>
+    </ul>
+  </div>
+</footer>
+      <div class="float_btns">
+        <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+
+      </div>
+    </main>
+    <aside class="sidebar on">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/yoga.png" alt="Hello World"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" target="_blank" rel="noopener" href="http://wwdok.lofter.com">摄影</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/friends">友链</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/about">关于我</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="Search">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <script>
+      if (window.matchMedia("(max-width: 768px)").matches) {
+        document.querySelector('.content').classList.remove('on');
+        document.querySelector('.sidebar').classList.remove('on');
+      }
+    </script>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯果汁吧~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/alipay.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/wechat.png">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+    
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+<!-- Tocbot -->
+
+
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3, h4, h5, h6',
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer: 'main',
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto'
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.css">
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/dist/main.js"></script>
+
+<!-- ImageViewer -->
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css">
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script>
+
+<!-- MathJax -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+      tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+  });
+
+  MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for(i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.6/unpacked/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script>
+  var ayerConfig = {
+    mathjax: true
+  }
+</script>
+
+<!-- Katex -->
+
+<!-- busuanzi  -->
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+<!-- ClickLove -->
+
+<!-- ClickBoom1 -->
+
+<!-- ClickBoom2 -->
+
+<!-- CodeCopy -->
+
+
+<link rel="stylesheet" href="/css/clipboard.css">
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="ri-file-copy-2-line"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-checkbox-circle-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-checkbox-circle-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-time-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-time-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+
+
+<!-- CanvasBackground -->
+
+
+    
+  </div>
+</body>
+
+</html>

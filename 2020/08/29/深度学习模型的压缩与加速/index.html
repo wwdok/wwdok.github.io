@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+
+
+<html lang="ch">
+
+
+<head>
+  <meta charset="utf-8" />
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>
+    深度学习模型的压缩与加速 |  Hello World
+  </title>
+  <meta name="generator" content="hexo-theme-ayer">
+  
+  <link rel="shortcut icon" href="/planets.ico" />
+  
+  
+<link rel="stylesheet" href="/dist/main.css">
+
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Shen-Yu/cdn/css/remixicon.min.css">
+
+  
+<link rel="stylesheet" href="/css/custom.css">
+
+  
+  
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+
+  
+  
+
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-172408389-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+
+
+
+  
+<script>
+var _hmt = _hmt || [];
+(function() {
+	var hm = document.createElement("script");
+	hm.src = "https://hm.baidu.com/hm.js?da92a6672e51fa2d1c3bacf2dba555c6";
+	var s = document.getElementsByTagName("script")[0]; 
+	s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+</head>
+
+</html>
+
+<body>
+  <div id="app">
+    
+      
+    <main class="content on">
+      <section class="outer">
+  <article
+  id="post-深度学习模型的压缩与加速"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  深度学习模型的压缩与加速
+</h1>
+ 
+
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2020/08/29/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%A8%A1%E5%9E%8B%E7%9A%84%E5%8E%8B%E7%BC%A9%E4%B8%8E%E5%8A%A0%E9%80%9F/" class="article-date">
+  <time datetime="2020-08-29T04:04:42.000Z" itemprop="datePublished">2020-08-29</time>
+</a>   
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> Word count:</span>
+            <span class="post-count">2.6k</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> Reading time≈</span>
+            <span class="post-count">9 min</span>
+        </span>
+    </span>
+</div>
+ 
+    </div>
+      
+    <div class="tocbot"></div>
+
+
+
+
+  
+    <div class="article-entry" itemprop="articleBody">
+       
+  <p>要在算力有限的移动端设备部署深度学习模型，必须对模型进行压缩和加速，不然那极慢的推理速度会让模型失去了它原本的作用和意义。同时，你在移动设备上运行深度学习模型，还会面临发热严重、耗电快的痛点。</p>
+<p>从定义上来说，模型压缩就是让模型大小降低，比如一个tflite模型大小从16M降到4M，模型加速就是让模型推理速度更快，比如一个tflite模型在手机上目标检测一帧需要50mm快到只需要25ms。</p>
+<h2 id="权重共享-参数共享"><a href="#权重共享-参数共享" class="headerlink" title="权重共享/参数共享"></a><strong>权重共享/参数共享</strong></h2><p>参数共享包括权重（weight）共享和偏置(bias)共享。</p>
+<p>在我学习深度神经网络时，看到的已经时下面动图所示的原理，并想当然地认为深度神经网络一开始就是这么设计的</p>
+<img src=https://pic2.zhimg.com/v2-54fbd436effac6d20d75afbeae1604e7_b.webp>
+
+<p>简单点，就是下图这个样子：</p>
+<img src=https://pic1.zhimg.com/50/v2-a35a29688a764b9ec5e438d53bc1d35a_hd.webp>
+
+<p>其实一开始的深度神经网络是下图这样子的：</p>
+<img src=https://pic4.zhimg.com/80/v2-5b79eb2d4ca654d514af834517889c28_720w.jpg>
+
+<p>可以看到，图片上不同片区使用了不同的卷积核。</p>
+<p>权重共享/参数共享的含义就是一张图片上使用同一个卷积核去滑动扫描。这意味着一个卷积核专门用来检测某一个特征，这些特征位于图片的不同位置。比如有一组weights和bias是某个局部感知域学到的用来识别一个垂直的边。那么预测的时候不管这条边在图片上哪个位置，它都会被这个局部感知域检测到。更具体一点，卷积网络能很好的适应目标在图片中的位置变化：把图片中的狗稍微移动一下位置，它仍然知道这是一只狗。</p>
+<p>因为这个原因，我们有时把输入层到隐藏层的映射叫做特征映射(feature map)。我们把定义特征映射的权重叫做共享的权重(shared weights)，bias叫做共享的bias(shared bais)。这组weights和bias定义了一个kernel或者filter。</p>
+<p>但是，这种一张图像上不同位置使用不同卷积核的思想不是永远没用或不行的。Facebook创建的的DeepFace网络使用了另一种类型的层来加快他们的训练并获得惊人的结果，该层称为权重未共享的本地连接层。</p>
+<table><tr>
+<td><img src=https://wx1.sbimg.cn/2020/08/29/61eSK.png border=0></td>
+<td><img src=https://wx1.sbimg.cn/2020/08/29/61Whl.png border=0></td>
+</tr></table>
+
+
+<h2 id="分组卷积"><a href="#分组卷积" class="headerlink" title="分组卷积"></a><strong>分组卷积</strong></h2><p>AlexNet的Group Convolution，对输入进行分组，卷积核数量不变，但channel数减少，<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_41554005/article/details/102722895">更多详细说明</a>：</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL1pob3V6aXF1blpaUVpaUS9waWNCZWQvbWFzdGVyLzIwMTkxMDIzMTkyODU2LnBuZw?x-oss-process=image/format,png" alt="img"></p>
+<h2 id="矩阵分解"><a href="#矩阵分解" class="headerlink" title="矩阵分解"></a><strong>矩阵分解</strong></h2><p>矩阵分解本质上就是一个低秩因式分解的操作，将M x N的矩阵分解为M x K + K x N，只要让K &lt;&lt; M 且 K &lt;&lt; N，就可以大大降低模型体积。</p>
+<p>在最初的BERT中，以Base为例，Embedding层的维度与隐藏层的维度一样都是768，但是我们知道，对于词的分布式表示，往往并不需要这么高的维度，比如在Word2Vec时代就多采用50或300这样的维度。那么一个很简单的思想就是，通过将Embedding部分分解来达到降低参数量的作用。</p>
+<img src="https://wx1.sbimg.cn/2020/08/29/6usFJ.png" alt="6usFJ.png" border="0" />
+
+<p>V：词汇表(<strong>V</strong>ocabulary)大小 ；H：隐藏层(<strong>H</strong>idden)维度 ；E：词向量维度</p>
+<p>上图中，Base中的隐藏层大小H=768， 词汇表大小V=3w，此时的参数量为：768 * 3w = 23040000。 后来出现的ALBERT就应用了矩阵分解的方法，它将 Embedding 的维度改为 128，那么此时Embedding层的参数量为：128 * 3w + 128 * 768 = 3938304。二者的参数量相差为19101696，大约为19M，Embedding参数量从BERT的23M变为了ALBERT的4M。</p>
+<p><strong>使用小卷积核代替大卷积核</strong></p>
+<p>AlexNet中用到了一些非常大的卷积核，比如11×11、7×7卷积核，之前人们的观念是，卷积核越大，receptive field（感受野）越大，看到的图片信息越多，因此获得的特征越好。虽说如此，但是大的卷积核会导致计算量的暴增，不利于模型深度的增加，计算性能也会降低。于是在VGG（最早使用）、Inception网络中，利用2个3×3卷积核的组合比1个5×5卷积核的效果更佳(如下图所示)，同时参数量（3×3×2+1 VS 5×5×1+1）被降低，因此后来3×3卷积核被广泛应用在各种模型中。</p>
+<ul>
+<li><p>用两个3 * 3卷积核可以代替一个5 * 5卷积核</p>
+</li>
+<li><p>用三个3 * 3卷积核可以代替一个7 * 7卷积核</p>
+</li>
+</ul>
+<img src="https://pic.downk.cc/item/5f4bcb42160a154a678a99c9.jpg" width=80%>
+
+<h2 id="深度可分离卷积"><a href="#深度可分离卷积" class="headerlink" title="深度可分离卷积"></a><strong>深度可分离卷积</strong></h2><img src=https://img-blog.csdnimg.cn/20190706183157843.png>
+
+<img src=https://img-blog.csdnimg.cn/20190706184127821.png>
+
+<p>卷积核参数量和计算量的对比：</p>
+<img src=https://img-blog.csdnimg.cn/20190706184232915.png>
+
+<img src=https://img-blog.csdnimg.cn/20190706184703985.png>
+
+<img src=https://img-blog.csdnimg.cn/20190706185010762.png>
+
+<p>可见参数量和乘加操作的运算量均下降为原来的</p>
+<p>$1/N + 1/(D^2_k)$</p>
+<p>我们通常所使用的是3×3的卷积核，也就是会下降到原来的九分之一到八分之一。</p>
+<p>[<a target="_blank" rel="noopener" href="https://blog.csdn.net/u010712012/article/details/94888053">图片来源</a>]</p>
+<h2 id="全局平均值"><a href="#全局平均值" class="headerlink" title="全局平均值"></a><strong>全局平均值</strong></h2><p>以下图的MNIST神经网络为例，这是一个识别数字的简单网络<br><img src="https://wx1.sbimg.cn/2020/08/29/6u9wG.png" alt="6u9wG.png" border="0" /><br>我们看最后的全连接层，它就是用宽度为12、高度为12、通道数为20的卷积核重复操作100次卷积得到结果。对于输入的每一张图，用了一个和图像一样大小的核卷积，各个通道卷积之后得到一个数，将这20个数相加得到一个小球的结果，重复100次。这样就能把一张图高度浓缩成一个数了。</p>
+<p>但是全连接的参数实在是太多了，你想这张图里就有12x12x20x100个参数。所以现在的趋势是尽量避免全连接，目前主流的一个方法是全局平均值。也就是最后那一层的feature map（最后一层卷积的输出结果），直接求平均值。有多少种分类就训练出多少层。</p>
+<p>AlexNet和VGGNet中，全连接层几乎占据了90%的参数量。inceptionV1创造性的使用全局平均池化来代替最后的全连接层，使得其在网络结构更深的情况下（22层，AlexNet仅8层），参数量只有500万，仅为AlexNet的1/12。</p>
+<h2 id="伪量化"><a href="#伪量化" class="headerlink" title="伪量化"></a><strong>伪量化</strong></h2><p>伪量化是指在保存模型每一层时，利用低精度（比如8bit）来保存每一个网络参数，同时也保存拉伸比例scale和零值对应的浮点数zero_point。推理阶段，利用如下公式来网络参数还原为32bit浮点：</p>
+<img src="https://pic.downk.cc/item/5f4bcde0160a154a678b7470.jpg" width=80%>
+
+<p>这个过程被称为伪量化。 伪量化之所以得名，是因为存储时使用了低精度进行量化，但推理时会还原为正常高精度。为什么推理时不仍然使用低精度呢？这是因为一方面框架层有些算子只支持浮点运算，需要专门实现算子定点化才行。另一方面，高精度推理准确率相对高一些。伪量化可以实现模型压缩，但对模型加速没有多大效果。</p>
+<h2 id="定点化"><a href="#定点化" class="headerlink" title="定点化"></a><strong>定点化</strong></h2><p>与伪量化不同的是，定点化在推理时，不需要还原为浮点数。这需要框架实现算子的定点化运算支持。</p>
+<h2 id="剪枝"><a href="#剪枝" class="headerlink" title="剪枝"></a><strong>剪枝</strong></h2><img src="https://pic.downk.cc/item/5f4bd1d6160a154a678cca88.jpg" width=50%>
+
+<p><strong>非结构化剪枝：</strong></p>
+<p>非结构化修剪：对网络上任意位置的单个权重置零，这意味着删除神经元之间的单个连接（在密集层中）或删除卷积过滤器的单个权重（在卷积层中）。<br>请注意，生成的权重张量虽然稀疏了，但仍然保持其原始形状，这导致无法帮助模型降低推理成本，因为CPU、GPU并未针对稀疏矩阵乘法进行优化。</p>
+<img src="https://pic.downk.cc/item/5f4bd29f160a154a678d145e.jpg">
+
+<p><strong>结构化剪枝：</strong></p>
+<p>结构化修剪：通过删除张量的整行/列来减小重量张量的尺寸。这转化为去除神经元及其所有传入和传出连接（在密集层中）或整个卷积过滤器（在卷积层中）。</p>
+<img src="https://pic.downk.cc/item/5f4bcf81160a154a678c0387.jpg">
+
+
+
+<p><strong>相关项目：</strong></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/tanluren/yolov3-channel-and-layer-pruning/blob/master/train.py%EF%BC%88%E7%9B%B8%E5%85%B3%E5%8D%9A%E5%AE%A2%EF%BC%9Ahttps://blog.csdn.net/weixin_41397123/article/details/103828931%EF%BC%89">https://github.com/tanluren/yolov3-channel-and-layer-pruning/blob/master/train.py（相关博客：https://blog.csdn.net/weixin_41397123/article/details/103828931）</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/Lam1360/YOLOv3-model-pruning">https://github.com/Lam1360/YOLOv3-model-pruning</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/coldlarry/YOLOv3-complete-pruning">https://github.com/coldlarry/YOLOv3-complete-pruning</a>  （相关博客：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/153496637%EF%BC%89">https://zhuanlan.zhihu.com/p/153496637）</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/PengyiZhang/SlimYOLOv3">https://github.com/PengyiZhang/SlimYOLOv3</a></p>
+<h2 id="论文研读"><a href="#论文研读" class="headerlink" title="论文研读"></a><strong>论文研读</strong></h2><h3 id="《Learning-both-Weights-and-Connections-for-Efficient-Neural-Networks》"><a href="#《Learning-both-Weights-and-Connections-for-Efficient-Neural-Networks》" class="headerlink" title="《Learning both Weights and Connections for Efficient Neural Networks》"></a><strong>《Learning both Weights and Connections for Efficient Neural Networks》</strong></h3><p>【<a target="_blank" rel="noopener" href="https://arxiv.org/abs/1506.02626v3">英文原文</a>】<br>【<a target="_blank" rel="noopener" href="https://xmfbit.github.io/2018/03/14/paper-network-prune-hansong/">中文解读</a>】</p>
+<h3 id="《Deep-Compression：Compressing-Deep-Neural-Networks-with-Pruning-Trained-Quantization-and-Huffman-coding》"><a href="#《Deep-Compression：Compressing-Deep-Neural-Networks-with-Pruning-Trained-Quantization-and-Huffman-coding》" class="headerlink" title="《Deep Compression：Compressing Deep Neural Networks with Pruning, Trained Quantization and Huffman coding》"></a><strong>《Deep Compression：Compressing Deep Neural Networks with Pruning, Trained Quantization and Huffman coding》</strong></h3><p>【<a target="_blank" rel="noopener" href="https://arxiv.org/abs/1510.00149">英文原文</a>】<br>【<a target="_blank" rel="noopener" href="https://blog.csdn.net/u011995719/article/details/79126531">中文解读</a>】</p>
+<h2 id="《Learning-Structured-Sparsity-in-Deep-Neural-Networks》"><a href="#《Learning-Structured-Sparsity-in-Deep-Neural-Networks》" class="headerlink" title="《Learning Structured Sparsity in Deep Neural Networks》"></a><strong>《Learning Structured Sparsity in Deep Neural Networks》</strong></h2><p>【<a target="_blank" rel="noopener" href="https://arxiv.org/abs/1608.03665">英文原文</a>】<br>【<a target="_blank" rel="noopener" href="https://xmfbit.github.io/2018/02/24/paper-ssl-dnn/">中文解读</a>】</p>
+<h3 id="《Non-Structured-DNN-Weight-Pruning-–-Is-It-Beneficial-in-Any-Platform-》"><a href="#《Non-Structured-DNN-Weight-Pruning-–-Is-It-Beneficial-in-Any-Platform-》" class="headerlink" title="《Non-Structured DNN Weight Pruning – Is It Beneficial in Any Platform?》"></a><strong>《Non-Structured DNN Weight Pruning – Is It Beneficial in Any Platform?》</strong></h3><p>【<a target="_blank" rel="noopener" href="https://arxiv.org/abs/1907.02124">英文原文</a>】</p>
+<h1 id="轻量模型项目"><a href="#轻量模型项目" class="headerlink" title="轻量模型项目"></a>轻量模型项目</h1><ul>
+<li><h2 id="Nanodet"><a href="#Nanodet" class="headerlink" title="Nanodet"></a>Nanodet</h2></li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://github.com/RangiLyu/nanodet">Github项目地址</a></p>
+<h3 id="训练Nanodet"><a href="#训练Nanodet" class="headerlink" title="训练Nanodet"></a>训练Nanodet</h3><p>目前nanodet的数据集格式是coco，我这边标好的数据集是yolo格式的，其他人可能是voc格式，所以需要转换。我找到两处yolo转coco的脚本<a target="_blank" rel="noopener" href="https://www.programmersought.com/article/43131872583/">【1】</a><a target="_blank" rel="noopener" href="https://github.com/RangiLyu/nanodet/issues/10#issuecomment-732726417">【2】</a>，但最终我用的是<a target="_blank" rel="noopener" href="https://roboflow.com/convert/yolo-darknet-txt-to-coco-json">roboflow</a>，不过对于担心数据泄漏的问题，还请自己用脚本生成。</p>
+<p>它的数据增强配置位于<code>config/nanodet-m.yml</code>：</p>
+<p><img src="https://gitee.com/wwdok/my-image-bed/raw/master/img/20201124225411.png" alt="image-20201124225411418"></p>
+<p>因为代码基于pytorch框架写的，所以用的数据增强也是基于torchvision的transforms实现的，更多图像增强说明请见：</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/pytorch/vision/blob/master/torchvision/transforms/transforms.py">torchvision transforms 源码</a></p>
+<p><a target="_blank" rel="noopener" href="https://pytorch.org/docs/stable/torchvision/transforms.html">torchvision transforms文档</a></p>
+<p><a target="_blank" rel="noopener" href="http://noahsnail.com/2020/06/12/2020-06-12-%E7%8E%A9%E8%BD%ACpytorch%E4%B8%AD%E7%9A%84torchvision.transforms/">博客1</a> <a target="_blank" rel="noopener" href="https://www.it610.com/article/1275734689881014272.htm">博客2</a></p>
+<p>perspective的效果就像下图（<a target="_blank" rel="noopener" href="https://www.researchgate.net/publication/338184137_Perspective_Transformation_Data_Augmentation_for_Object_Detection">来源</a>）这样：</p>
+<img src="https://gitee.com/wwdok/my-image-bed/raw/master/img/20201124234944.png" alt="image-20201124234943933" style="zoom:67%;" />
+
+<p>里面的normalize引起了我的兴趣。<a target="_blank" rel="noopener" href="https://medium.com/@dibyadas/visualizing-different-normalization-techniques-84ea5cc8c378">《Visualizing Different Normalization Techniques》</a>这篇文章试验了3种图像归一化技巧</p>
+<p>我写了个<a target="_blank" rel="noopener" href="https://colab.research.google.com/drive/1CcHcE0qiwZ_HEyTSRJLS6NrbVMt5ko99">colab脚本</a>测试看看这个normalize会把输入图像处理成什么样子，结果是下面这个样子：</p>
+<p><img src="https://gitee.com/wwdok/my-image-bed/raw/master/img/20201125143221.png" alt="image-20201125143221549"></p>
+<p>有人做了一个可以体验Image Normalization效果的<a target="_blank" rel="noopener" href="http://ipolcore.ipol.im/demo/clientApp/demo.html?id=77777000040">网页</a>，用它提供的几个样本图片效果比较明显，不过我用自己的图片测试基本看不出什么变化。</p>
+<p>有位日本大哥维护着一个<a target="_blank" rel="noopener" href="https://github.com/PINTO0309/PINTO_model_zoo">PINTO_model_zoo</a>，nanodet也成为了他的入选目标之一，它的仓库了提供了现成的coco类别的nanodet tflite model，不过我有个问题，就是如果我们自己训练了pytorch模型，要怎么转换成tflite格式，这位日本大哥在这个<a target="_blank" rel="noopener" href="https://github.com/PINTO0309/PINTO_model_zoo/issues/55">issue</a>里耐心地回答了我，感谢！对于从pytorch格式转到tflite格式，网上应该也有其他办法，有没有更简短地转换路线有待研究，这位<a target="_blank" rel="noopener" href="https://github.com/zldrobit">中国大哥</a>的一些repo就是关于tflite模型转换的。</p>
+<h2 id="参考阅读"><a href="#参考阅读" class="headerlink" title="参考阅读"></a><strong>参考阅读</strong></h2><p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/179945324">《一文深入 - 深度学习模型压缩和加速》</a></p>
+<p><a target="_blank" rel="noopener" href="https://xmfbit.github.io/2018/10/03/paper-summary-model-pruning/">《论文总结 - 模型剪枝 Model Pruning》</a></p>
+<p><a target="_blank" rel="noopener" href="http://www.easemob.com/press/535">《环信人工智能专家李理：详解卷积神经网络》</a></p>
+<p><a target="_blank" rel="noopener" href="https://amitness.com/2020/02/albert-visual-summary/">《Visual Paper Sumgailunwenmary: ALBERT (A Lite BERT)》</a></p>
+<p><a target="_blank" rel="noopener" href="https://prateekvjoshi.com/2016/04/12/understanding-locally-connected-layers-in-convolutional-neural-networks/">《Understanding Locally Connected Layers In Convolutional Neural Networks》</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.zhihu.com/column/zhangxiaolongOptimization">《AI移动端优化》</a></p>
+ 
+      <!-- reward -->
+      
+      <div id="reword-out">
+        <div id="reward-btn">
+          Donate
+        </div>
+      </div>
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <div class="declare">
+      <ul class="post-copyright">
+        <li>
+          <i class="ri-copyright-line"></i>
+          <strong>Copyright： </strong>
+          
+          Copyright is owned by the author. For commercial reprints, please contact the author for authorization. For non-commercial reprints, please indicate the source.
+          
+        </li>
+      </ul>
+    </div>
+    
+    <footer class="article-footer">
+       
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://example.com/2020/08/29/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%A8%A1%E5%9E%8B%E7%9A%84%E5%8E%8B%E7%BC%A9%E4%B8%8E%E5%8A%A0%E9%80%9F/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>  
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CV/" rel="tag">CV</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+  <nav class="article-nav">
+    
+      <a href="/2020/09/12/%E6%8E%8C%E6%8F%A1%E6%9C%9F%E6%9D%83%E4%BA%A4%E6%98%93/" class="article-nav-link">
+        <strong class="article-nav-caption">上一篇</strong>
+        <div class="article-nav-title">
+          
+            掌握期权交易
+          
+        </div>
+      </a>
+    
+    
+      <a href="/2020/08/23/C++%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">C++学习笔记</div>
+      </a>
+    
+  </nav>
+
+   
+<!-- valine评论 -->
+<div id="vcomments-box">
+  <div id="vcomments"></div>
+</div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js"></script>
+<script>
+  new Valine({
+    el: "#vcomments",
+    app_id: "Y8oqscHrnLuIwp1649iHgWjM-gzGzoHsz",
+    app_key: "IjneyzqTD2fkFsPSEFKEW0lN",
+    path: window.location.pathname,
+    avatar: "monsterid",
+    placeholder: "有什么想说的请在此留言~",
+    recordIP: true,
+  });
+  const infoEle = document.querySelector("#vcomments .info");
+  if (infoEle && infoEle.childNodes && infoEle.childNodes.length > 0) {
+    infoEle.childNodes.forEach(function (item) {
+      item.parentNode.removeChild(item);
+    });
+  }
+</script>
+<style>
+  #vcomments-box {
+    padding: 5px 30px;
+  }
+
+  @media screen and (max-width: 800px) {
+    #vcomments-box {
+      padding: 5px 0px;
+    }
+  }
+
+  #vcomments-box #vcomments {
+    background-color: #fff;
+  }
+
+  .v .vlist .vcard .vh {
+    padding-right: 20px;
+  }
+
+  .v .vlist .vcard {
+    padding-left: 10px;
+  }
+</style>
+
+ 
+     
+</article>
+
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul>
+      <li>
+        Copyrights &copy;
+        2020-2021
+        <i class="ri-heart-fill heart_icon"></i> Wade Wang
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+        
+        
+        Powered by <a href="https://hexo.io" target="_blank">Hexo</a>
+        <span class="division">|</span>
+        Theme - <a href="https://github.com/Shen-Yu/hexo-theme-ayer" target="_blank">Ayer</a>
+        
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+        
+        <span>
+  <span><i class="ri-user-3-fill"></i>Visitors:<span id="busuanzi_value_site_uv"></span></s>
+  <span class="division">|</span>
+  <span><i class="ri-eye-fill"></i>Views:<span id="busuanzi_value_page_pv"></span></span>
+</span>
+        
+      </li>
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      <li>
+        <!-- cnzz统计 -->
+        
+        <script type="text/javascript" src='https://s9.cnzz.com/z_stat.php?id=1278069914&amp;web_id=1278069914'></script>
+        
+      </li>
+    </ul>
+  </div>
+</footer>
+      <div class="float_btns">
+        <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+
+      </div>
+    </main>
+    <aside class="sidebar on">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/yoga.png" alt="Hello World"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" target="_blank" rel="noopener" href="http://wwdok.lofter.com">摄影</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/friends">友链</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/about">关于我</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="Search">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <script>
+      if (window.matchMedia("(max-width: 768px)").matches) {
+        document.querySelector('.content').classList.remove('on');
+        document.querySelector('.sidebar').classList.remove('on');
+      }
+    </script>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯果汁吧~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/alipay.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/wechat.png">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+    
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+<!-- Tocbot -->
+
+
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3, h4, h5, h6',
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer: 'main',
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto'
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.css">
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/dist/main.js"></script>
+
+<!-- ImageViewer -->
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css">
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script>
+
+<!-- MathJax -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+      tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+  });
+
+  MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for(i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.6/unpacked/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script>
+  var ayerConfig = {
+    mathjax: true
+  }
+</script>
+
+<!-- Katex -->
+
+<!-- busuanzi  -->
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+<!-- ClickLove -->
+
+<!-- ClickBoom1 -->
+
+<!-- ClickBoom2 -->
+
+<!-- CodeCopy -->
+
+
+<link rel="stylesheet" href="/css/clipboard.css">
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="ri-file-copy-2-line"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-checkbox-circle-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-checkbox-circle-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-time-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-time-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+
+
+<!-- CanvasBackground -->
+
+
+    
+  </div>
+</body>
+
+</html>

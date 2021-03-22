@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+
+
+<html lang="ch">
+
+
+<head>
+  <meta charset="utf-8" />
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>
+    掌握期权交易 |  Hello World
+  </title>
+  <meta name="generator" content="hexo-theme-ayer">
+  
+  <link rel="shortcut icon" href="/planets.ico" />
+  
+  
+<link rel="stylesheet" href="/dist/main.css">
+
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Shen-Yu/cdn/css/remixicon.min.css">
+
+  
+<link rel="stylesheet" href="/css/custom.css">
+
+  
+  
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+
+  
+  
+
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-172408389-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+
+
+
+  
+<script>
+var _hmt = _hmt || [];
+(function() {
+	var hm = document.createElement("script");
+	hm.src = "https://hm.baidu.com/hm.js?da92a6672e51fa2d1c3bacf2dba555c6";
+	var s = document.getElementsByTagName("script")[0]; 
+	s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+</head>
+
+</html>
+
+<body>
+  <div id="app">
+    
+      
+    <main class="content on">
+      <section class="outer">
+  <article
+  id="post-掌握期权交易"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  掌握期权交易
+</h1>
+ 
+
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2020/09/12/%E6%8E%8C%E6%8F%A1%E6%9C%9F%E6%9D%83%E4%BA%A4%E6%98%93/" class="article-date">
+  <time datetime="2020-09-12T10:16:40.000Z" itemprop="datePublished">2020-09-12</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E7%90%86%E8%B4%A2/">理财</a>
+  </div>
+  
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> Word count:</span>
+            <span class="post-count">2.7k</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> Reading time≈</span>
+            <span class="post-count">9 min</span>
+        </span>
+    </span>
+</div>
+ 
+    </div>
+      
+    <div class="tocbot"></div>
+
+
+
+
+  
+    <div class="article-entry" itemprop="articleBody">
+       
+  <p>想要交易期权的门槛比较高，有几条要求是存款大于50万，通过期权知识测试，提供过往期权模拟交易证明等。现在我暂时交易不了，就当先储备知识。</p>
+<p>推荐视频：《<a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=IunTigepa1I&list=PLN5R8P-UTWKOZqWpONYRTrjVc1FySLW03">秒懂期权系列-看完就赚！</a>》</p>
+<h2 id="期权基本概念"><a href="#期权基本概念" class="headerlink" title="期权基本概念"></a>期权基本概念</h2><HR>
+**期权（Option）**，是一种选择权，指是一种能在未来某特定时间（**到期日：expiration data**）以特定价格（**行权价/敲定价：strike price**）买入或卖出一定数量的某种特定商品（**标的资产：underlying asset**）的权利。期权的分类
+
+
+<p><strong>1、按期权的权利划分，有看涨期权和看跌期权两种类型。</strong></p>
+<p>　　看涨期权（Call Options）是指期权的买方向期权的卖方支付一定数额的权利金后，即拥有在期权合约的有效期内，按事先约定的价格<strong>向期权卖方买入</strong>一定数量的期权合约规定的特定商品的权利，但不负有必须买进的义务。而<strong>期权卖方</strong>有义务在期权规定的有效期内，应期权买方的要求，以期权合约事先规定的价格<strong>卖出</strong>期权合约规定的特定商品。</p>
+<p>　　看跌期权（Put Options）是指期权的买方向期权的卖方支付一定数额的权利金后，即拥有在期权合约的有效期内，按事先约定的价格<strong>向期权卖方卖出</strong>一定数量的期权合约规定的特定商品的权利，但不负有必须卖出的义务。而<strong>期权卖方</strong>有义务在期权规定的有效期内，应期权买方的要求，以期权合约事先规定的价格<strong>买入</strong>期权合约规定的特定商品。</p>
+<p><strong>2、按期权的交割时间划分，有美式期权、欧式期权和百慕大期权三种类型。</strong></p>
+<p>美式期权是指在期权合约规定的有效期内任何时候都可以行使权利。欧式期权是指在期权合约规定的到期日方可行使权利，期权的买方在合约到期日之前不能行使权利，过了期限，合约则自动作废。百慕大期权（Bermuda option）是一种可以在到期日前所规定的一系列时间段行权的期权，百慕大期权可以被视为美式期权与欧式期权的混合体，如同百慕大群岛混合了美国文化和英国文化一样。目前中国新兴的外汇期权业务，类似于欧式期权，但又有所不同。</p>
+<p><strong>3、按期权合约上的标的划分，有股票期权、股指期权、利率期权、商品期权以及外汇期权等种类。</strong></p>
+<h2 id="期权的构成要素"><a href="#期权的构成要素" class="headerlink" title="期权的构成要素"></a>期权的构成要素</h2><p>　　(1)执行价格，又称履约价格（strike price）：期权的买方行使权利时事先规定的标的物买卖价格。</p>
+<p>　　(2)权利金（premium）： 期权的买方支付的期权价格，即买方为获得期权而付给期权卖方的费用。</p>
+<p>　　(3)保证金：期权卖方必须存入交易所用于履约的财力担保。</p>
+<p>　　(4)看涨期权（call option）和看跌期权（put option）：看涨期权，是指在期权合约有效期内按执行价格买进一定数量标的物的权利；看跌期权，是指卖出标的物的权利。</p>
+<p>当期权买方预期<strong>标的物</strong>价格会<strong>超出执行价格</strong>时，他就会<strong>买进看涨期权</strong>，这样他就可以<strong>从期权卖方低价买入，再高价卖出到市场</strong>；</p>
+<p>当期权买方预期<strong>标的物</strong>价格会<strong>低于执行价格</strong>时，他就会<strong>买进看跌期权</strong>，这样他就可以<strong>从市场低价买入，再高价卖出给期权卖方</strong>。</p>
+<h2 id="期权的价格-Market-Price-of-Option"><a href="#期权的价格-Market-Price-of-Option" class="headerlink" title="期权的价格 (Market Price of Option)"></a>期权的价格 (Market Price of Option)</h2><p>期权的价格称为“权利金”或者“期权费”。权利金是期权合约中的唯一变量，期权合约上的其他要素，如：执行价格、合约到期日、交易品种、交易金额、交易时间、交易地点等要素都是在合约中事先规定好的，是标准化的，而期权的价格是是由交易者在交易所里竞价得出的。</p>
+<p><strong>期权价格主要由内涵价值、时间价值两部分组成。</strong></p>
+<p>　　1、内涵价值：（Intrinsic Value)</p>
+<p>　　内涵价值指<strong>买方</strong>立即履行合约时可获取的总利润。具体来说，可以分为实值期权、虚值期权和两平期权。</p>
+<p>　　（1）实值期权</p>
+<p>　　当看涨期权的执行价格低于当时的实际价格时，或者当看跌期权的执行价格高于当时的实际价格时，该期权为实值期权。</p>
+<p>　　（2）虚值期权</p>
+<p>　　当看涨期权的执行价格高于当时的实际价格时，或者当看跌期权的执行价格低于当时的实际价格时，该期权为虚值期权。当期权为虚值期权时，内涵价值为零。</p>
+<p>　　（3）两平期权</p>
+<p>　　当看涨期权的执行价格等于当时的实际价格时，或者当看跌期权的执行价格等于当时的实际价格时，该期权为两平期权。当期权为两平期权时，内涵价值为零。</p>
+<table>
+<thead>
+<tr>
+<th align="center">看涨期权</th>
+<th align="center">看跌期权</th>
+<th align="center">结论</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">期权执行价格&lt;实际价格</td>
+<td align="center">期权执行价格&gt;实际价格</td>
+<td align="center">实值期权</td>
+</tr>
+<tr>
+<td align="center">期权执行价格&gt;实际价格</td>
+<td align="center">期权执行价格&lt;实际价格</td>
+<td align="center">虚值期权</td>
+</tr>
+<tr>
+<td align="center">期权执行价格=实际价格</td>
+<td align="center">期权执行价格=实际价格</td>
+<td align="center">两平期权</td>
+</tr>
+</tbody></table>
+<p>2、时间价值(Time Value)</p>
+<p>　　期权距到期日时间越长，大幅度价格变动的可能性越大，期权买方执行期权获利的机会也越大。与较短期的期权相比，期权买方对较长时间的期权的应付出更高的权利金。</p>
+<img src=https://wiki.mbalib.com/w/images/5/53/%E6%9C%9F%E6%9D%83%E7%9A%84%E6%97%B6%E9%97%B4%E4%BB%B7%E5%80%BC1.jpg>
+
+<p>　　期权的时间价值随着到期日的临近而减少，期权到期日的时间价值为零。</p>
+<p>　　期权的时间价值反映了期权交易期间时间风险和价格波动风险，当合约0%或100%履约时，期权的时间价值为零。</p>
+<p>综上所述，三种期权的价格表为：</p>
+<table>
+<thead>
+<tr>
+<th align="center">看涨期权</th>
+<th align="center">期权价格（未到期）</th>
+<th align="center">期权价格（到期）</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">实值期权</td>
+<td align="center">内涵价值+时间价值</td>
+<td align="center">内涵价值</td>
+</tr>
+<tr>
+<td align="center">虚值期权</td>
+<td align="center">时间价值</td>
+<td align="center">零</td>
+</tr>
+<tr>
+<td align="center">两平期权</td>
+<td align="center">时间价值</td>
+<td align="center">零</td>
+</tr>
+</tbody></table>
+<h2 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h2><p>　中国银行期权宝7月11日报价</p>
+<table>
+<thead>
+<tr>
+<th align="center">标的汇率</th>
+<th>期权类别</th>
+<th>协定价格</th>
+<th>到期日</th>
+<th>期权费率（%）</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">澳元/美元</td>
+<td>看跌</td>
+<td>0.6820</td>
+<td>2003-7-23</td>
+<td>4.34</td>
+</tr>
+<tr>
+<td align="center">澳元/美元</td>
+<td>看涨</td>
+<td>0.6820</td>
+<td>2003-7-23</td>
+<td>0.30</td>
+</tr>
+</tbody></table>
+<p>以上是澳元从7月5日0.6845大幅下跌至0.6486后的中国银行“期权宝”7月11日的报价。由于澳元出现了大幅下挫，7月11日执行价格为 0.6820、到期日为7月23日的澳元/美元看跌期权，由于离到期日只有12天，而期权实值非常大，因而其期权费报价达到4.34%的高价；而同样执行价格和到期日的看涨期权，由于其内涵价值为虚值，期权费报价却只有0.30%。从另一个角度来看，澳元/美元在大幅下跌后，市场普遍认为在短期内澳元/美元回到0.6820的可能性非常低，因此到期日非常近、执行价格较高的看跌期权的期权费自然高，而看涨期权的期权费则较低。</p>
+<h2 id="期权基本交易方式"><a href="#期权基本交易方式" class="headerlink" title="期权基本交易方式"></a>期权基本交易方式</h2><p>从前面我们知道，期权可以分为看涨期权和看跌期权两种类型，而期权交易者又可有买入期权或者卖出期权两种操作，所以期权交易有四种基本策略：买进看涨期权、卖出看涨期权、买进看跌期权、卖出看跌期权。</p>
+<p>　　1、买入看涨期权</p>
+<p>　　若交易者买进看涨期权，之后市场价格果然上涨，且升至执行价格之上，则交易者可执行期权从而获利。从理论上说，价格可以无限上涨，所以买入看涨期权的盈利理论上是无限大。若到期一直未升到执行价格之上，则交易者可放弃期权，其最大损失为期权费（下图中的左上图）。</p>
+<p>　　2、卖出看涨期权</p>
+<p>　　若交易者卖出看涨期权，在到期日之前没能升至执行价格之上，则作为看涨期权的买方将会放弃期权，而看涨期权的卖方就会取得期权费的收入。反之，看涨期权的买方将会要求执行期权，期权的卖方的损失为：（市场价格-执行价格）-期权费（下图中的右上图）。</p>
+<p>　　3、买入看跌期权</p>
+<p>　　若交易者买进看跌期权，之后市场价格果然下跌，且跌至执行价格之下，则交易者可执行期权从而获利，由于价格不可能跌到负数，所以买入看跌期权的最大盈利为执行价格减去标的价格再减去期权费。若到期一直涨到执行价格之上，则交易者可放弃期权，其最大损失为期权费。投资者如果买了一只预感会下跌的股票，则可以同时买看跌期权对冲。</p>
+<p>　　4、卖出看跌期权</p>
+<p>　　若交易者卖出看跌期权，在到期日之前没能跌至执行价格之下，则作为看跌期权的买方将会放弃期权，而看跌期权的卖方就会取得期权费的收入。反之，看跌期权的买方将会要求执行期权，期权的卖方将损失执行价格减去市场价格和期权费的差。</p>
+<p>期权交易盈亏图</p>
+<img src="https://pic.downk.cc/item/5f7f2ce41cd1bbb86bd28cde.jpg">
+
+<p>总结来说：作为期权买入方，最大亏损为期权费。作为期权卖出方，最大盈利为期权费。<br>所以期权有点像保险产品，你买一份保险最大亏损为保险费，万一你出什么事了，就可以获取数倍理赔的收益。保险公司在大家没集体出事时，就是赚取众人交的保险费。</p>
+<p>具体交易案例可见<a target="_blank" rel="noopener" href="http://baijiahao.baidu.com/s?id=1661565680231378352&wfr=spider&for=pc">这篇文章</a>。</p>
+<h2 id="参考资料："><a href="#参考资料：" class="headerlink" title="参考资料："></a>参考资料：</h2><blockquote>
+<p><a target="_blank" rel="noopener" href="https://wiki.mbalib.com/wiki/%E6%9C%9F%E6%9D%83">《期权-智库百科》</a><br><br><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=FXFz3zJGLvg">《期权交易 | 应付下跌+把握上涨，同时抓！颠覆你对于投资的认知！》</a><br><br><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=xgFAKDdW1po">《股市太高，机会所剩无几？会赚钱的人，都在玩期权！4步骤，搞定期权交易！》</a><br><br><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=tozJLdS7FdA">《散户必看期权策略，教你正确抵抗下跌风险！Covered call &amp; Beta Hedging》</a></p>
+</blockquote>
+ 
+      <!-- reward -->
+      
+      <div id="reword-out">
+        <div id="reward-btn">
+          Donate
+        </div>
+      </div>
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <div class="declare">
+      <ul class="post-copyright">
+        <li>
+          <i class="ri-copyright-line"></i>
+          <strong>Copyright： </strong>
+          
+          Copyright is owned by the author. For commercial reprints, please contact the author for authorization. For non-commercial reprints, please indicate the source.
+          
+        </li>
+      </ul>
+    </div>
+    
+    <footer class="article-footer">
+       
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://example.com/2020/09/12/%E6%8E%8C%E6%8F%A1%E6%9C%9F%E6%9D%83%E4%BA%A4%E6%98%93/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>  
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%9C%9F%E6%9D%83/" rel="tag">期权</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+  <nav class="article-nav">
+    
+      <a href="/2020/09/26/%E6%8D%9F%E5%A4%B1%E5%87%BD%E6%95%B0/" class="article-nav-link">
+        <strong class="article-nav-caption">上一篇</strong>
+        <div class="article-nav-title">
+          
+            损失函数
+          
+        </div>
+      </a>
+    
+    
+      <a href="/2020/08/29/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%A8%A1%E5%9E%8B%E7%9A%84%E5%8E%8B%E7%BC%A9%E4%B8%8E%E5%8A%A0%E9%80%9F/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">深度学习模型的压缩与加速</div>
+      </a>
+    
+  </nav>
+
+   
+<!-- valine评论 -->
+<div id="vcomments-box">
+  <div id="vcomments"></div>
+</div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js"></script>
+<script>
+  new Valine({
+    el: "#vcomments",
+    app_id: "Y8oqscHrnLuIwp1649iHgWjM-gzGzoHsz",
+    app_key: "IjneyzqTD2fkFsPSEFKEW0lN",
+    path: window.location.pathname,
+    avatar: "monsterid",
+    placeholder: "有什么想说的请在此留言~",
+    recordIP: true,
+  });
+  const infoEle = document.querySelector("#vcomments .info");
+  if (infoEle && infoEle.childNodes && infoEle.childNodes.length > 0) {
+    infoEle.childNodes.forEach(function (item) {
+      item.parentNode.removeChild(item);
+    });
+  }
+</script>
+<style>
+  #vcomments-box {
+    padding: 5px 30px;
+  }
+
+  @media screen and (max-width: 800px) {
+    #vcomments-box {
+      padding: 5px 0px;
+    }
+  }
+
+  #vcomments-box #vcomments {
+    background-color: #fff;
+  }
+
+  .v .vlist .vcard .vh {
+    padding-right: 20px;
+  }
+
+  .v .vlist .vcard {
+    padding-left: 10px;
+  }
+</style>
+
+ 
+     
+</article>
+
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul>
+      <li>
+        Copyrights &copy;
+        2020-2021
+        <i class="ri-heart-fill heart_icon"></i> Wade Wang
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+        
+        
+        Powered by <a href="https://hexo.io" target="_blank">Hexo</a>
+        <span class="division">|</span>
+        Theme - <a href="https://github.com/Shen-Yu/hexo-theme-ayer" target="_blank">Ayer</a>
+        
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+        
+        <span>
+  <span><i class="ri-user-3-fill"></i>Visitors:<span id="busuanzi_value_site_uv"></span></s>
+  <span class="division">|</span>
+  <span><i class="ri-eye-fill"></i>Views:<span id="busuanzi_value_page_pv"></span></span>
+</span>
+        
+      </li>
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      <li>
+        <!-- cnzz统计 -->
+        
+        <script type="text/javascript" src='https://s9.cnzz.com/z_stat.php?id=1278069914&amp;web_id=1278069914'></script>
+        
+      </li>
+    </ul>
+  </div>
+</footer>
+      <div class="float_btns">
+        <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+
+      </div>
+    </main>
+    <aside class="sidebar on">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/yoga.png" alt="Hello World"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" target="_blank" rel="noopener" href="http://wwdok.lofter.com">摄影</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/friends">友链</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/about">关于我</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="Search">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <script>
+      if (window.matchMedia("(max-width: 768px)").matches) {
+        document.querySelector('.content').classList.remove('on');
+        document.querySelector('.sidebar').classList.remove('on');
+      }
+    </script>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯果汁吧~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/alipay.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/wechat.png">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+    
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+<!-- Tocbot -->
+
+
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3, h4, h5, h6',
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer: 'main',
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto'
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.css">
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/dist/main.js"></script>
+
+<!-- ImageViewer -->
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css">
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script>
+
+<!-- MathJax -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+      tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+  });
+
+  MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for(i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.6/unpacked/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script>
+  var ayerConfig = {
+    mathjax: true
+  }
+</script>
+
+<!-- Katex -->
+
+<!-- busuanzi  -->
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+<!-- ClickLove -->
+
+<!-- ClickBoom1 -->
+
+<!-- ClickBoom2 -->
+
+<!-- CodeCopy -->
+
+
+<link rel="stylesheet" href="/css/clipboard.css">
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="ri-file-copy-2-line"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-checkbox-circle-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-checkbox-circle-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-time-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-time-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+
+
+<!-- CanvasBackground -->
+
+
+    
+  </div>
+</body>
+
+</html>

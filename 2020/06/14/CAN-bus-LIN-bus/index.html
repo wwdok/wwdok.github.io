@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+
+
+<html lang="ch">
+
+
+<head>
+  <meta charset="utf-8" />
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>
+    CAN bus &amp; LIN bus |  Hello World
+  </title>
+  <meta name="generator" content="hexo-theme-ayer">
+  
+  <link rel="shortcut icon" href="/planets.ico" />
+  
+  
+<link rel="stylesheet" href="/dist/main.css">
+
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Shen-Yu/cdn/css/remixicon.min.css">
+
+  
+<link rel="stylesheet" href="/css/custom.css">
+
+  
+  
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+
+  
+  
+
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-172408389-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+
+
+
+  
+<script>
+var _hmt = _hmt || [];
+(function() {
+	var hm = document.createElement("script");
+	hm.src = "https://hm.baidu.com/hm.js?da92a6672e51fa2d1c3bacf2dba555c6";
+	var s = document.getElementsByTagName("script")[0]; 
+	s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+</head>
+
+</html>
+
+<body>
+  <div id="app">
+    
+      
+    <main class="content on">
+      <section class="outer">
+  <article
+  id="post-CAN-bus-LIN-bus"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  CAN bus &amp; LIN bus
+</h1>
+ 
+
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2020/06/14/CAN-bus-LIN-bus/" class="article-date">
+  <time datetime="2020-06-14T08:24:27.000Z" itemprop="datePublished">2020-06-14</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%B1%BD%E8%BD%A6%E7%94%B5%E5%AD%90/">汽车电子</a>
+  </div>
+  
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> Word count:</span>
+            <span class="post-count">3.9k</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> Reading time≈</span>
+            <span class="post-count">13 min</span>
+        </span>
+    </span>
+</div>
+ 
+    </div>
+      
+    <div class="tocbot"></div>
+
+
+
+
+  
+    <div class="article-entry" itemprop="articleBody">
+       
+  <blockquote>
+<p>本文内容主要来源于以下网站的内容收集:<br><br><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E6%8E%A7%E5%88%B6%E5%99%A8%E5%8D%80%E5%9F%9F%E7%B6%B2%E8%B7%AF">《CAN bus 维基百科》</a><br><br><a target="_blank" rel="noopener" href="https://www.eet-china.com/mp/a602.html">《一文了解嵌入式工程师常用的CAN总线协议》</a><br><br><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=AeSZ_3T1GCk">《TI Precision Labs - CAN/LIN/SBC: CAN and CAN FD Overview》</a><br><br><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=2Mhqwt2xTxk&t=605s">《TI Precision Labs - CAN/LIN/SBC: CAN and CAN FD Protocol》</a><br><br><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=TngJZVb33zc">《TI Precision Labs - CAN/LIN/SBC: What is LIN?》</a><br><br><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=hjuO1UjoQU0&t=223s">《Local Interconnect Network (LIN) Overview and Training》</a><br><br><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=4nk8Lb_K8rs">《TI Precision Labs - CAN/LIN/SBC: CAN Physical Layer》</a><br><br><a target="_blank" rel="noopener" href="https://www.renesas.com/sg/en/solutions/automotive/technology/networking-solutions.html">《In-Vehicle Networking Solutions》</a><br><br><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=KOxdqo4eAZM">《Fun and Easy Ethernet - How the Ethernet Protocol Works》</a><br><br><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/73475429">《车载以太网系统——帧结构信息》</a><br><br><a target="_blank" rel="noopener" href="https://www.vector.com/int/en/know-how/technologies/networks/">《vector-networks》</a><br><br><a target="_blank" rel="noopener" href="https://support.ixiacom.com/sites/default/files/resources/whitepaper/ixia-automotive-ethernet-primer-whitepaper_1.pdf">《IXIA-Automotive Ethernet:An Overview》</a><br><br><a target="_blank" rel="noopener" href="https://www.csselectronics.com/screen/page/lin-bus-protocol-intro-basics">《LIN Bus Explained - A Simple Intro (2020)》</a></p>
+</blockquote>
+<h2 id="序言"><a href="#序言" class="headerlink" title="序言"></a>序言</h2><p>作为外行人，我们平时接触感受最多的是下图左边这种基于中心服务器的网络结构，因为互联网差不多就是这种结构，但其实生活中还有很多场景下用到的是右边的网络结构，（当我对技术领域的探索越来越广越来越深入后，我经常遇到这种结构），这种结构的特点是网络中的各个设备要能够互相点对点通信，这就是局域网的一大特点，这里我们谈的CAN就属于这种网络结构，这让我想起这个<a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=1z0ULvg_pW8&t=194s">视频</a>里的hub也是“一台设备发送信息，网络里的其他设备统统都收到信息”。</p>
+<p><img src="https://s1.ax1x.com/2020/06/14/tzWQ2D.png" alt="tzWQ2D.png"></p>
+<h2 id="CAN的由来"><a href="#CAN的由来" class="headerlink" title="CAN的由来"></a><strong>CAN的由来</strong></h2><p>随着汽车的功能越来越丰富，上面的ECU也越来越多（现在大约有70个），于是工程师们面临一个问题：我们要设计一个既能满足应有的ECU间通信功能外，还要求这些通信电缆要够短够简单，这能为汽车制造商节约大量的线束（harness）成本和工时成本，还能为降低车重节约能耗有所作用，在这样的背景下，上世纪80年代罗伯特·博世公司发明了CAN。现在汽车制造商为了进一步节约物料成本，还选择在网络的末端用LIN总线。<br><img src="https://s1.ax1x.com/2020/06/14/tzqbG9.png" alt="tzqbG9.png"></p>
+<span id="more"></span>
+<p>控制器局域网 (Controller Area Network，简称CAN或者CAN bus) 是一种功能丰富的车用总线标准。被设计用于在不需要主机（Host）的情况下，允许网络上的电子设备相互通信。 它基于<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E8%A8%8A%E6%81%AF%E5%82%B3%E9%81%9E_(%E8%BB%9F%E9%AB%94)">消息传递协议</a>，设计之初在车辆上采用<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8">复用通信线缆</a>，以降低线束使用量，后来也被其他行业所使用。<br>CAN使用信息标志符（Message Identifier，每个标志符在整个网络中独一无二）来定义消息内容和消息传递的优先顺序，也就是说每个节点都能发出信息，且网络上其他节点都能收到，但如果遇到同时传输，会有一个优先级，这种方式区别于指定节点地址（Station Address）发送信息的方式，在这个<a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=1z0ULvg_pW8&t=194s">视频</a>里的switch（交换机）就是采用信息只传递给指定节点地址的方法。<br><img src="https://s1.ax1x.com/2020/06/14/tzfFFP.png" alt="tzfFFP.png"><br>正因为CAN使用了全网广播的信息发送机制，这使得它拥有了良好的弹性调整能力，即可以在现有网络中增加、删除节点而不用对原有电子设备的软、硬件做出调整。除此之外，消息的传递不基于特殊种类的节点，增加了升级网络的便利性。</p>
+<h2 id="CAN-架构"><a href="#CAN-架构" class="headerlink" title="CAN 架构"></a><strong>CAN 架构</strong></h2><p>CAN总线整体来看就是下图这么简单，两根线两个电阻还有若干个电子设备/节点。这两根线是CAN_H和CAN_L，各个节点通过这两条线实现信号的串行差分传输，为了避免信号的反射和干扰，还需要在CAN_H和CAN_L之间接上120欧姆的终端电阻，但是为什么是120欧姆呢?那是因为电缆的特性阻抗为120欧。终端电阻可以用来抑制信号反射，同时可以使总线电压回到隐性状态或者闲置状态。</p>
+<p><img src="https://s1.ax1x.com/2020/06/14/NSCmX4.png" alt="NSCmX4.png"></p>
+<p>终端电阻分两种类型：<br><img src="https://s1.ax1x.com/2020/06/14/NS9WY6.png" alt="NS9WY6.png"></p>
+<p>每个节点具体的组成部分如下：</p>
+<p><img src="https://s1.ax1x.com/2020/06/14/NSFoCt.png" alt="NSFoCt.png"></p>
+<p>每个节点/ECU都包含一个CAN收发（Transceiver）芯片，CAN收发器的作用是负责逻辑电平和信号电平之间的转换，即从CAN控制芯片（上图的Micrpcontroller）输出逻辑电平（一堆0和1）到CAN收发器，然后经过CAN收发器内部电路将逻辑电平转换为差分信号输出到CAN总线上。<br><img src="https://s1.ax1x.com/2020/06/14/NSCJ1O.png" alt="NSCJ1O.png"></p>
+<p>关于这个收发芯片，市场上不同的产品有不同的引脚，下图是德州仪器的两款收发芯片：<br><img src="https://s1.ax1x.com/2020/06/14/NSCs9f.png" alt="NSCs9f.png"><br><img src="https://s1.ax1x.com/2020/06/14/NSCT3T.png" alt="NSCT3T.png"><br>下图是一个比较完整的CAN网络结构<br><a target="_blank" rel="noopener" href="https://imgchr.com/i/NS9ry4"><img src="https://s1.ax1x.com/2020/06/14/NS9ry4.png" alt="NS9ry4.png"></a></p>
+<p><img src="https://s1.ax1x.com/2020/06/14/NS9vp8.png" alt="NS9vp8.png"><br><img src="https://s1.ax1x.com/2020/06/14/NSC0AI.png" alt="NSC0AI.png"></p>
+<p><img src="https://s1.ax1x.com/2020/06/14/NSCOb9.png" alt="NSCOb9.png"></p>
+<h2 id="CAN仲裁原理"><a href="#CAN仲裁原理" class="headerlink" title="CAN仲裁原理"></a><strong>CAN仲裁原理</strong></h2><table><tr>
+<td><img src=https://s1.ax1x.com/2020/07/05/USpZpd.png width=90% ></td>
+<td><img src=https://s1.ax1x.com/2020/07/05/USpNXq.png ></td>
+</tr></table>
+
+<p>CANH=2.5V, CANL=2.5V, diff=OV</p>
+<p>CANH=3.5V, CANL=1.5V, diff= 2V</p>
+<p>在CAN总线上，如果有多个节点同时要广播信息怎么办，因为CAN总线某个时刻只能传输一条信息，遇到这种冲突就得靠CAN的仲裁（arbitration）制度了。</p>
+<p>具有较低值的标识符（Message identifier）具有较高的优先级。下图中，节点 A 的标识符的值为1,199，而节点 B 的标识符的值为 1,530。这意味着节点 A 在这两条消息之间具有更高的优先级，它应赢得仲裁。</p>
+<p>收发器必须知道循环时间和传播延迟，以确保适当的消息仲裁。</p>
+<p><img src="https://s1.ax1x.com/2020/07/04/Nz2jRs.png" alt="Nz2jRs.png"></p>
+<p>结合下图，让我们看看CAN 或 CAN FD总线上仲裁的简化示例。想象我们有三个节点访问同一条CAN 总线，并且每个节点同时开始发送一条消息，消息标识符位于节点名称的下面。</p>
+<p>在第一个位期间，这三个节点都传输一个隐性（recessive）信号，因为它们的消息标识符的第一位数字都是“1”。接下来，这三个节点又传输一个表示各自标识符第二位数字的显性位“0”。到目前为止，由于三个节点都传输了相同的信号，因此还没有仲裁。</p>
+<p>不过，在第三个位期间，节点 B传输一个隐性信号“1”。但是，由于网络上至少有一个器件（A和C）正在传输显性信号“0”，此时，节点A和C拥有更高的优先级，因此节点 B 输掉仲裁。</p>
+<p>背后的技术细节是，B节点的CAN 收发器在驱动时监视总线，并将其状态与其正在驱动的状态进行比较。如果收发器传输逻辑“1”，但读取逻辑“0”，这里的节点 B 正是这种情况，则会立即停止传输。目前为止，节点 A 和节点 C尚未经历过这种情况。因此，这两个节点继续各自的传输，直到其中一个节点在传输隐性信号时接收到显性信号。</p>
+<p>在该示例中，节点 C在第七个位经历该情况。此时，节点 C输掉仲裁。它也立即停止传输。</p>
+<p>作为唯一继续传输的器件，节点 A 将完成其 11位消息标识符传输。因为它已经以最低的二进制标识符值赢得了仲裁，所以它可以继续传输其消息的剩余部分，。</p>
+<p>节点 B 和 C 将在下一个帧间间隔之后重新尝试发送其优先级较低的消息，该间隔将在节点<br>A 传输结束时发生。</p>
+<p><img src="https://s1.ax1x.com/2020/07/04/NzgoEF.png" alt="NzgoEF.png"></p>
+<h2 id="CAN数据格式"><a href="#CAN数据格式" class="headerlink" title="CAN数据格式"></a><strong>CAN数据格式</strong></h2><blockquote>
+<p>本节以下截图来源于《TI Precision Labs - CAN/LIN/SBC: CAN and CAN FD Protocol》</p>
+</blockquote>
+<p>整体上看，一个CAN数据帧的格式如下图所示<br><img src="https://s1.ax1x.com/2020/07/04/NzcyS1.png" alt="NzcyS1.png"><br>下面让我们来从头到尾看一个样例 CAN 帧各个部分的定义,一种颜色代表一个部分<br><a target="_blank" rel="noopener" href="https://imgchr.com/i/NzTIQe"><img src="https://s1.ax1x.com/2020/07/04/NzTIQe.png" alt="NzTIQe.png"></a><br><img src="https://s1.ax1x.com/2020/07/04/Nz7Bkt.png" alt="Nz7Bkt.png"><br><img src="https://s1.ax1x.com/2020/07/04/Nz7Rmj.png" alt="Nz7Rmj.png"><br><img src="https://s1.ax1x.com/2020/07/04/Nz7OB9.png" alt="Nz7OB9.png"><br><img src="https://s1.ax1x.com/2020/07/04/NzHZNt.png" alt="NzHZNt.png"><br><img src="https://s1.ax1x.com/2020/07/04/NzHKgS.png" alt="NzHKgS.png"><br><img src="https://s1.ax1x.com/2020/07/04/NzHBDJ.png" alt="NzHBDJ.png"><br><img src="https://s1.ax1x.com/2020/07/04/NzbcZj.png" alt="NzbcZj.png"><br><img src="https://s1.ax1x.com/2020/07/04/NzqCeH.png" alt="NzqCeH.png"><br><img src="https://s1.ax1x.com/2020/07/04/NzqJpV.png" alt="NzqJpV.png"></p>
+<p><img src="https://s1.ax1x.com/2020/07/04/NzOiGt.png" alt="NzOiGt.png"><br><img src="https://s1.ax1x.com/2020/07/04/NzOuIs.png" alt="NzOuIs.png"></p>
+<p><img src="https://s1.ax1x.com/2020/07/05/NzzAHO.png" alt="NzzAHO.png"></p>
+<p><img src="https://s1.ax1x.com/2020/07/05/Nzzdvq.png" alt="Nzzdvq.png"></p>
+<h2 id="CAN数据传输速度"><a href="#CAN数据传输速度" class="headerlink" title="CAN数据传输速度"></a><strong>CAN数据传输速度</strong></h2><p>长度小于40m的网络最高支持的比特率高达1兆比特/秒。降低比特率可以允许使用更长的网络距离（例如，125千比特/秒支持最大500米）。改进的CAN FD标准允许仲裁后升高比特率，可以将数据区块速度增加至仲裁位速率的八倍。<br><a target="_blank" rel="noopener" href="https://imgchr.com/i/NS9Lkt"><img src="https://s1.ax1x.com/2020/06/14/NS9Lkt.png" alt="NS9Lkt.png"></a></p>
+<h2 id="LIN-的由来"><a href="#LIN-的由来" class="headerlink" title="LIN 的由来"></a><strong>LIN 的由来</strong></h2><p>CAN的成本太高（线束成本 + CAN许可证费 + 节点芯片成本），无法在车上的每一个设备中都装设。在1990年代末期，由BMW、大众集团、奥迪、富豪汽车及梅赛德斯-奔驰这五家车厂开始了LIN Consortium（联盟），也有从Volcano汽车集团及摩托罗拉而来的软件及硬件协助。第一个完全实现的新LIN协定（LIN version 1.3）是在2002年11月发布。</p>
+<p>LIN总线的核心相对简单：<br>一个主节点循环遍历每个从节点，发送信息请求。每个从节点在被轮询时都会响应数据。</p>
+<img src=https://canlogger1000.csselectronics.com/img/LIN-Bus-Data-Flow-Transmission-Header-Response.svg width=60%>
+
+<p>但是，随着每个规范的更新，LIN规范中都添加了新功能，使其更加复杂。</p>
+<p>简单来说，LIN总线消息帧由<strong>标头</strong>和<strong>响应</strong>组成。</p>
+<p>通常，LIN主设备将标头发送到LIN总线。这将触发一个从机，该从机发送2/4/8个数据字节作为响应。</p>
+<p>整个LIN框架如下图所示：</p>
+<img src=https://canlogger1000.csselectronics.com/img/LIN-Bus-Frame-Message-Header-Response-Master-Slave.svg width=100%>
+
+<p><font color=#ff9933 size=3 >间隔</font>：同步间隔字段（SBF）也称为间隔，其长度至少为13 + 1位（实际上，通常为18 + 2位）。中断字段充当总线上所有LIN节点的“帧开始”通知。</p>
+<p><font color=#ff9933 size=3 >同步</font>： 8位同步字段的预定义值为0x55（二进制格式01010101）。这种结构允许LIN节点确定上升沿/下降沿之间的时间，从而确定主节点使用的波特率。这使它们每个保持同步。</p>
+<p><font color=#ff9933 size=3 >标识符</font>：标识符为6位，后跟2个奇偶校验位。该ID充当每个发送的LIN消息的标识符，以及哪些节点对标头做出反应。从站确定ID字段的有效性（基于奇偶校验位），并通过以下操作：</p>
+<ol>
+<li>忽略后续数据传输</li>
+<li>侦听从另一个节点传输的数据</li>
+<li>发布数据以响应标题</li>
+</ol>
+<p>通常，一次轮询一个从站以获取信息，这意味着零碰撞风险（因此无需仲裁）。<br>请注意，这6位允许使用64个ID，其中ID 60-61用于诊断（下面更多内容），而62-63则保留。</p>
+<p><font color=#3399ff size=3 >数据</font>：当LIN从站被主站轮询时，它可以通过传输2、4或8字节的数据进行响应。从LIN 2.0开始，数据长度取决于ID范围（ID 0-31：2个字节，32-47：4个字节，48-63：8个字节）。</p>
+<p><font color=#3399ff size=3 >校验和</font>：与CAN中一样，校验和字段可确保LIN帧的有效性。经典的 8位校验是基于所述数据字节只（LIN 1.3）求和，而增强的校验和算法也包括标识符字段（LIN 2.0）。</p>
+<p><strong>六种LIN框架类型</strong></p>
+<p>尽管存在多种类型的LIN帧，实际上绝大多数通信都是通过“无条件帧”完成的。</p>
+<p>还要注意，下面的每一种都遵循相同的基本LIN帧结构。只是在时序或数据字节内容上有所不同。</p>
+<p>下面我们简要概述每种LIN框架类型：</p>
+<p><img src="https://s1.ax1x.com/2020/08/10/a7TLdO.png" alt="a7TLdO.png"></p>
+<img src=https://canlogger1000.csselectronics.com/img/intel/lin-bus/LIN-Frame-Type-Identifier-Unconditional-Diagnostic-Event-Triggered.png width=50%>
+
+<h2 id="LIN的网络拓扑"><a href="#LIN的网络拓扑" class="headerlink" title="LIN的网络拓扑"></a><strong>LIN的网络拓扑</strong></h2><p>LIN是广播串行网络，其中包括主站(master)和从站（slave），而一台主站可以控制多达16台从站。因为所有的通讯都是由主站开始，且是时间确定性（time deterministic），不需要有碰撞侦测的方案。在长度40米时，可以到19.2 kbit/s。</p>
+<p>主站和从站一般都是用单片机实现，不过为了节省成本、空间或是电源，也可以用特殊的硬件或是特殊应用集成电路来实现。</p>
+<p><img src="https://s1.ax1x.com/2020/07/05/US5vge.png" alt="US5vge.png"><br><img src="https://s1.ax1x.com/2020/07/05/USIiUP.png" alt="USIiUP.png"><br><img src="https://s1.ax1x.com/2020/07/05/USIl5V.png" alt="USIl5V.png"><br><img src="https://s1.ax1x.com/2020/07/05/USoWy4.png" alt="USoWy4.png"><br><img src="https://s1.ax1x.com/2020/07/05/USINr9.png" alt="USINr9.png"><br><img src="https://s1.ax1x.com/2020/08/10/a7532q.png" alt="a7532q.png"></p>
+<h2 id="CAN-和-LIN-的对比"><a href="#CAN-和-LIN-的对比" class="headerlink" title="CAN 和 LIN 的对比"></a><strong>CAN 和 LIN 的对比</strong></h2><p>在汽车电气系统里，CAN与LIN相辅相成<br><img src="https://s1.ax1x.com/2020/07/05/USgkVO.png" alt="USgkVO.png"><br>除了上图右边列出的差异外，CAN和LIN的差异还包括：<br>CAN的工作电压为5V,LIN的工作电压为12V；<br>CAN的identifier位数是11或29，LIN的identifier位数是6；</p>
+<h2 id="其他汽车通信协议"><a href="#其他汽车通信协议" class="headerlink" title="其他汽车通信协议"></a><strong>其他汽车通信协议</strong></h2><img src=https://www2.renesas.cn/cn/zh/img/solutions/automotive/technology/blockdiagram-networking.jpg>
+
+<p>CAN是目前使用最广泛的车载网络，比如它会使用在Airbag,ABS,millimeter-wave radar，dashboard，seat belt control。然而，随着自动驾驶汽车和其他新技术的不断出现和发展，汽车网络对更大的带宽和连接性的需求越来越高，所以后来又诞生了像无线CAN，MOST，FlexRay和汽车以太网等这些车载网络协议。</p>
+<p><strong>MOST</strong>（Media Oriented Systems Transport）是一种串行通信系统，用于通过光纤电缆传输控制数据，视频和音频，它以24.8 Mbps的速率提供了点对点的声音和视频信息交换。由MOST协会创建的MOST，它定义了必要的协议，软件和硬件层，以允许使用单个介质/物理层高效，低成本地传输控制，实时和分组数据。可以以最多包括64个MOST设备的环的形式示意性地表示MOST网络。由于其即插即用功能，添加或删除MOST设备应该非常简单。</p>
+<p><strong>FlexRay</strong>的传输速率可以达到10Mbps。CAN一帧最多只能传输8字节的数据，CAN FD也只能64字节，而Flexray却能一帧传输254字节。它使用铜或光纤作为物理层的线束。具有双通道配置的FlexRay具有增强的容错能力和/或增加的带宽。FlexRay通信网络的功能使其非常适合下一代汽车行业。</p>
+<p>大多数第一代FlexRay网络通常采用单个通道来控制布线成本，但进一步的应用开发和安全要求将导致增加两个通道的使用。<br><img src=https://talks.navixy.com/wp-content/uploads/2020/06/flexray_wiring1.jpg></p>
+<p>FlexRay的应用场景有<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/x-by-wire/1165018?fr=aladdin">X-by-wire</a>、ADAS。<br><img src=https://www.renesas.com/us/en/img/solutions/automotive/technology/brake-by-wire-system.png></p>
+<p><strong>车载以太网Ethernet</strong></p>
+<p>以太网1973年被发明出来后大部分场合是应用于家庭，办公室和工厂中，是使用非常广泛的LAN技术。现在，车辆通常可以容纳多个摄像头，车载诊断程序，高级驾驶员辅助系统（ADAS），信息娱乐系统和仪表板显示屏。上面的许多要求超出了已有的CAN总线的技术能力，而以太网就是为了满足这些需求应运而生。与我们所知的标准以太网相比，汽车以太网使用不同的硬件层来满足车辆中恶劣环境和电气条件的要求。</p>
+<p>我们笔记本电脑有个RJ45接口，我们不用wifi上网时就会插这根带水晶头的网线，所以以太网就在我们的身边，这个水晶头有8个触点，但其实我们的以太网只需要用来4根，或者说两对，正因为它是两对双绞线，一对的数据传输方向往“左”，所以以太网是全双工的。<br><img src="https://s1.ax1x.com/2020/08/09/a7U80S.png" alt="a7U80S.png"><br><img src="https://i.loli.net/2020/08/09/I8erC1pqEbc6sPA.png" alt="image.png"></p>
+<p>以太网的数据帧格式详见这篇文章：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/73475429">《车载以太网系统——帧结构信息》</a>。</p>
+<p>以太网的标准拓扑结构为总线型拓扑，但目前的快速以太网为了减少冲突，最大化提高网络速度和使用效率，便使用了交换机（Switch hub）来进行网络连接和组织。如此一来，以太网的拓扑结构就成了星型；但在逻辑上，以太网仍然使用总线型拓扑和CSMA/CD（Carrier Sense Multiple Access/Collision Detection，即载波多重访问/碰撞侦测）的总线技术。</p>
+<p>以太网的传输速度会随着节点数的增多而降低，但仍然比CAN总线快。</p>
+<p><strong>部分以太网类型</strong><br><img src="https://i.loli.net/2020/08/09/hUWtzVsvyfJw9GY.png" alt="image.png"></p>
+<p><strong>车载以太网的发展历程</strong></p>
+<p><img src="https://s1.ax1x.com/2020/08/09/a7g5uQ.png" alt="a7g5uQ.png"></p>
+<img src=https://www.renesas.com/us/en/img/solutions/automotive/technology/ethernet-diagnostic.jpg>
+
+<img src=https://picb.zhimg.com/v2-f1f167c6a996c1d44446047607a022df_r.jpg>
+
+<p><img src="https://s1.ax1x.com/2020/08/10/a75OoQ.png" alt="a75OoQ.png"></p>
+ 
+      <!-- reward -->
+      
+      <div id="reword-out">
+        <div id="reward-btn">
+          Donate
+        </div>
+      </div>
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <div class="declare">
+      <ul class="post-copyright">
+        <li>
+          <i class="ri-copyright-line"></i>
+          <strong>Copyright： </strong>
+          
+          Copyright is owned by the author. For commercial reprints, please contact the author for authorization. For non-commercial reprints, please indicate the source.
+          
+        </li>
+      </ul>
+    </div>
+    
+    <footer class="article-footer">
+       
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://example.com/2020/06/14/CAN-bus-LIN-bus/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>  
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%B1%BD%E8%BD%A6/" rel="tag">汽车</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%80%9A%E4%BF%A1/" rel="tag">通信</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+  <nav class="article-nav">
+    
+      <a href="/2020/06/20/%E7%BE%8E%E8%81%94%E5%82%A8%E5%8A%A0%E6%81%AF%E6%98%AF%E4%BB%80%E4%B9%88%E6%84%8F%E6%80%9D/" class="article-nav-link">
+        <strong class="article-nav-caption">上一篇</strong>
+        <div class="article-nav-title">
+          
+            美联储加息是什么意思
+          
+        </div>
+      </a>
+    
+    
+      <a href="/2020/06/09/apk%E7%9A%84%E5%8F%8D%E7%BC%96%E8%AF%91%E4%B8%8E%E5%8A%A0%E5%9B%BA/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">APK的反编译与加固</div>
+      </a>
+    
+  </nav>
+
+   
+<!-- valine评论 -->
+<div id="vcomments-box">
+  <div id="vcomments"></div>
+</div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js"></script>
+<script>
+  new Valine({
+    el: "#vcomments",
+    app_id: "Y8oqscHrnLuIwp1649iHgWjM-gzGzoHsz",
+    app_key: "IjneyzqTD2fkFsPSEFKEW0lN",
+    path: window.location.pathname,
+    avatar: "monsterid",
+    placeholder: "有什么想说的请在此留言~",
+    recordIP: true,
+  });
+  const infoEle = document.querySelector("#vcomments .info");
+  if (infoEle && infoEle.childNodes && infoEle.childNodes.length > 0) {
+    infoEle.childNodes.forEach(function (item) {
+      item.parentNode.removeChild(item);
+    });
+  }
+</script>
+<style>
+  #vcomments-box {
+    padding: 5px 30px;
+  }
+
+  @media screen and (max-width: 800px) {
+    #vcomments-box {
+      padding: 5px 0px;
+    }
+  }
+
+  #vcomments-box #vcomments {
+    background-color: #fff;
+  }
+
+  .v .vlist .vcard .vh {
+    padding-right: 20px;
+  }
+
+  .v .vlist .vcard {
+    padding-left: 10px;
+  }
+</style>
+
+ 
+     
+</article>
+
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul>
+      <li>
+        Copyrights &copy;
+        2020-2021
+        <i class="ri-heart-fill heart_icon"></i> Wade Wang
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+        
+        
+        Powered by <a href="https://hexo.io" target="_blank">Hexo</a>
+        <span class="division">|</span>
+        Theme - <a href="https://github.com/Shen-Yu/hexo-theme-ayer" target="_blank">Ayer</a>
+        
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+        
+        <span>
+  <span><i class="ri-user-3-fill"></i>Visitors:<span id="busuanzi_value_site_uv"></span></s>
+  <span class="division">|</span>
+  <span><i class="ri-eye-fill"></i>Views:<span id="busuanzi_value_page_pv"></span></span>
+</span>
+        
+      </li>
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      <li>
+        <!-- cnzz统计 -->
+        
+        <script type="text/javascript" src='https://s9.cnzz.com/z_stat.php?id=1278069914&amp;web_id=1278069914'></script>
+        
+      </li>
+    </ul>
+  </div>
+</footer>
+      <div class="float_btns">
+        <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+
+      </div>
+    </main>
+    <aside class="sidebar on">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/yoga.png" alt="Hello World"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" target="_blank" rel="noopener" href="http://wwdok.lofter.com">摄影</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/friends">友链</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/about">关于我</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="Search">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <script>
+      if (window.matchMedia("(max-width: 768px)").matches) {
+        document.querySelector('.content').classList.remove('on');
+        document.querySelector('.sidebar').classList.remove('on');
+      }
+    </script>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯果汁吧~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/alipay.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/wechat.png">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+    
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+<!-- Tocbot -->
+
+
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3, h4, h5, h6',
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer: 'main',
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto'
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.css">
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/dist/main.js"></script>
+
+<!-- ImageViewer -->
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css">
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script>
+
+<!-- MathJax -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+      tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+  });
+
+  MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for(i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.6/unpacked/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script>
+  var ayerConfig = {
+    mathjax: true
+  }
+</script>
+
+<!-- Katex -->
+
+<!-- busuanzi  -->
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+<!-- ClickLove -->
+
+<!-- ClickBoom1 -->
+
+<!-- ClickBoom2 -->
+
+<!-- CodeCopy -->
+
+
+<link rel="stylesheet" href="/css/clipboard.css">
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="ri-file-copy-2-line"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-checkbox-circle-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-checkbox-circle-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-time-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-time-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+
+
+<!-- CanvasBackground -->
+
+
+    
+  </div>
+</body>
+
+</html>

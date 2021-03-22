@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+
+
+<html lang="ch">
+
+
+<head>
+  <meta charset="utf-8" />
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>
+    损失函数 |  Hello World
+  </title>
+  <meta name="generator" content="hexo-theme-ayer">
+  
+  <link rel="shortcut icon" href="/planets.ico" />
+  
+  
+<link rel="stylesheet" href="/dist/main.css">
+
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Shen-Yu/cdn/css/remixicon.min.css">
+
+  
+<link rel="stylesheet" href="/css/custom.css">
+
+  
+  
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+
+  
+  
+
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-172408389-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+
+
+
+  
+<script>
+var _hmt = _hmt || [];
+(function() {
+	var hm = document.createElement("script");
+	hm.src = "https://hm.baidu.com/hm.js?da92a6672e51fa2d1c3bacf2dba555c6";
+	var s = document.getElementsByTagName("script")[0]; 
+	s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+</head>
+
+</html>
+
+<body>
+  <div id="app">
+    
+      
+    <main class="content on">
+      <section class="outer">
+  <article
+  id="post-损失函数"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  损失函数
+</h1>
+ 
+
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2020/09/26/%E6%8D%9F%E5%A4%B1%E5%87%BD%E6%95%B0/" class="article-date">
+  <time datetime="2020-09-26T03:00:25.000Z" itemprop="datePublished">2020-09-26</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/CV/">CV</a> / <a class="article-category-link" href="/categories/CV/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a>
+  </div>
+  
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> Word count:</span>
+            <span class="post-count">3.4k</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> Reading time≈</span>
+            <span class="post-count">13 min</span>
+        </span>
+    </span>
+</div>
+ 
+    </div>
+      
+    <div class="tocbot"></div>
+
+
+
+
+  
+    <div class="article-entry" itemprop="articleBody">
+       
+  <p>目标检测任务的损失函数由Classificition Loss和Bounding Box Regeression Loss两部分构成。本文介绍目标检测任务中近几年来Bounding Box Regression Loss Function的演进过程，其演进路线是Smooth L1 Loss → IoU Loss → GIoU Loss → DIoU Loss → CIoU Loss，本文按照此路线进行讲解。</p>
+<h2 id="1-Smooth-L1-Loss"><a href="#1-Smooth-L1-Loss" class="headerlink" title="1. Smooth L1 Loss"></a>1. <strong>Smooth L1 Loss</strong></h2><p>在Faster R-CNN以及SSD中对边框的回归使用的损失函数都是Smooth L1 作为损失函数，其定义为：</p>
+<p>$$SmoothL_1(x) =<br>\begin{cases}<br>    0.5x^2 \qquad if|x|&lt;1\<br>    |x| - 0.5   \quad otherwise<br>\end{cases}$$</p>
+<p>其中，$x=f(x_i)−y_i$ 为预测值和真实值的差值。</p>
+<p>实际目标检测框回归任务中的损失loss为</p>
+<p>$$L(g,p) = \sum_{i\in{(x,y,w,h)}}smooth_{L1}(g_i - p_i)$$</p>
+<p>其中 $g=(g_x,g_y,g_w,g_h)$ 表示Ground Truth的框坐标，  $p=(p_x,p_y,p_w,p_h)$ 表示Prediction的框坐标，即分别求4个点的loss，然后相加作为Bounding Box Regression Loss。</p>
+<p><strong>对比 L1 Loss 和 L2 Loss</strong></p>
+<p>L1 loss可以看做是平均绝对误差（Mean Absolute Error,MAE) 是指模型预测值f(x)和真实值y之间距离的平均值，其公式如下：</p>
+<p>$$M A E=\frac{\sum_{n=1}^{n}\left|f\left(x_{i}\right)-y_{i}\right|}{n}$$</p>
+<p>其中，$y_i$和$f(x_i)$分别表示第i个样本的真实值及其对应的预测值，n为样本的个数。</p>
+<p>忽略下标 i ，设n=1，以f(x)−y为横轴，MAE的值为纵轴，得到函数的图形如下：</p>
+<img src="https://pic.downk.cc/item/5f905bbd1cd1bbb86b8f3fec.png">
+
+<p>相比于MSE，MAE有个优点就是，对于离群点不那么敏感。</p>
+<img src="https://pic.downk.cc/item/5f905bd71cd1bbb86b8f479a.png">
+
+<p>L2 loss可以看作是均方误差（Mean Square Error,MSE）是模型预测值f(x) 与真实样本值y 之间差值平方的平均值，其公式如下;</p>
+<p>$$M S E=\frac{\sum_{i=1}^{n}\left(f_{x_{i}}-y_{i}\right)^{2}}{n}$$</p>
+<p>忽略下标 i ，设n=1，以f(x)−y为横轴，MSE的值为纵轴，得到函数的图形如下：</p>
+<img src="https://pic.downk.cc/item/5f905fd11cd1bbb86b90638f.png">
+
+<p>如果样本中存在离群点，MSE会给离群点更高的权重，这就会牺牲其他正常点数据的预测效果，最终降低整体的模型性能。 如下图：</p>
+<img src="https://pic.downk.cc/item/5f905bfe1cd1bbb86b8f5299.png">
+
+<p>可见，使用 MSE 损失函数，受离群点的影响较大，虽然样本中只有 5 个离群点，但是拟合的直线还是比较偏向于离群点。</p>
+<p>假设$x=f(x_i)−y_i$ ，则上面的公式可以概括为：</p>
+<p>$$L_1(x) = ± x$$<br>$$L_2(x) = x^2$$<br>$$SmoothL_1(x) =<br>\begin{cases}<br>    0.5x^2 \qquad if|x|&lt;1\<br>    |x| - 0.5   \quad otherwise<br>\end{cases}$$</p>
+<p>上面损失函数对$x$的导数为：<br>$$<br>\begin{aligned}<br>\frac{\partial L_{1}(x)}{\partial x} &amp;=\left{\begin{array}{cl}<br>1 &amp; \text { if } x \geq 0 \<br>-1 &amp; \text { otherwise }<br>\end{array}\right.\</p>
+<p>\frac{\partial L_{2}(x)}{\partial x} &amp;=2 x \</p>
+<p>\frac{\partial \operatorname{smooth}<em>{L</em>{1}}(x)}{\partial x} &amp;=\left{\begin{array}{ll}<br>x &amp; \text { if }|x|&lt;1 \<br>\pm 1 &amp; \text { otherwise }<br>\end{array}\right.<br>\end{aligned}<br>$$<br>上面导数可以看出：</p>
+<p>对于L1导数,L1对x的导数为常数，在<strong>训练后期</strong>，预测值与ground truth差异很小时，L1的导数的绝对值仍然为1，而 learning rate 如果不变，损失函数将在稳定值附近波动，难以继续收敛以达到更高精度。</p>
+<p>对于L2导数，当x增大时，L2的损失也增大。 这就导致在<strong>训练初期</strong>，预测值与 groud truth 差异过于大时，损失函数对预测值的梯度十分大，训练不稳定。</p>
+<p>对于Smooth L1导数，Smotth L1在x较小时，对x的梯度也会变小。 而当x较大时，对x的梯度的上限为1，也不会太大以至于破坏网络参数。Smooth L1完美的避开了L1和L2作为损失函数的缺陷。</p>
+<p><strong>L1 Loss ,L2 Loss以及SmoothL1 放在一起的函数曲线对比</strong></p>
+<img src="https://pic.downk.cc/item/5f905c111cd1bbb86b8f5910.png">
+
+<p>从上面可以看出，该函数实际上就是一个分段函数，在[-1,1]之间实际上就是L2损失，这样解决了L1的不光滑问题，在[-1,1]区间外，实际上就是L1损失，这样就解决了离群点梯度爆炸的问题。</p>
+<h2 id="IOU-Loss"><a href="#IOU-Loss" class="headerlink" title="IOU_Loss"></a><strong>IOU_Loss</strong></h2><img src=https://pic3.zhimg.com/80/v2-c812620791de642ccb7edcde9e1bd742_720w.jpg>
+
+<p>可以看到IOU的loss其实很简单，主要是交集/并集，但其实也存在两个问题:</p>
+<img src=https://picb.zhimg.com/80/v2-e3d9a882dec6bb5847be80899bb98ea3_720w.jpg>
+
+<p>问题1：即上图中状态1的情况，当预测框和目标框不相交时，IOU=0，无法反应两个框距离的远近，此时损失函数不可导，IOU_Loss无法优化两个框不相交的情况。</p>
+<p>问题2：即上图中状态2和状态3的情况，当两个预测框大小相同，两个IOU也相同，IOU_Loss无法区分两者相交情况的不同。</p>
+<p>因此2019年出现了GIOU_Loss来进行改进。</p>
+<h2 id="GIOU-Loss-Generalized-IOU"><a href="#GIOU-Loss-Generalized-IOU" class="headerlink" title="GIOU_Loss(Generalized IOU)"></a><strong>GIOU_Loss(Generalized IOU)</strong></h2><img src=https://pic1.zhimg.com/80/v2-443123f1aa540f7dfdc84b233edcdc67_720w.jpg>
+
+<p>GIOU的创新之处在于考虑了<strong>最小外接矩形</strong>和<strong>差集</strong>这两个指标，用差集除以最小外接矩形就能区分开IOU问题里的状态2和状态3了，状态3的差集除以最小外接矩形的值更小，所以状态3的GIOU更大，GIOU_LOSS更小。</p>
+<p>但是GIOU还存在一种不足：</p>
+<img src=https://pic1.zhimg.com/80/v2-49024c2ded9faafe7639c5207e575ed6_720w.jpg>
+
+<p>问题：状态1、2、3都是 <strong>预测框在目标框内部</strong> 且 <strong>预测框大小一致</strong> 的情况，这时预测框和目标框的差集和最小外接矩形都是相同的，因此这三种状态的GIOU值也都是相同的，这时GIOU退化成了IOU，无法区分相对位置关系。<br>基于这个问题，2020年的AAAI出现了DIOU_Loss。</p>
+<h2 id="DIOU-Loss-Distance-IoU"><a href="#DIOU-Loss-Distance-IoU" class="headerlink" title="DIOU_Loss(Distance-IoU)"></a><strong>DIOU_Loss(Distance-IoU)</strong></h2><img src=https://pic4.zhimg.com/80/v2-029f094658e87f441bf30c80cb8d07d0_720w.jpg>
+
+<p>DIOU的定义和GIOU很像，相当于把 “差集面积/最小外接矩形面积” 替换成 “中心点距离平方/最小外接矩形对角线距离平方”，公式长这个样子：</p>
+<p>$$D I o U=I o U-\frac{\rho^{2}\left(b, b^{g t}\right)}{c^{2}}$$</p>
+<p>但是DIOU仍然有缺点，那就是没有考虑到长宽比。</p>
+<img src=https://pic4.zhimg.com/80/v2-22bf2e9c8a2fbbbb877e0f1ede69009f_720w.jpg>
+
+<p>比如上面三种情况，目标框包裹预测框，预测框的中心点的位置都是一样的，因此按照DIOU_Loss的计算公式，三者的值都是相同的，但是这3种状态中，看起来应该是状态1最好吧。那应该怎么区别这3种状态的好坏呢？</p>
+<p>针对这个问题，又提出了CIOU_Loss，不得不说，好的解决方案都是前人用时间一点一点积累起来的！</p>
+<h2 id="CIOU-Loss-Complete-IoU"><a href="#CIOU-Loss-Complete-IoU" class="headerlink" title="CIOU_Loss(Complete-IoU)"></a><strong>CIOU_Loss(Complete-IoU)</strong></h2><p>CIOU_Loss和DIOU_Loss前面的公式都是一样的，不过在此基础上还增加了一个影响因子$\alpha v$，将预测框和目标框的长宽比都考虑了进去。</p>
+<p>其中$v$是衡量长宽比一致性的参数，定义为：</p>
+<p>$$v=\frac{4}{\pi^{2}}\left(\arctan \frac{w^{g t}}{h^{g t}}-\arctan \frac{w}{h}\right)^{2}$$</p>
+<p>$\alpha$ 是用于做trade-off的参数:</p>
+<p>$$\alpha=\frac{v}{(1-I o U)+v}$$</p>
+<p>完整的定义为$L_{C I o U}=1-I o U+\frac{\rho^{2}\left(b, b^{g t}\right)}{c^{2}}+\alpha v$，</p>
+<p>或者在我们这里是：$\mathrm{ClOU}_{-} \mathrm{Loss}=1 - \mathrm{CIOU}=1-\left(\mathrm{I} 0 \mathrm{U}-\frac{\text { Distance } 2^{2}}{\text { Distance }-\mathrm{C}^{2}}-\frac{v^{2}}{(1-\mathrm{IOU})+v}\right)$</p>
+<p>这样CIOU_Loss就将目标框回归函数应该考虑三个重要几何因素：重叠面积、中心点距离，长宽比全都考虑进去了。</p>
+<p>再来综合的看下各个Loss函数的不同点：</p>
+<p>IOU_Loss：主要考虑检测框和目标框重叠面积。</p>
+<p>GIOU_Loss：在IOU的基础上，考虑了非包围情况下，两个矩形框形成的几何面积的信息。</p>
+<p>DIOU_Loss：在IOU和GIOU的基础上，考虑包围情况下，两个矩形框中心点距离的信息。</p>
+<p>CIOU_Loss：在DIOU的基础上，考虑边界框宽高比的信息。</p>
+<p>Yolov4中采用了CIOU_Loss的回归方式，使得预测框回归的精度更高一些。</p>
+<p>上面的各种IOU不仅可以用来基于先验框的预测框的回归训练，还可以用在NMS上。常用的目标检测算法中，一般采用普通的NMS来进行预测框的筛选，Yolov4则借鉴上面D/CIOU来进行预测框的筛选，论文：<a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1911.08287.pdf">https://arxiv.org/pdf/1911.08287.pdf</a></p>
+<p>将其中计算IOU的部分替换成DIOU的方式：</p>
+<p>来看下实际的案例</p>
+<img src=https://pic4.zhimg.com/80/v2-ddb336d26adb2a2e37415b6266c88ec6_720w.jpg>
+
+<p>在上图重叠的摩托车检测中，黄色箭头所指的中间的摩托车因为考虑边界框中心点的位置信息，也可以回归出来。</p>
+<p>因此在重叠目标的检测中，DIOU_nms的效果优于传统的nms。</p>
+<p>注意：有读者会有疑问，这里为什么不用CIOU_nms，而用DIOU_nms?</p>
+<p>答：因为前面讲到的CIOU_loss，是在DIOU_loss的基础上，添加的影响因子，包含groundtruth标注框的信息，在训练时用于回归。</p>
+<p>但在测试过程中，并没有groundtruth的信息，不用考虑影响因子，因此直接用DIOU_nms即可。</p>
+<h2 id="Focal-Loss"><a href="#Focal-Loss" class="headerlink" title="Focal Loss"></a><strong>Focal Loss</strong></h2><p>Focal loss主要是为了解决one-stage目标检测中正负样本比例严重失衡的问题。<br>我们知道，anchor-based算法会产生大量的背景简单负样本 、少量的目标简单正样本、中量的背景目标过渡区域困难正、负样本。现在考虑数量最多的简单背景负样本，这些简单背景负样本很容易被分类为背景，所以它们的损失很小，但毕竟负样本数量太多，模型还是不得不考虑这些样本，所以最终的结果是，模型优化了大量背景负样本的损失，而忽视了优化那些目标样本的损失，也就是说优化重点跑偏了。同时因为背景负样本很容易分类，它们的损失已经低到不能再低了，所以还会导致模型的loss后期很难继续收敛。</p>
+<img src="https://s1.ax1x.com/2020/10/02/0QAJG8.png" alt="0QAJG8.png" border="0" />
+
+<p>OHEM（online hard example mining）是后来针对正负样本不均衡提出的一种筛选example的方法，OHEM的主要思想可以用原文的一句话概括：In OHEM each example is scored by its loss, non-maximum suppression (NMS) is then applied, and a minibatch is constructed with the highest-loss examples。OHEM算法虽然增加了困难样本的权重，但是却忽略了容易分类的样本，结果它把所有的easy example都去除掉，造成无法用easy positive example进一步提升训练的精度。</p>
+<p>于是后来2017年何凯明等人提出了Focal loss，他提出只要通过将原先训练回归任务常用的 交叉熵误差CE (Cross Entropy) 改为 FL (Focal Loss) 即可，首先回顾二分类交叉上损失：</p>
+<p>$$<br>\mathrm{L}_{Cross Entropy}(y,y’)=-\mathrm{ylog} y^{\prime}-(1-y) \log \left(1-y^{\prime}\right)=\left{\begin{array}{ll}<br>-\log y^{\prime} \quad &amp; y=1 \<br>-\log \left(1-y^{\prime}\right) &amp; y=0<br>\end{array}\right.<br>$$<br>$y’$是样本属于正样本的概率值。可见普通的交叉熵对于正样本(y=1)而言，$y’$越大损失越小。对于负样本(y=0)而言，$y’$越小则损失越小。</p>
+<p>下面我们来看一下Focal Loss的公式：</p>
+<p>$$<br>\mathrm{L}_{FocalLoss}(y,y’)=\left{\begin{array}{ll}<br>-\alpha\left(1-y^{\prime}\right)^{\gamma} \log y^{\prime} &amp; y=1 \<br>-(1-\alpha) y^{\prime \gamma} \log \left(1-y^{\prime}\right) &amp; y=0<br>\end{array}\right.<br>$$</p>
+<p>在公式中，α主要负责调节正负样本的失衡，γ主要负责调节难易样本的失衡。</p>
+<p>先不管α，先思考一下γ的作用逻辑。对于正样本（y=1），其易分类的样本的$y’$趋近于1，所以$(1-y’)^\gamma$很小；对于负样本（y=0），其易分类的样本$y’$趋近于0，所以$y’^\gamma$也很小。合起来说就是，对于易分类的（well-classified）样本的权值都被调低了。</p>
+<p>文章也对于 $\gamma,\alpha$ 的取值做了一番实验：</p>
+<img src="https://s1.ax1x.com/2020/10/02/01EBm4.png" alt="01EBm4.png" border="0" />
+
+<p>在实验中，发现当γ=0的时候，α=0.75的效果最好，但γ不为0时，则是 $\gamma = 2, \alpha = 0.25$ 的取值组合效果最好，这一点是有点反直觉，因为正样本竟然被分配了一个更小的权重，我的理解是可能$y’^\gamma$对负样本的权重影响更大，$y’^\gamma$使得简单负样本的权重仍然很小。</p>
+<p>为此，FAIR团队还专门写了一个简单的one-stage detector来验证focal loss的强大。并将该网络结构起名RetinaNet：</p>
+<img src=https://pic1.zhimg.com/v2-f3ef4c6e92c2f6d9e2782e7e32361042_1440w.jpg>
+
+<p>最后赋个具体的值来感受一下这个公式的作用：</p>
+<p>假设我们有1000000个 $p_t = 0.99$ 的简单负样本（根据下图可以算出这个负样本的正样本概率为p=0.01，awesome）和 10个 $p_t=0.01$ 的困难正样本（根据下图可以算出这个正样本的正样本的概率只有p=0.01，awful）。alpha取0.25，则负样本的$\alpha_t$=1-α=0.75，正样本的$\alpha_t$=α=0.25。γ取2。负样本的$\alpha_{t}\left(1-p_{t}\right)^{\gamma}=0.000075$，正样本的$\alpha_{t}\left(1-p_{t}\right)^{\gamma}=0.245025$。</p>
+<img src="https://s1.ax1x.com/2020/10/03/01umfs.png" alt="01umfs.png" border="0" width=70%/>
+<img src="https://s1.ax1x.com/2020/10/03/01KpEF.png" alt="01KpEF.png" border="0" width=40%/>
+
+<p>在使用普通交叉熵损失的情况下，来自负样本的损失为 1000000$\cdot$log(0.99)=1000000×0.0043648054=4364 正面例子的损失是 10$\cdot$log(0.01)=10×2=20。正例的损失贡献为20/(4364+20)=0.0046。几乎可以忽略不计。</p>
+<p>在使用焦点损失的情况下，来自负面示例的损失为1000000×0.0043648054×0.000075=0.3274 正面例子的损失是 10×2×0.245025=4.901。正例的损失贡献为4.901/(4.901+0.3274)=0.9374！现在正例主宰了总损失！</p>
+<h2 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h2><blockquote>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/wangguchangqing/p/12021638.html">《回归损失函数1：L1 loss, L2 loss以及Smooth L1 Loss的对比》</a><br><br><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/143747206">《深入浅出Yolo系列之Yolov3&amp;Yolov4&amp;Yolov5核心基础知识完整讲解》</a><br><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/JNingWei/article/details/80038594">《论文阅读: RetinaNet》</a><br><br><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1708.02002.pdf">《Focal Loss for Dense Object Detection》</a><br><br><a target="_blank" rel="noopener" href="https://leimao.github.io/blog/Focal-Loss-Explained/">《Use Focal Loss To Train Model Using Imbalanced Dataset》</a></p>
+</blockquote>
+ 
+      <!-- reward -->
+      
+      <div id="reword-out">
+        <div id="reward-btn">
+          Donate
+        </div>
+      </div>
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <div class="declare">
+      <ul class="post-copyright">
+        <li>
+          <i class="ri-copyright-line"></i>
+          <strong>Copyright： </strong>
+          
+          Copyright is owned by the author. For commercial reprints, please contact the author for authorization. For non-commercial reprints, please indicate the source.
+          
+        </li>
+      </ul>
+    </div>
+    
+    <footer class="article-footer">
+       
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://example.com/2020/09/26/%E6%8D%9F%E5%A4%B1%E5%87%BD%E6%95%B0/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>  
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%8D%9F%E5%A4%B1%E5%87%BD%E6%95%B0/" rel="tag">损失函数</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+  <nav class="article-nav">
+    
+      <a href="/2020/09/29/%E7%94%B5%E6%9C%BA%E7%B1%BB%E5%9E%8B%E4%B8%8EFOC%E6%8E%A7%E5%88%B6/" class="article-nav-link">
+        <strong class="article-nav-caption">上一篇</strong>
+        <div class="article-nav-title">
+          
+            电机类型与FOC控制
+          
+        </div>
+      </a>
+    
+    
+      <a href="/2020/09/12/%E6%8E%8C%E6%8F%A1%E6%9C%9F%E6%9D%83%E4%BA%A4%E6%98%93/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">掌握期权交易</div>
+      </a>
+    
+  </nav>
+
+   
+<!-- valine评论 -->
+<div id="vcomments-box">
+  <div id="vcomments"></div>
+</div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js"></script>
+<script>
+  new Valine({
+    el: "#vcomments",
+    app_id: "Y8oqscHrnLuIwp1649iHgWjM-gzGzoHsz",
+    app_key: "IjneyzqTD2fkFsPSEFKEW0lN",
+    path: window.location.pathname,
+    avatar: "monsterid",
+    placeholder: "有什么想说的请在此留言~",
+    recordIP: true,
+  });
+  const infoEle = document.querySelector("#vcomments .info");
+  if (infoEle && infoEle.childNodes && infoEle.childNodes.length > 0) {
+    infoEle.childNodes.forEach(function (item) {
+      item.parentNode.removeChild(item);
+    });
+  }
+</script>
+<style>
+  #vcomments-box {
+    padding: 5px 30px;
+  }
+
+  @media screen and (max-width: 800px) {
+    #vcomments-box {
+      padding: 5px 0px;
+    }
+  }
+
+  #vcomments-box #vcomments {
+    background-color: #fff;
+  }
+
+  .v .vlist .vcard .vh {
+    padding-right: 20px;
+  }
+
+  .v .vlist .vcard {
+    padding-left: 10px;
+  }
+</style>
+
+ 
+     
+</article>
+
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul>
+      <li>
+        Copyrights &copy;
+        2020-2021
+        <i class="ri-heart-fill heart_icon"></i> Wade Wang
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+        
+        
+        Powered by <a href="https://hexo.io" target="_blank">Hexo</a>
+        <span class="division">|</span>
+        Theme - <a href="https://github.com/Shen-Yu/hexo-theme-ayer" target="_blank">Ayer</a>
+        
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+        
+        <span>
+  <span><i class="ri-user-3-fill"></i>Visitors:<span id="busuanzi_value_site_uv"></span></s>
+  <span class="division">|</span>
+  <span><i class="ri-eye-fill"></i>Views:<span id="busuanzi_value_page_pv"></span></span>
+</span>
+        
+      </li>
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      <li>
+        <!-- cnzz统计 -->
+        
+        <script type="text/javascript" src='https://s9.cnzz.com/z_stat.php?id=1278069914&amp;web_id=1278069914'></script>
+        
+      </li>
+    </ul>
+  </div>
+</footer>
+      <div class="float_btns">
+        <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+
+      </div>
+    </main>
+    <aside class="sidebar on">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/yoga.png" alt="Hello World"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" target="_blank" rel="noopener" href="http://wwdok.lofter.com">摄影</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/friends">友链</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/about">关于我</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="Search">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <script>
+      if (window.matchMedia("(max-width: 768px)").matches) {
+        document.querySelector('.content').classList.remove('on');
+        document.querySelector('.sidebar').classList.remove('on');
+      }
+    </script>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯果汁吧~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/alipay.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/wechat.png">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+    
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+<!-- Tocbot -->
+
+
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3, h4, h5, h6',
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer: 'main',
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto'
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.css">
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/dist/main.js"></script>
+
+<!-- ImageViewer -->
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css">
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script>
+
+<!-- MathJax -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+      tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+  });
+
+  MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for(i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.6/unpacked/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script>
+  var ayerConfig = {
+    mathjax: true
+  }
+</script>
+
+<!-- Katex -->
+
+<!-- busuanzi  -->
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+<!-- ClickLove -->
+
+<!-- ClickBoom1 -->
+
+<!-- ClickBoom2 -->
+
+<!-- CodeCopy -->
+
+
+<link rel="stylesheet" href="/css/clipboard.css">
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="ri-file-copy-2-line"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-checkbox-circle-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-checkbox-circle-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-time-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-time-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+
+
+<!-- CanvasBackground -->
+
+
+    
+  </div>
+</body>
+
+</html>
