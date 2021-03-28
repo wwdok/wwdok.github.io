@@ -56,7 +56,11 @@ var _hmt = _hmt || [];
 </script>
 
 
-</head>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --></head>
 
 </html>
 
@@ -126,11 +130,9 @@ var _hmt = _hmt || [];
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;* foo.h *&#x2F;</span><br><span class="line">#ifndef FOO_H</span><br><span class="line">#define FOO_H</span><br><span class="line">double foo( int x );</span><br><span class="line">#endif</span><br></pre></td></tr></table></figure>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;* foo.c *&#x2F;</span><br><span class="line">int foo( int x )</span><br><span class="line">&#123;</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;* main.c *&#x2F;</span><br><span class="line">#include &quot;foo.h&quot;</span><br><span class="line"></span><br><span class="line">int main( void )</span><br><span class="line">&#123;</span><br><span class="line">  double x &#x3D; foo( 1 );</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <p>注意，<code>foo.h</code>中的函数声明与<code>foo.c</code> 中的函数定义不匹配 : 返回类型不同 ! <code>foo.h</code> 里的foo函数声明返回的数据类型是<strong>double</strong>，而 <code>foo.c</code> 中foo函数定义返回的数据类型是 <strong>int</strong> ！</p>
 <p>如下图所示，<code>foo.c</code> 和 <code>main.c</code> 彼此分开编译。由于main.c调用已在 <code>foo.h</code> 中声明的foo函数，因此 <code>main.o</code> 能编译成功。类似的，由于 <code>foo.c</code> 里没有 include  <code>foo.h</code>，编译器不知道声明和定义的函数类型不匹配，所以 <code>foo.o</code> (相当于下图的 <code>add.o</code> )也能编译成功。。。</p>
-<img src=https://www.learncpp.com/images/CppTutorial/Section1/IncludeHeader.png>
-
+<p><img src=https://www.learncpp.com/images/CppTutorial/Section1/IncludeHeader.png></p>
 <p>但当最后你要将两个目标文件（.o/.obj）链接在一起时，问题就来了，两处的函数返回类型不一致终将导致报错。</p>
 <p>而如果你有把 <code>foo.h</code> 包含在 <code>foo.c</code> 里，那么在你运行程序之前，编译器就能发现这个不匹配的问题，让你及时debug掉这个问题。</p>
 <p>还有，如果 <code>foo.h</code> 定义了 <code>foo.c</code> 所使用的任何类型或常量，那么这时候<code>foo.c</code>肯定需要包含 <code>foo.h</code> 。</p>

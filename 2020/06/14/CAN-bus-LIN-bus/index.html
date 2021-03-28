@@ -56,7 +56,11 @@ var _hmt = _hmt || [];
 </script>
 
 
-</head>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --></head>
 
 </html>
 
@@ -122,13 +126,11 @@ var _hmt = _hmt || [];
     <div class="article-entry" itemprop="articleBody">
        
   <blockquote>
-<p>本文内容主要来源于以下网站的内容收集:<br><br><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E6%8E%A7%E5%88%B6%E5%99%A8%E5%8D%80%E5%9F%9F%E7%B6%B2%E8%B7%AF">《CAN bus 维基百科》</a><br><br><a target="_blank" rel="noopener" href="https://www.eet-china.com/mp/a602.html">《一文了解嵌入式工程师常用的CAN总线协议》</a><br><br><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=AeSZ_3T1GCk">《TI Precision Labs - CAN/LIN/SBC: CAN and CAN FD Overview》</a><br><br><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=2Mhqwt2xTxk&t=605s">《TI Precision Labs - CAN/LIN/SBC: CAN and CAN FD Protocol》</a><br><br><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=TngJZVb33zc">《TI Precision Labs - CAN/LIN/SBC: What is LIN?》</a><br><br><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=hjuO1UjoQU0&t=223s">《Local Interconnect Network (LIN) Overview and Training》</a><br><br><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=4nk8Lb_K8rs">《TI Precision Labs - CAN/LIN/SBC: CAN Physical Layer》</a><br><br><a target="_blank" rel="noopener" href="https://www.renesas.com/sg/en/solutions/automotive/technology/networking-solutions.html">《In-Vehicle Networking Solutions》</a><br><br><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=KOxdqo4eAZM">《Fun and Easy Ethernet - How the Ethernet Protocol Works》</a><br><br><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/73475429">《车载以太网系统——帧结构信息》</a><br><br><a target="_blank" rel="noopener" href="https://www.vector.com/int/en/know-how/technologies/networks/">《vector-networks》</a><br><br><a target="_blank" rel="noopener" href="https://support.ixiacom.com/sites/default/files/resources/whitepaper/ixia-automotive-ethernet-primer-whitepaper_1.pdf">《IXIA-Automotive Ethernet:An Overview》</a><br><br><a target="_blank" rel="noopener" href="https://www.csselectronics.com/screen/page/lin-bus-protocol-intro-basics">《LIN Bus Explained - A Simple Intro (2020)》</a></p>
+<p>本文内容主要来源于以下网站的内容收集:<br><br><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E6%8E%A7%E5%88%B6%E5%99%A8%E5%8D%80%E5%9F%9F%E7%B6%B2%E8%B7%AF">《CAN bus 维基百科》</a><br><br><a target="_blank" rel="noopener" href="https://www.eet-china.com/mp/a602.html">《一文了解嵌入式工程师常用的CAN总线协议》</a><br><br><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=AeSZ_3T1GCk">《TI Precision Labs - CAN/LIN/SBC: CAN and CAN FD Overview》</a><br><br><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=2Mhqwt2xTxk&amp;t=605s">《TI Precision Labs - CAN/LIN/SBC: CAN and CAN FD Protocol》</a><br><br><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=TngJZVb33zc">《TI Precision Labs - CAN/LIN/SBC: What is LIN?》</a><br><br><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=hjuO1UjoQU0&amp;t=223s">《Local Interconnect Network (LIN) Overview and Training》</a><br><br><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=4nk8Lb_K8rs">《TI Precision Labs - CAN/LIN/SBC: CAN Physical Layer》</a><br><br><a target="_blank" rel="noopener" href="https://www.renesas.com/sg/en/solutions/automotive/technology/networking-solutions.html">《In-Vehicle Networking Solutions》</a><br><br><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=KOxdqo4eAZM">《Fun and Easy Ethernet - How the Ethernet Protocol Works》</a><br><br><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/73475429">《车载以太网系统——帧结构信息》</a><br><br><a target="_blank" rel="noopener" href="https://www.vector.com/int/en/know-how/technologies/networks/">《vector-networks》</a><br><br><a target="_blank" rel="noopener" href="https://support.ixiacom.com/sites/default/files/resources/whitepaper/ixia-automotive-ethernet-primer-whitepaper_1.pdf">《IXIA-Automotive Ethernet:An Overview》</a><br><br><a target="_blank" rel="noopener" href="https://www.csselectronics.com/screen/page/lin-bus-protocol-intro-basics">《LIN Bus Explained - A Simple Intro (2020)》</a></p>
 </blockquote>
-<h2 id="序言"><a href="#序言" class="headerlink" title="序言"></a>序言</h2><p>作为外行人，我们平时接触感受最多的是下图左边这种基于中心服务器的网络结构，因为互联网差不多就是这种结构，但其实生活中还有很多场景下用到的是右边的网络结构，（当我对技术领域的探索越来越广越来越深入后，我经常遇到这种结构），这种结构的特点是网络中的各个设备要能够互相点对点通信，这就是局域网的一大特点，这里我们谈的CAN就属于这种网络结构，这让我想起这个<a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=1z0ULvg_pW8&t=194s">视频</a>里的hub也是“一台设备发送信息，网络里的其他设备统统都收到信息”。</p>
+<h2 id="序言"><a href="#序言" class="headerlink" title="序言"></a>序言</h2><p>作为外行人，我们平时接触感受最多的是下图左边这种基于中心服务器的网络结构，因为互联网差不多就是这种结构，但其实生活中还有很多场景下用到的是右边的网络结构，（当我对技术领域的探索越来越广越来越深入后，我经常遇到这种结构），这种结构的特点是网络中的各个设备要能够互相点对点通信，这就是局域网的一大特点，这里我们谈的CAN就属于这种网络结构，这让我想起这个<a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=1z0ULvg_pW8&amp;t=194s">视频</a>里的hub也是“一台设备发送信息，网络里的其他设备统统都收到信息”。</p>
 <p><img src="https://s1.ax1x.com/2020/06/14/tzWQ2D.png" alt="tzWQ2D.png"></p>
-<h2 id="CAN的由来"><a href="#CAN的由来" class="headerlink" title="CAN的由来"></a><strong>CAN的由来</strong></h2><p>随着汽车的功能越来越丰富，上面的ECU也越来越多（现在大约有70个），于是工程师们面临一个问题：我们要设计一个既能满足应有的ECU间通信功能外，还要求这些通信电缆要够短够简单，这能为汽车制造商节约大量的线束（harness）成本和工时成本，还能为降低车重节约能耗有所作用，在这样的背景下，上世纪80年代罗伯特·博世公司发明了CAN。现在汽车制造商为了进一步节约物料成本，还选择在网络的末端用LIN总线。<br><img src="https://s1.ax1x.com/2020/06/14/tzqbG9.png" alt="tzqbG9.png"></p>
-<span id="more"></span>
-<p>控制器局域网 (Controller Area Network，简称CAN或者CAN bus) 是一种功能丰富的车用总线标准。被设计用于在不需要主机（Host）的情况下，允许网络上的电子设备相互通信。 它基于<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E8%A8%8A%E6%81%AF%E5%82%B3%E9%81%9E_(%E8%BB%9F%E9%AB%94)">消息传递协议</a>，设计之初在车辆上采用<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8">复用通信线缆</a>，以降低线束使用量，后来也被其他行业所使用。<br>CAN使用信息标志符（Message Identifier，每个标志符在整个网络中独一无二）来定义消息内容和消息传递的优先顺序，也就是说每个节点都能发出信息，且网络上其他节点都能收到，但如果遇到同时传输，会有一个优先级，这种方式区别于指定节点地址（Station Address）发送信息的方式，在这个<a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=1z0ULvg_pW8&t=194s">视频</a>里的switch（交换机）就是采用信息只传递给指定节点地址的方法。<br><img src="https://s1.ax1x.com/2020/06/14/tzfFFP.png" alt="tzfFFP.png"><br>正因为CAN使用了全网广播的信息发送机制，这使得它拥有了良好的弹性调整能力，即可以在现有网络中增加、删除节点而不用对原有电子设备的软、硬件做出调整。除此之外，消息的传递不基于特殊种类的节点，增加了升级网络的便利性。</p>
+<h2 id="CAN的由来"><a href="#CAN的由来" class="headerlink" title="CAN的由来"></a><strong>CAN的由来</strong></h2><p>随着汽车的功能越来越丰富，上面的ECU也越来越多（现在大约有70个），于是工程师们面临一个问题：我们要设计一个既能满足应有的ECU间通信功能外，还要求这些通信电缆要够短够简单，这能为汽车制造商节约大量的线束（harness）成本和工时成本，还能为降低车重节约能耗有所作用，在这样的背景下，上世纪80年代罗伯特·博世公司发明了CAN。现在汽车制造商为了进一步节约物料成本，还选择在网络的末端用LIN总线。<br><img src="https://s1.ax1x.com/2020/06/14/tzqbG9.png" alt="tzqbG9.png"><br><span id="more"></span><br>控制器局域网 (Controller Area Network，简称CAN或者CAN bus) 是一种功能丰富的车用总线标准。被设计用于在不需要主机（Host）的情况下，允许网络上的电子设备相互通信。 它基于<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E8%A8%8A%E6%81%AF%E5%82%B3%E9%81%9E_(%E8%BB%9F%E9%AB%94">消息传递协议</a>)，设计之初在车辆上采用<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8">复用通信线缆</a>，以降低线束使用量，后来也被其他行业所使用。<br>CAN使用信息标志符（Message Identifier，每个标志符在整个网络中独一无二）来定义消息内容和消息传递的优先顺序，也就是说每个节点都能发出信息，且网络上其他节点都能收到，但如果遇到同时传输，会有一个优先级，这种方式区别于指定节点地址（Station Address）发送信息的方式，在这个<a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=1z0ULvg_pW8&amp;t=194s">视频</a>里的switch（交换机）就是采用信息只传递给指定节点地址的方法。<br><img src="https://s1.ax1x.com/2020/06/14/tzfFFP.png" alt="tzfFFP.png"><br>正因为CAN使用了全网广播的信息发送机制，这使得它拥有了良好的弹性调整能力，即可以在现有网络中增加、删除节点而不用对原有电子设备的软、硬件做出调整。除此之外，消息的传递不基于特殊种类的节点，增加了升级网络的便利性。</p>
 <h2 id="CAN-架构"><a href="#CAN-架构" class="headerlink" title="CAN 架构"></a><strong>CAN 架构</strong></h2><p>CAN总线整体来看就是下图这么简单，两根线两个电阻还有若干个电子设备/节点。这两根线是CAN_H和CAN_L，各个节点通过这两条线实现信号的串行差分传输，为了避免信号的反射和干扰，还需要在CAN_H和CAN_L之间接上120欧姆的终端电阻，但是为什么是120欧姆呢?那是因为电缆的特性阻抗为120欧。终端电阻可以用来抑制信号反射，同时可以使总线电压回到隐性状态或者闲置状态。</p>
 <p><img src="https://s1.ax1x.com/2020/06/14/NSCmX4.png" alt="NSCmX4.png"></p>
 <p>终端电阻分两种类型：<br><img src="https://s1.ax1x.com/2020/06/14/NS9WY6.png" alt="NS9WY6.png"></p>
@@ -167,14 +169,12 @@ var _hmt = _hmt || [];
 <h2 id="CAN数据传输速度"><a href="#CAN数据传输速度" class="headerlink" title="CAN数据传输速度"></a><strong>CAN数据传输速度</strong></h2><p>长度小于40m的网络最高支持的比特率高达1兆比特/秒。降低比特率可以允许使用更长的网络距离（例如，125千比特/秒支持最大500米）。改进的CAN FD标准允许仲裁后升高比特率，可以将数据区块速度增加至仲裁位速率的八倍。<br><a target="_blank" rel="noopener" href="https://imgchr.com/i/NS9Lkt"><img src="https://s1.ax1x.com/2020/06/14/NS9Lkt.png" alt="NS9Lkt.png"></a></p>
 <h2 id="LIN-的由来"><a href="#LIN-的由来" class="headerlink" title="LIN 的由来"></a><strong>LIN 的由来</strong></h2><p>CAN的成本太高（线束成本 + CAN许可证费 + 节点芯片成本），无法在车上的每一个设备中都装设。在1990年代末期，由BMW、大众集团、奥迪、富豪汽车及梅赛德斯-奔驰这五家车厂开始了LIN Consortium（联盟），也有从Volcano汽车集团及摩托罗拉而来的软件及硬件协助。第一个完全实现的新LIN协定（LIN version 1.3）是在2002年11月发布。</p>
 <p>LIN总线的核心相对简单：<br>一个主节点循环遍历每个从节点，发送信息请求。每个从节点在被轮询时都会响应数据。</p>
-<img src=https://canlogger1000.csselectronics.com/img/LIN-Bus-Data-Flow-Transmission-Header-Response.svg width=60%>
-
+<p><img src=https://canlogger1000.csselectronics.com/img/LIN-Bus-Data-Flow-Transmission-Header-Response.svg width=60%></p>
 <p>但是，随着每个规范的更新，LIN规范中都添加了新功能，使其更加复杂。</p>
 <p>简单来说，LIN总线消息帧由<strong>标头</strong>和<strong>响应</strong>组成。</p>
 <p>通常，LIN主设备将标头发送到LIN总线。这将触发一个从机，该从机发送2/4/8个数据字节作为响应。</p>
 <p>整个LIN框架如下图所示：</p>
-<img src=https://canlogger1000.csselectronics.com/img/LIN-Bus-Frame-Message-Header-Response-Master-Slave.svg width=100%>
-
+<p><img src=https://canlogger1000.csselectronics.com/img/LIN-Bus-Frame-Message-Header-Response-Master-Slave.svg width=100%></p>
 <p><font color=#ff9933 size=3 >间隔</font>：同步间隔字段（SBF）也称为间隔，其长度至少为13 + 1位（实际上，通常为18 + 2位）。中断字段充当总线上所有LIN节点的“帧开始”通知。</p>
 <p><font color=#ff9933 size=3 >同步</font>： 8位同步字段的预定义值为0x55（二进制格式01010101）。这种结构允许LIN节点确定上升沿/下降沿之间的时间，从而确定主节点使用的波特率。这使它们每个保持同步。</p>
 <p><font color=#ff9933 size=3 >标识符</font>：标识符为6位，后跟2个奇偶校验位。该ID充当每个发送的LIN消息的标识符，以及哪些节点对标头做出反应。从站确定ID字段的有效性（基于奇偶校验位），并通过以下操作：</p>
@@ -191,14 +191,12 @@ var _hmt = _hmt || [];
 <p>还要注意，下面的每一种都遵循相同的基本LIN帧结构。只是在时序或数据字节内容上有所不同。</p>
 <p>下面我们简要概述每种LIN框架类型：</p>
 <p><img src="https://s1.ax1x.com/2020/08/10/a7TLdO.png" alt="a7TLdO.png"></p>
-<img src=https://canlogger1000.csselectronics.com/img/intel/lin-bus/LIN-Frame-Type-Identifier-Unconditional-Diagnostic-Event-Triggered.png width=50%>
-
+<p><img src=https://canlogger1000.csselectronics.com/img/intel/lin-bus/LIN-Frame-Type-Identifier-Unconditional-Diagnostic-Event-Triggered.png width=50%></p>
 <h2 id="LIN的网络拓扑"><a href="#LIN的网络拓扑" class="headerlink" title="LIN的网络拓扑"></a><strong>LIN的网络拓扑</strong></h2><p>LIN是广播串行网络，其中包括主站(master)和从站（slave），而一台主站可以控制多达16台从站。因为所有的通讯都是由主站开始，且是时间确定性（time deterministic），不需要有碰撞侦测的方案。在长度40米时，可以到19.2 kbit/s。</p>
 <p>主站和从站一般都是用单片机实现，不过为了节省成本、空间或是电源，也可以用特殊的硬件或是特殊应用集成电路来实现。</p>
 <p><img src="https://s1.ax1x.com/2020/07/05/US5vge.png" alt="US5vge.png"><br><img src="https://s1.ax1x.com/2020/07/05/USIiUP.png" alt="USIiUP.png"><br><img src="https://s1.ax1x.com/2020/07/05/USIl5V.png" alt="USIl5V.png"><br><img src="https://s1.ax1x.com/2020/07/05/USoWy4.png" alt="USoWy4.png"><br><img src="https://s1.ax1x.com/2020/07/05/USINr9.png" alt="USINr9.png"><br><img src="https://s1.ax1x.com/2020/08/10/a7532q.png" alt="a7532q.png"></p>
 <h2 id="CAN-和-LIN-的对比"><a href="#CAN-和-LIN-的对比" class="headerlink" title="CAN 和 LIN 的对比"></a><strong>CAN 和 LIN 的对比</strong></h2><p>在汽车电气系统里，CAN与LIN相辅相成<br><img src="https://s1.ax1x.com/2020/07/05/USgkVO.png" alt="USgkVO.png"><br>除了上图右边列出的差异外，CAN和LIN的差异还包括：<br>CAN的工作电压为5V,LIN的工作电压为12V；<br>CAN的identifier位数是11或29，LIN的identifier位数是6；</p>
-<h2 id="其他汽车通信协议"><a href="#其他汽车通信协议" class="headerlink" title="其他汽车通信协议"></a><strong>其他汽车通信协议</strong></h2><img src=https://www2.renesas.cn/cn/zh/img/solutions/automotive/technology/blockdiagram-networking.jpg>
-
+<h2 id="其他汽车通信协议"><a href="#其他汽车通信协议" class="headerlink" title="其他汽车通信协议"></a><strong>其他汽车通信协议</strong></h2><p><img src=https://www2.renesas.cn/cn/zh/img/solutions/automotive/technology/blockdiagram-networking.jpg></p>
 <p>CAN是目前使用最广泛的车载网络，比如它会使用在Airbag,ABS,millimeter-wave radar，dashboard，seat belt control。然而，随着自动驾驶汽车和其他新技术的不断出现和发展，汽车网络对更大的带宽和连接性的需求越来越高，所以后来又诞生了像无线CAN，MOST，FlexRay和汽车以太网等这些车载网络协议。</p>
 <p><strong>MOST</strong>（Media Oriented Systems Transport）是一种串行通信系统，用于通过光纤电缆传输控制数据，视频和音频，它以24.8 Mbps的速率提供了点对点的声音和视频信息交换。由MOST协会创建的MOST，它定义了必要的协议，软件和硬件层，以允许使用单个介质/物理层高效，低成本地传输控制，实时和分组数据。可以以最多包括64个MOST设备的环的形式示意性地表示MOST网络。由于其即插即用功能，添加或删除MOST设备应该非常简单。</p>
 <p><strong>FlexRay</strong>的传输速率可以达到10Mbps。CAN一帧最多只能传输8字节的数据，CAN FD也只能64字节，而Flexray却能一帧传输254字节。它使用铜或光纤作为物理层的线束。具有双通道配置的FlexRay具有增强的容错能力和/或增加的带宽。FlexRay通信网络的功能使其非常适合下一代汽车行业。</p>
@@ -213,10 +211,8 @@ var _hmt = _hmt || [];
 <p><strong>部分以太网类型</strong><br><img src="https://i.loli.net/2020/08/09/hUWtzVsvyfJw9GY.png" alt="image.png"></p>
 <p><strong>车载以太网的发展历程</strong></p>
 <p><img src="https://s1.ax1x.com/2020/08/09/a7g5uQ.png" alt="a7g5uQ.png"></p>
-<img src=https://www.renesas.com/us/en/img/solutions/automotive/technology/ethernet-diagnostic.jpg>
-
-<img src=https://picb.zhimg.com/v2-f1f167c6a996c1d44446047607a022df_r.jpg>
-
+<p><img src=https://www.renesas.com/us/en/img/solutions/automotive/technology/ethernet-diagnostic.jpg></p>
+<p><img src=https://picb.zhimg.com/v2-f1f167c6a996c1d44446047607a022df_r.jpg></p>
 <p><img src="https://s1.ax1x.com/2020/08/10/a75OoQ.png" alt="a75OoQ.png"></p>
  
       <!-- reward -->

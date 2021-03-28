@@ -56,7 +56,11 @@ var _hmt = _hmt || [];
 </script>
 
 
-</head>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --></head>
 
 </html>
 
@@ -122,100 +126,68 @@ var _hmt = _hmt || [];
     <div class="article-entry" itemprop="articleBody">
        
   <p>推荐阅读江大白的《<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/143747206">深入浅出Yolo系列之Yolov3&amp;Yolov4核心基础知识完整讲解</a>》，我是在写了本篇博文很长时间后才阅读到他这篇宝藏博客的，由此引发了我的一个感想：我感觉我们不需要关注很多技术博主公众号，只需要关注几个优质的博主就行了，一般他们的作品都会比较优质。</p>
-<h1 id="darknet在本地电脑的安装"><a href="#darknet在本地电脑的安装" class="headerlink" title="darknet在本地电脑的安装"></a>darknet在本地电脑的安装</h1><p>详细的过程请参照The AI Guy的<a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=saDipJR14Lc&t=992s">教学视频</a>，我这里只写一些重点的步骤。</p>
+<h1 id="darknet在本地电脑的安装"><a href="#darknet在本地电脑的安装" class="headerlink" title="darknet在本地电脑的安装"></a>darknet在本地电脑的安装</h1><p>详细的过程请参照The AI Guy的<a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=saDipJR14Lc&amp;t=992s">教学视频</a>，我这里只写一些重点的步骤。</p>
 <p>yolo默认是使用darknet框架，darknet是一个类似tensorflow的框架，不过它的安装方式跟tensorflow不太一样。</p>
 <p>linux版比较简单,可参考<a target="_blank" rel="noopener" href="https://blog.csdn.net/Eric_Fisher/article/details/89884108">这篇博客</a>：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git clone https:&#x2F;&#x2F;github.com&#x2F;AlexeyAB&#x2F;darknet.git</span><br><span class="line">&#x2F;&#x2F;或者使用更快的镜像：https:&#x2F;&#x2F;gitee.com&#x2F;wwdok&#x2F;darknet.git</span><br><span class="line">cd darknet</span><br></pre></td></tr></table></figure>
-
 <p>修改Makefile，添加对GPU，CUDNN，OpenCV等的支持。<br>如果你的CUDA没有使用默认的路径，请进行修改：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi Makefile</span><br></pre></td></tr></table></figure>
-
-<img src=https://images3.pianshen.com/576/00/00e1bc11525ead2915af54e786d28c60.png>
-
+<p><img src=https://images3.pianshen.com/576/00/00e1bc11525ead2915af54e786d28c60.png></p>
 <p>接下来,编译</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make</span><br></pre></td></tr></table></figure>
-
 <p>如果都已正确编译，请尝试运行</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.&#x2F;darknet</span><br></pre></td></tr></table></figure>
-
 <p>应该得到输出：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">usage: .&#x2F;darknet &lt;function&gt;</span><br></pre></td></tr></table></figure>
-
 <p>windows上的安装比较复杂一点：</p>
 <p>首先用记事本打开darknet\build\darknet\darknet.vcxproj，确保里面的CUDA版本对应你电脑CUDA的版本，一共有两处需要修改，如图：</p>
-<img src="https://pic.downk.cc/item/5f79b659160a154a6762986b.jpg">
-<img src="https://pic.downk.cc/item/5f79b671160a154a67629d51.jpg">
-
+<p><img src="https://pic.downk.cc/item/5f79b659160a154a6762986b.jpg"><br><img src="https://pic.downk.cc/item/5f79b671160a154a67629d51.jpg"></p>
 <p>我还看到darknet.vcxproj里有 $(OPENCV_DIR) 和 $(CUDA_PATH) ，所以我还自己去设置了这两个环境变量，以防后面出什么差错，说明一下，opencv430的文件夹是从Windows下载，不是从Sources下载：</p>
-<img src="https://pic.downk.cc/item/5f79b6eb160a154a6762bb31.jpg">
-<br>
-<img src="https://pic.downk.cc/item/5f79b87a160a154a6763221f.jpg">
-
-<img src="https://pic.downk.cc/item/5f79d0d6160a154a67694ebf.jpg">
-
+<p><img src="https://pic.downk.cc/item/5f79b6eb160a154a6762bb31.jpg"><br><br><br><img src="https://pic.downk.cc/item/5f79b87a160a154a6763221f.jpg"></p>
+<p><img src="https://pic.downk.cc/item/5f79d0d6160a154a67694ebf.jpg"></p>
 <p>接下来打开CMake，像下图配置两个路径，点击<strong>Configure</strong>后会报错显红，我按照视频的教程来配置了下图黄框两处的变量：</p>
-<img src="https://pic.downk.cc/item/5f799a45160a154a6755d70a.jpg">
-
-<img src="https://pic.downk.cc/item/5f799b36160a154a67560ac9.jpg" >
-
+<p><img src="https://pic.downk.cc/item/5f799a45160a154a6755d70a.jpg"></p>
+<p><img src="https://pic.downk.cc/item/5f799b36160a154a67560ac9.jpg" ></p>
 <p>但配置好后再点击<strong>Configure</strong>e之后仍然报错：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">CMake Error at C:&#x2F;Program Files&#x2F;CMake&#x2F;share&#x2F;cmake-3.17&#x2F;Modules&#x2F;CMakeDetermineCompilerId.cmake:367 (message):</span><br><span class="line">  No CUDA toolset found.</span><br><span class="line">Call Stack (most recent call first):</span><br><span class="line">  C:&#x2F;Program Files&#x2F;CMake&#x2F;share&#x2F;cmake-3.17&#x2F;Modules&#x2F;CMakeDetermineCompilerId.cmake:32 (CMAKE_DETERMINE_COMPILER_ID_BUILD)</span><br><span class="line">  C:&#x2F;Program Files&#x2F;CMake&#x2F;share&#x2F;cmake-3.17&#x2F;Modules&#x2F;CMakeDetermineCUDACompiler.cmake:72 (CMAKE_DETERMINE_COMPILER_ID)</span><br><span class="line">  CMakeLists.txt:66 (enable_language)</span><br></pre></td></tr></table></figure>
-
 <p>解决办法是将<code>C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.1\extras\visual_studio_integration\MSBuildExtensions</code>里面的4个文件全部拷贝到<code>C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\BuildCustomizations</code>。</p>
-<img src="https://pic.downk.cc/item/5f79ac97160a154a675fc9b0.jpg">
-
-<img src="https://pic.downk.cc/item/5f79ad3d160a154a676062ea.jpg">
-
+<p><img src="https://pic.downk.cc/item/5f79ac97160a154a675fc9b0.jpg"></p>
+<p><img src="https://pic.downk.cc/item/5f79ad3d160a154a676062ea.jpg"></p>
 <p>再次点击<strong>Configure</strong>，已经没有上面那个报错了，但CMake仍然一片红。这时候再点开ENABLE，取消ENABLE_CUDNN_HALF的勾选，再点击configure后CMake就变成一片白色了，成功：<br><img src="https://pic.downk.cc/item/5f79b2ea160a154a6761c47e.jpg"></p>
 <p>接下来点击<strong>Generate</strong>，很快CMake底部输出栏就输出了“Generating done”。这时我们通过Open Project打开build文件夹，可以看到生成了很多文件（夹）：</p>
-<img src="https://pic.downk.cc/item/5f79b3ff160a154a67620664.jpg">
-
+<p><img src="https://pic.downk.cc/item/5f79b3ff160a154a67620664.jpg"></p>
 <p>用 Visual Studio 打开上图中的Darknet.sln。选择“Release”+“x64”，右键点击“ALL_BUILD”，在右键菜单中，选择“生成”，如下图所示：</p>
-<img src="https://pic.downk.cc/item/5f79c2df160a154a6765fcaf.jpg">
-
+<p><img src="https://pic.downk.cc/item/5f79c2df160a154a6765fcaf.jpg"></p>
 <p>接着再右键点击“INSTALL”，在右键菜单中，选择“生成”，如下图所示：</p>
-<img src="https://pic.downk.cc/item/5f79c351160a154a67661818.jpg">
-
+<p><img src="https://pic.downk.cc/item/5f79c351160a154a67661818.jpg"></p>
 <p>当我想要运行darknet和yolo看看时，又遇到报错：“由于找不到pthreadVC2.dll,无法继续执行代码,重新安装程序可能会解决此问题”。</p>
 <p>解决办法是：去网上下载pthreadvc2.dll，然后同时复制粘贴到<code>C:\Windows\System32</code>和<code>C:\Windows\SysWOW64</code>目录下。</p>
 <p>最后一步，就是运行：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">C:\MachineLearning\CV\darknet&gt;darknet.exe detect cfg&#x2F;yolov4.cfg weights&#x2F;yolov4.weights data&#x2F;dog.jpg</span><br></pre></td></tr></table></figure>
-
-<p>我们还可以在命令行后面加<code> -thresh 0.25</code> 、<code>-i 0</code>、 <code> -ext_output dog.jpg</code>、<code>-out_filename results/yolov4.mp4</code>个性化输出结果，其中，i代表GPU指数，-ext_output代表输出坐标，-out_filename 代表保存成图片或视频。</p>
+<p>我们还可以在命令行后面加<code>-thresh 0.25</code> 、<code>-i 0</code>、 <code>-ext_output dog.jpg</code>、<code>-out_filename results/yolov4.mp4</code>个性化输出结果，其中，i代表GPU指数，-ext_output代表输出坐标，-out_filename 代表保存成图片或视频。</p>
 <p>yolov4的效果比yolov3还好，连盆栽都检测出来了：</p>
-<img src="https://pic.downk.cc/item/5f79cbd8160a154a67681d63.jpg">
-
-
+<p><img src="https://pic.downk.cc/item/5f79cbd8160a154a67681d63.jpg"></p>
 <p>为了以后能在其他文件夹下面运行darknet，我把darknet.exe的路径加入了环境变量：</p>
-<img src="https://pic.downk.cc/item/5f79cd35160a154a676877ff.jpg" width=80% style="zoom: 80%;" >
-
+<p><img src="https://pic.downk.cc/item/5f79cd35160a154a676877ff.jpg" width=80% style="zoom: 80%;" ></p>
 <h1 id="使用YOLO"><a href="#使用YOLO" class="headerlink" title="使用YOLO"></a>使用YOLO</h1><p>除了上面说的检测图片，我们还可以这么玩yolo：</p>
 <p><strong>1.检测本地电脑上的视频</strong></p>
 <p>修改video_yolov4.sh里面的内容如下：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">./darknet detector demo ./cfg/coco.data ./cfg/yolov4.cfg ./weights/yolov4.weights data/cars.mp4 -out_filename results/yolov4.mp4</span><br><span class="line"></span><br><span class="line"><span class="comment"># ./darknet detector demo ./cfg/coco.data ./cfg/yolov4-tiny.cfg ./weights/yolov4-tiny.weights data/cars.mp4 -out_filename results/yolov4-tiny.mp4</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># ./darknet detector demo ./cfg/coco.data ./weights/Yolo-Fastest/COCO/yolo-fastest.cfg ./weights/Yolo-Fastest/COCO/yolo-fastest.weights -out_filename results/yolov4-fastest.mp4</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
 <p>打出<code>sh video_yolov4.sh</code>即可运行。保存成sh的好处是后面要跑的时候不需要再敲一遍长长的命令行。</p>
 <p><strong>2. 检测电脑摄像头画面</strong></p>
 <p>如果你想检测电脑摄像头画面里的物体，则运行：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">darknet.exe detector demo cfg\coco.data cfg\yolov4.cfg weights&#x2F;yolov4.weights -c 0</span><br></pre></td></tr></table></figure>
-
 <p><strong>3. 检测网络摄像头画面</strong></p>
 <p>我这里要将手机拍摄的画面传给电脑，然后用电脑对手机传输过来的画面检测。<br>先下载一个IP摄像头App，然后点击“开启服务器”</p>
-<img src="https://pic.downk.cc/item/5f7be000160a154a67dc583a.jpg" width=35%>
-
+<p><img src="https://pic.downk.cc/item/5f7be000160a154a67dc583a.jpg" width=35%></p>
 <p>你就可以看到手机画面进入了摄像头预览界面，如下图所示：</p>
-<img src="https://pic.downk.cc/item/5f7be086160a154a67dc75ff.jpg">
-
+<p><img src="https://pic.downk.cc/item/5f7be086160a154a67dc75ff.jpg"></p>
 <p>然后记住屏幕上的IP地址，比如我这里是192.168.1.4:8080,那么我就运行</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">darknet.exe detector demo cfg&#x2F;coco.data cfg&#x2F;yolov4.cfg weights&#x2F;yolov4.weights http:&#x2F;&#x2F;192.168.1.4:8080&#x2F;video?dummy&#x3D;param.mjpg</span><br></pre></td></tr></table></figure>
-
 <p><strong>4. 使用YOLO Fastesst</strong></p>
 <p>有大佬开源了号称最快版的YOLO版本，把这个<a target="_blank" rel="noopener" href="https://github.com/dog-qiuqiu/Yolo-Fastest">仓库</a>下载下来后我们只需要取它的cfg文件和weights文件即可</p>
-<img src="https://pic.downk.cc/item/5f7be8a2160a154a67de213e.jpg">
-
-<p>修改命令行后运行</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">darknet.exe detector demo cfg&#x2F;coco.data weights&#x2F;Yolo-Fastest&#x2F;COCO&#x2F;yolo-fastest.cfg weights&#x2F;Yolo-Fastest&#x2F;COCO&#x2F;yolo-fastest.weights -c 0</span><br></pre></td></tr></table></figure>
-
+<p><img src="https://pic.downk.cc/item/5f7be8a2160a154a67de213e.jpg"></p>
+<p>修改命令行后运行<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">darknet.exe detector demo cfg&#x2F;coco.data weights&#x2F;Yolo-Fastest&#x2F;COCO&#x2F;yolo-fastest.cfg weights&#x2F;Yolo-Fastest&#x2F;COCO&#x2F;yolo-fastest.weights -c 0</span><br></pre></td></tr></table></figure></p>
 <p><strong>5. 用OpenCV的DNN跑YOLO</strong></p>
 <p>python版：【<a target="_blank" rel="noopener" href="https://github.com/hpc203/Yolo-Fastest-opencv-dnn">Github Repo 1</a>】【<a target="_blank" rel="noopener" href="https://github.com/spmallick/learnopencv/tree/master/ObjectDetection-YOLO">Github Repo 2</a>】<br>java版：</p>
 <p><strong>6. 在colab上跑YOLO和训练自己的数据集</strong></p>
@@ -226,22 +198,16 @@ var _hmt = _hmt || [];
 <p>这里简单复述一下重点，如果使用自定义类别和数据集，请查看<a target="_blank" rel="noopener" href="https://github.com/theAIGuysCode/tensorflow-yolov4-tflite">repo</a>：</p>
 <p>使用以下命令行将.weights 格式转换为.pb格式</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># Convert yolov4 darknet weights to tensorflow</span><br><span class="line">python save_model.py --weights .&#x2F;data&#x2F;yolov4.weights --output .&#x2F;checkpoints&#x2F;yolov4-416 --input_size 416 --model yolov4 </span><br><span class="line"></span><br><span class="line"># Convert yolov4-tiny darknet weights to tensorflow</span><br><span class="line">python save_model.py --weights .&#x2F;data&#x2F;yolov4-tiny.weights --output .&#x2F;checkpoints&#x2F;yolov4-tiny-416 --input_size 416 --model yolov4 --tiny</span><br><span class="line"></span><br><span class="line"># Convert custom yolov4 darknet weights to tensorflow</span><br><span class="line">python save_model.py --weights .&#x2F;data&#x2F;custom.weights --output .&#x2F;checkpoints&#x2F;custom-416 --input_size 416 --model yolov4 </span><br></pre></td></tr></table></figure>
-<p>我自己电脑上的命令行是：<code> python save_model.py --weights ../../darknet/weights/yolov4.weights --output ./checkpoints/yolov4-416 --input_size 416 --model yolov4</code><br>最后生成的文件长这样：</p>
-<img src="https://pic.downk.cc/item/5f7bf98f160a154a67e22532.jpg">
-
+<p>我自己电脑上的命令行是：<code>python save_model.py --weights ../../darknet/weights/yolov4.weights --output ./checkpoints/yolov4-416 --input_size 416 --model yolov4</code><br>最后生成的文件长这样：</p>
+<p><img src="https://pic.downk.cc/item/5f7bf98f160a154a67e22532.jpg"></p>
 <p>运行yolo的tensorflow pb格式模型</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"># Run yolov4 tensorflow model</span><br><span class="line">python detect.py --weights .&#x2F;checkpoints&#x2F;yolov4-416 --size 416 --model yolov4 --images .&#x2F;data&#x2F;images&#x2F;kite.jpg</span><br><span class="line"></span><br><span class="line"># Run yolov4-tiny tensorflow model</span><br><span class="line">python detect.py --weights .&#x2F;checkpoints&#x2F;yolov4-tiny-416 --size 416 --model yolov4 --images .&#x2F;data&#x2F;images&#x2F;kite.jpg --tiny</span><br><span class="line"></span><br><span class="line"># Run custom yolov4 tensorflow model</span><br><span class="line">python detect.py --weights .&#x2F;checkpoints&#x2F;custom-416 --size 416 --model yolov4 --images .&#x2F;data&#x2F;images&#x2F;car.jpg</span><br><span class="line"></span><br><span class="line"># Run yolov4 on video</span><br><span class="line">python detect_video.py --weights .&#x2F;checkpoints&#x2F;yolov4-416 --size 416 --model yolov4 --video .&#x2F;data&#x2F;video&#x2F;road.mp4 --output .&#x2F;detections&#x2F;results.avi</span><br><span class="line"></span><br><span class="line"># Run custom yolov4 model on video</span><br><span class="line">python detect_video.py --weights .&#x2F;checkpoints&#x2F;custom-416 --size 416 --model yolov4 --video .&#x2F;data&#x2F;video&#x2F;cars.mp4 --output .&#x2F;detections&#x2F;results.avi</span><br><span class="line"></span><br><span class="line"># Run yolov4 on webcam</span><br><span class="line">python detect_video.py --weights .&#x2F;checkpoints&#x2F;yolov4-416 --size 416 --model yolov4 --video 0 --output .&#x2F;detections&#x2F;results.avi</span><br></pre></td></tr></table></figure>
-
 <p>上面生成的模型是pb格式，接下来是生成tflite格式模型：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># Save tf model for tflite converting</span><br><span class="line">python save_model.py --weights .&#x2F;data&#x2F;yolov4.weights --output .&#x2F;checkpoints&#x2F;yolov4-416 --input_size 416 --model yolov4 --framework tflite</span><br><span class="line"></span><br><span class="line"># Save custom yolov4 tf model for tflite converting</span><br><span class="line">python save_model.py --weights .&#x2F;data&#x2F;custom.weights --output .&#x2F;checkpoints&#x2F;custom-416 --input_size 416 --model yolov4 --framework tflite</span><br></pre></td></tr></table></figure>
-
 <p>我自己电脑上运行的命令行是<code>python save_model.py --weights ../../darknet/weights/yolov4.weights --output ./checkpoints/yolov4-416-tflite --input_size 416 --model yolov4 --framework tflite</code>。注意，如果要生成tflite，不能直接用前面那个pb文件，得在命令行后面加个<code>--framework tflite</code>重新生成pb文件，然后再用这个pb文件转换成tflite文件。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"># yolov4</span><br><span class="line">python convert_tflite.py --weights .&#x2F;checkpoints&#x2F;yolov4-416 --output .&#x2F;checkpoints&#x2F;yolov4-416.tflite</span><br><span class="line"></span><br><span class="line"># convert custom yolov4 tflite model</span><br><span class="line">python convert_tflite.py --weights .&#x2F;checkpoints&#x2F;custom-416 --output .&#x2F;checkpoints&#x2F;custom-416.tflite</span><br><span class="line"></span><br><span class="line"># yolov4 quantize float16</span><br><span class="line">python convert_tflite.py --weights .&#x2F;checkpoints&#x2F;yolov4-416 --output .&#x2F;checkpoints&#x2F;yolov4-416-fp16.tflite --quantize_mode float16</span><br><span class="line"></span><br><span class="line"># yolov4 quantize int8</span><br><span class="line">python convert_tflite.py --weights .&#x2F;checkpoints&#x2F;yolov4-416 --output .&#x2F;checkpoints&#x2F;yolov4-416-int8.tflite --quantize_mode int8 --dataset .&#x2F;data&#x2F;dataset&#x2F;val2017.txt</span><br></pre></td></tr></table></figure>
-
 <p>我自己电脑上运行的命令行是：<code>python convert_tflite.py --weights ./checkpoints/yolov4-416-tflite --output ./checkpoints/yolov4-416-int8.tflite --quantize_mode int8 --dataset ./data/dataset/val2017.txt</code></p>
-<p>最后测试一下yolov4 tflite的模型性能如何</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># Run tflite model</span><br><span class="line">python detect.py --weights .&#x2F;checkpoints&#x2F;yolov4-416.tflite --size 416 --model yolov4 --images .&#x2F;data&#x2F;images&#x2F;kite.jpg --framework tflite</span><br><span class="line"></span><br><span class="line"># Run tflite model</span><br><span class="line">python detect.py --weights .&#x2F;checkpoints&#x2F;yolov4-416-int8.tflite --size 416 --model yolov4 --images .&#x2F;data&#x2F;images&#x2F;kite.jpg --framework tflite</span><br><span class="line"></span><br><span class="line"># Run custom tflite model</span><br><span class="line">python detect.py --weights .&#x2F;checkpoints&#x2F;custom-416.tflite --size 416 --model yolov4 --images .&#x2F;data&#x2F;images&#x2F;car.jpg --framework tflite</span><br></pre></td></tr></table></figure>
-
+<p>最后测试一下yolov4 tflite的模型性能如何<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># Run tflite model</span><br><span class="line">python detect.py --weights .&#x2F;checkpoints&#x2F;yolov4-416.tflite --size 416 --model yolov4 --images .&#x2F;data&#x2F;images&#x2F;kite.jpg --framework tflite</span><br><span class="line"></span><br><span class="line"># Run tflite model</span><br><span class="line">python detect.py --weights .&#x2F;checkpoints&#x2F;yolov4-416-int8.tflite --size 416 --model yolov4 --images .&#x2F;data&#x2F;images&#x2F;kite.jpg --framework tflite</span><br><span class="line"></span><br><span class="line"># Run custom tflite model</span><br><span class="line">python detect.py --weights .&#x2F;checkpoints&#x2F;custom-416.tflite --size 416 --model yolov4 --images .&#x2F;data&#x2F;images&#x2F;car.jpg --framework tflite</span><br></pre></td></tr></table></figure></p>
 <p>不过这个hunglc007的tensorflow-yolov4-tflite仓库的tflite版有问题，首先是它的pb格式模型虽然生成出来了，但我用一个视频测试了一下，视频中的汽车一个都没检测出来，然后要把pb模型转换成tflite模型时遇到了报错：“RuntimeError: Max and min for dynamic tensors should be recorded during calibration: Failed for tensor input_1<br>Empty min/max for tensor input_1”。然后我在这个<a target="_blank" rel="noopener" href="https://github.com/hunglc007/tensorflow-yolov4-tflite/issues/207">issue</a>里看到有人说用这个<a target="_blank" rel="noopener" href="https://github.com/hhk7734/tensorflow-yolov4">repo</a>就没问题，我试了一下，生成的tflite模型大小有251M，准确度跟yolov4.weights差不多。</p>
 <p><strong>8. 训练自己的yolo检测器</strong></p>
 <p>要训练自己的YOLO检测器，首先要有数据集，The AI Guy介绍了两种制作数据集的方法：</p>
@@ -252,38 +218,34 @@ var _hmt = _hmt || [];
 <p><strong>9. 结合deepsort实现目标跟踪</strong></p>
 <p>来自The AI Guy开源的<a target="_blank" rel="noopener" href="https://github.com/theAIGuysCode/yolov4-deepsort">repo</a>。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># Run yolov4 deep sort object tracker on video</span><br><span class="line">python object_tracker.py --weights ..&#x2F;..&#x2F;Object_Detection&#x2F;tensorflow-yolov4-tflite&#x2F;checkpoints&#x2F;yolov4-tiny-416 --video .&#x2F;data&#x2F;video&#x2F;test.mp4 --output .&#x2F;outputs&#x2F;yolov4-tiny-tf-track-result.avi --model yolov4</span><br><span class="line"></span><br><span class="line"># Run yolov4 deep sort object tracker on webcam (set video flag to 0)</span><br><span class="line">python object_tracker.py --video 0 --output .&#x2F;outputs&#x2F;webcam.avi --model yolov4</span><br></pre></td></tr></table></figure>
-
 <p>实测结果是：<br>行人视频：<br>用CPU<br>yolov4-tf：1.6 FPS<br>yolov4-tiny-tf：1.8 FPS</p>
 <p>汽车视频（cars.mp4）:<br>GPU（GTX 1660 Ti）<br>yolov4 : 17.4 FPS(输出视频) 18.8 FPS （不输出视频）<br>yolov4-tiny : 19.5 FPS(输出视频) 27.2 FPS（不输出视频）<br>yolo-Fastest ； 20.1 FPS (输出视频) 28.2FPS（不输出视频）</p>
 <p>这个帧率跟你的命令行也有关系，比如你的命令行说要输出视频，那么帧率就会低一点。</p>
-<p>The AI Guy还做了一版用colab跑的<a target="_blank" rel="noopener" href="https://colab.research.google.com/drive/1zmeSTP3J5zu2d5fHgsQC06DyYEYJFXq1?usp=sharing">ipynb</a>和<a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=_zrNUzDS8Zc&list=PLKHYJbyeQ1a3tMm-Wm6YLRzfW1UmwdUIN&index=10">视频</a>，FPS能达到10FPS，不过我们也看到，用另一个车辆视频测试时，FPS提高到了15FPS，所以可以得出结论，跟踪的物体越多，FPS越小。</p>
+<p>The AI Guy还做了一版用colab跑的<a target="_blank" rel="noopener" href="https://colab.research.google.com/drive/1zmeSTP3J5zu2d5fHgsQC06DyYEYJFXq1?usp=sharing">ipynb</a>和<a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=_zrNUzDS8Zc&amp;list=PLKHYJbyeQ1a3tMm-Wm6YLRzfW1UmwdUIN&amp;index=10">视频</a>，FPS能达到10FPS，不过我们也看到，用另一个车辆视频测试时，FPS提高到了15FPS，所以可以得出结论，跟踪的物体越多，FPS越小。</p>
 <p>关于如何过滤显示的类别，具体请查看它的仓库。</p>
 <p><strong>10.用YOLOV4检测结果导出为txt文件作为预标注</strong></p>
 <p>如果我们的数据集很多图片是未标注的，如果都是人工去标注，是很枯燥费时的，我们可以利用命令行让YOLOV4把检测结果导出成它训练时用的txt那种格式的文件，也是labelimg导出的txt文件，导出来后打开labelimg，把图片和标注txt的文件夹设置好，labelimg自动会对应上同名的图片和标注txt文件，自动把矩形框显示在界面上，这时候你再微调一下就可以了。</p>
-<p>这个<a target="_blank" rel="noopener" href="https://github.com/AlexeyAB/darknet/issues/6240">issue</a>讨论了这个问题。<br>有一位网友biparnakroy还创建了一个相关项目 : <a target="_blank" rel="noopener" href="https://github.com/biparnakroy/pseudoLabelGeneratorForYOLO%EF%BC%8C">https://github.com/biparnakroy/pseudoLabelGeneratorForYOLO，</a></p>
-<p>并提供了一个转换成VOC格式的仓库：<br><a target="_blank" rel="noopener" href="https://github.com/hai-h-nguyen/Yolo2Pascal-annotation-conversion%EF%BC%8C">https://github.com/hai-h-nguyen/Yolo2Pascal-annotation-conversion，</a></p>
+<p>这个<a target="_blank" rel="noopener" href="https://github.com/AlexeyAB/darknet/issues/6240">issue</a>讨论了这个问题。<br>有一位网友biparnakroy还创建了一个相关项目 : <a target="_blank" rel="noopener" href="https://github.com/biparnakroy/pseudoLabelGeneratorForYOLO，">https://github.com/biparnakroy/pseudoLabelGeneratorForYOLO，</a></p>
+<p>并提供了一个转换成VOC格式的仓库：<br><a target="_blank" rel="noopener" href="https://github.com/hai-h-nguyen/Yolo2Pascal-annotation-conversion，">https://github.com/hai-h-nguyen/Yolo2Pascal-annotation-conversion，</a></p>
 <p>评论里还有人说有类别重映射的仓库：<a target="_blank" rel="noopener" href="https://github.com/sa7ina/YOLOv2-5_Class_Remap">https://github.com/sa7ina/YOLOv2-5_Class_Remap</a></p>
 <p>运行的命令行是：<code>darknet.exe detector test cfg/coco.data cfg/yolov4.cfg weights/yolov4.weights -thresh 0.25 -dont_show -save_labels &lt; data/new_train.txt</code></p>
 <p>关键在于<code>-save_labels &lt; data/new_train.txt</code>, 注意，符号<code>&lt;</code>不能少了，那new_train.txt里面是什么呢，里面是带检测图片的路径:</p>
-<img src="https://pic.downk.cc/item/5fa16a541cd1bbb86bdfa678.jpg">
-
+<p><img src="https://pic.downk.cc/item/5fa16a541cd1bbb86bdfa678.jpg"></p>
 <p>我是用以下脚本生成这个new_train.txt的：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line">txt_file = <span class="string">r&quot;C:\MachineLearning\CV\darknet\data\new_train.txt&quot;</span></span><br><span class="line">reference_folder = <span class="string">r&quot;D:\MachineLearning\DataSet\iGuardDataset\IMAGE\temp&quot;</span></span><br><span class="line"><span class="built_in">print</span>(os.listdir(reference_folder))</span><br><span class="line">prefix = <span class="string">r&#x27;D:/MachineLearning/DataSet/iGuardDataset/IMAGE/temp/img&#x27;</span></span><br><span class="line">extension = <span class="string">&#x27;.jpg&#x27;</span></span><br><span class="line">start_num = <span class="number">384</span></span><br><span class="line">num_files = <span class="built_in">len</span>([name <span class="keyword">for</span> name <span class="keyword">in</span> os.listdir(reference_folder) <span class="keyword">if</span> os.path.isfile(os.path.join(reference_folder, name))])  <span class="comment"># 排除将文件夹也计数</span></span><br><span class="line"></span><br><span class="line">f = <span class="built_in">open</span>(txt_file, <span class="string">&#x27;w&#x27;</span>)</span><br><span class="line"><span class="keyword">for</span> index <span class="keyword">in</span> <span class="built_in">range</span>(start_num, start_num+num_files):</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;%s%d%s&#x27;</span> % (prefix, index, extension), file=f)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;写入一行：&#123;&#125;&#123;&#125;&#123;&#125;&quot;</span>.<span class="built_in">format</span>(prefix, index, extension))</span><br></pre></td></tr></table></figure>
-
 <p>运行正常结束后，就会在图片的同一个文件夹下面生成同名的txt：</p>
-<img src="https://pic.downk.cc/item/5fa16b7c1cd1bbb86bdfe1d2.jpg">
-
+<p><img src="https://pic.downk.cc/item/5fa16b7c1cd1bbb86bdfe1d2.jpg"></p>
 <p>注意看，图中一个文件是classes.txt，这个东西的用处是labelimg软件根据标注框txt里的类别索引整数索引到这个classes.txt里的真实类别名称，这个文件不是代码生成的，因为我是用coco类别检测的，所以这个classes.txt是我从data/coco.names拷贝过来重命名的。</p>
 <p>看，这就是YOLOV4帮你标注好的矩形框：</p>
-<img src="https://pic.downk.cc/item/5fa16d671cd1bbb86be041a2.jpg">
-
+<p><img src="https://pic.downk.cc/item/5fa16d671cd1bbb86be041a2.jpg"></p>
 <p>如果觉得误检的比较多，那么你就调高threshold。又或者你觉得不要给我检测那么多类出来，还要我一个一个去删，解决思路是自己写个python脚本，对txt文件里你不想要的类别id所在的行删除掉。</p>
 <h1 id="YOLOV4模型可视化"><a href="#YOLOV4模型可视化" class="headerlink" title="YOLOV4模型可视化"></a>YOLOV4模型可视化</h1><p>使用netron就可以查看yolov4的模型结构，通过打开cfg文件，没错，cfg文件你既可以用VS code打开用文本形式查看，也可以用netron打开，用图形形式查看。</p>
 <h1 id="YOLO-cfg配置参数讲解"><a href="#YOLO-cfg配置参数讲解" class="headerlink" title="YOLO cfg配置参数讲解"></a>YOLO cfg配置参数讲解</h1><p>详细的解释请查看darknet Github Wiki：</p>
 <ul>
 <li><a target="_blank" rel="noopener" href="https://github.com/AlexeyAB/darknet/wiki/CFG-Parameters-in-the-%5Bnet%5D-section">CFG Parameters in the [net] section</a></li>
 <li><a target="_blank" rel="noopener" href="https://github.com/AlexeyAB/darknet/wiki/CFG-Parameters-in-the-different-layers">CFG Parameters in the different layers  </a></li>
-<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/hrsstudy/article/details/65447947">中文博客解释</a>  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">[net]</span><br><span class="line">batch&#x3D;64</span><br><span class="line">subdivisions&#x3D;16  # 如果内存不够大，将batch分割为subdivisions个子batch,batch固定的前提下，subdivision越小，训练出来的模型精度越高</span><br><span class="line">momentum&#x3D;0.949</span><br><span class="line">decay&#x3D;0.0005  # 权重衰减正则项，防止过拟合</span><br><span class="line">angle&#x3D;0  # 通过旋转角度来生成更多训练样本</span><br><span class="line">saturation &#x3D; 1.5</span><br><span class="line">exposure &#x3D; 1.5</span><br><span class="line">hue&#x3D;.1</span><br><span class="line"></span><br><span class="line">learning_rate&#x3D;0.001</span><br><span class="line">burn_in&#x3D;1000  # current_learning rate &#x3D; learning_rate * pow(steps &#x2F; burn_in, power) ，，其中，learning_rate&#x3D;0.001，power&#x3D;4，所以 burn_in &#x3D; 0.001 * pow(steps&#x2F;1000, 4) ，从公式可以看出，当steps小于1000时，steps&#x2F;1000小于1，这样的数再做4次方，那就更小了，所以第1到第1000个steps时，学习率远远小于0.001，1000个steps之后，学习率才等于0.001,有点像yolov5的warm up。</span><br><span class="line"></span><br><span class="line">max_batches &#x3D; 6000  # 训练达到max_batches后停止学习</span><br><span class="line">policy&#x3D;steps  # 调整学习率的policy，有如下policy：CONSTANT, STEP, EXP, POLY, STEPS, SIG, RANDOM</span><br><span class="line">steps&#x3D;4800,5400  #  这两个数值代表着steps进行到这两个时间点时，学习率会乘以下面对应的两个scales</span><br><span class="line">scales&#x3D;.1,.1  # 以此类推，如果steps&#x3D;8000,9000,12000, scales&#x3D;.1,.1,.1 且当前迭代步数为10000 ，那么当前学习率为 &#x3D; learning_rate * scales[0] * scales[1] &#x3D; 0.001 * 0.1 * 0.1 &#x3D; 0.00001</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">[yolo]</span><br><span class="line">mask &#x3D; 6,7,8</span><br><span class="line">anchors &#x3D; 12, 16, 19, 36, 40, 28, 36, 75, 76, 55, 72, 146, 142, 110, 192, 243, 459, 401</span><br><span class="line">classes&#x3D;2</span><br><span class="line">num&#x3D;9  # anchors或者说mask的数量</span><br><span class="line">jitter&#x3D;.3  # 随意更改图像大小和宽高比从 x(1 - 2*jitter) 到 x(1 + 2*jitter)</span><br><span class="line">ignore_thresh &#x3D; .7</span><br><span class="line">truth_thresh &#x3D; 1</span><br><span class="line">random&#x3D;1  # random为1时会启用Multi-Scale Training，随机使用不同尺寸的图片进行训练。</span><br><span class="line">scale_x_y &#x3D; 1.05</span><br><span class="line">iou_thresh&#x3D;0.213</span><br><span class="line">cls_normalizer&#x3D;1.0</span><br><span class="line">iou_normalizer&#x3D;0.07</span><br><span class="line">iou_loss&#x3D;ciou</span><br><span class="line">nms_kind&#x3D;greedynms</span><br><span class="line">beta_nms&#x3D;0.6</span><br><span class="line">max_delta&#x3D;5</span><br></pre></td></tr></table></figure></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/hrsstudy/article/details/65447947">中文博客解释</a>  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">[net]</span><br><span class="line">batch&#x3D;64</span><br><span class="line">subdivisions&#x3D;16  # 如果内存不够大，将batch分割为subdivisions个子batch,batch固定的前提下，subdivision越小，训练出来的模型精度越高</span><br><span class="line">momentum&#x3D;0.949</span><br><span class="line">decay&#x3D;0.0005  # 权重衰减正则项，防止过拟合</span><br><span class="line">angle&#x3D;0  # 通过旋转角度来生成更多训练样本</span><br><span class="line">saturation &#x3D; 1.5</span><br><span class="line">exposure &#x3D; 1.5</span><br><span class="line">hue&#x3D;.1</span><br><span class="line"></span><br><span class="line">learning_rate&#x3D;0.001</span><br><span class="line">burn_in&#x3D;1000  # current_learning rate &#x3D; learning_rate * pow(steps &#x2F; burn_in, power) ，，其中，learning_rate&#x3D;0.001，power&#x3D;4，所以 burn_in &#x3D; 0.001 * pow(steps&#x2F;1000, 4) ，从公式可以看出，当steps小于1000时，steps&#x2F;1000小于1，这样的数再做4次方，那就更小了，所以第1到第1000个steps时，学习率远远小于0.001，1000个steps之后，学习率才等于0.001,有点像yolov5的warm up。</span><br><span class="line"></span><br><span class="line">max_batches &#x3D; 6000  # 训练达到max_batches后停止学习</span><br><span class="line">policy&#x3D;steps  # 调整学习率的policy，有如下policy：CONSTANT, STEP, EXP, POLY, STEPS, SIG, RANDOM</span><br><span class="line">steps&#x3D;4800,5400  #  这两个数值代表着steps进行到这两个时间点时，学习率会乘以下面对应的两个scales</span><br><span class="line">scales&#x3D;.1,.1  # 以此类推，如果steps&#x3D;8000,9000,12000, scales&#x3D;.1,.1,.1 且当前迭代步数为10000 ，那么当前学习率为 &#x3D; learning_rate * scales[0] * scales[1] &#x3D; 0.001 * 0.1 * 0.1 &#x3D; 0.00001</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">[yolo]</span><br><span class="line">mask &#x3D; 6,7,8</span><br><span class="line">anchors &#x3D; 12, 16, 19, 36, 40, 28, 36, 75, 76, 55, 72, 146, 142, 110, 192, 243, 459, 401</span><br><span class="line">classes&#x3D;2</span><br><span class="line">num&#x3D;9  # anchors或者说mask的数量</span><br><span class="line">jitter&#x3D;.3  # 随意更改图像大小和宽高比从 x(1 - 2*jitter) 到 x(1 + 2*jitter)</span><br><span class="line">ignore_thresh &#x3D; .7</span><br><span class="line">truth_thresh &#x3D; 1</span><br><span class="line">random&#x3D;1  # random为1时会启用Multi-Scale Training，随机使用不同尺寸的图片进行训练。</span><br><span class="line">scale_x_y &#x3D; 1.05</span><br><span class="line">iou_thresh&#x3D;0.213</span><br><span class="line">cls_normalizer&#x3D;1.0</span><br><span class="line">iou_normalizer&#x3D;0.07</span><br><span class="line">iou_loss&#x3D;ciou</span><br><span class="line">nms_kind&#x3D;greedynms</span><br><span class="line">beta_nms&#x3D;0.6</span><br><span class="line">max_delta&#x3D;5</span><br></pre></td></tr></table></figure>
+</li>
 </ul>
 <h1 id="YOLO-V4的tricks"><a href="#YOLO-V4的tricks" class="headerlink" title="YOLO V4的tricks"></a>YOLO V4的tricks</h1><p>相信我们已经被上面yolo v4的检测效果所惊喜，那yolo v4到底用了什么技巧达到如此准确的检测呢？</p>
 <p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/103070923">https://zhuanlan.zhihu.com/p/103070923</a></p>
@@ -307,8 +269,7 @@ var _hmt = _hmt || [];
 </li>
 </ol>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">classes &#x3D; 2</span><br><span class="line">train  &#x3D; data&#x2F;train.txt</span><br><span class="line">valid  &#x3D; data&#x2F;test.txt</span><br><span class="line">names &#x3D; data&#x2F;obj.names</span><br><span class="line">backup &#x3D; backup&#x2F;</span><br></pre></td></tr></table></figure>
-
-<ol start="5">
+<ol>
 <li>给数据集标注好矩形框，标签文件是格式<code>&lt;object-class&gt; &lt;x_center&gt; &lt;y_center&gt; &lt;width&gt; &lt;height&gt;</code>的txt文件。其中：</li>
 </ol>
 <ul>
@@ -316,12 +277,11 @@ var _hmt = _hmt || [];
 <li><code>&lt;x_center&gt; &lt;y_center&gt; &lt;width&gt; &lt;height&gt;</code> - 相对于图像宽度高度的浮点值，位于 (0.0 to 1.0]区间。比如: <code>&lt;x&gt; = &lt;absolute_x&gt; / &lt;image_width&gt;</code> &amp; <code>&lt;height&gt; = * &lt;absolute_height&gt; / &lt;image_height&gt;</code></li>
 <li>注意 <x_center> <y_center> - 是矩形框的中心，不是左上角。</li>
 </ul>
-<ol start="6">
+<ol>
 <li>Create file <code>train.txt</code> in directory <code>build\darknet\x64\data\</code>, with filenames of your images, each filename in new line, with path relative to <code>darknet.exe</code>, for example containing:</li>
 </ol>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">data&#x2F;obj&#x2F;img1.jpg</span><br><span class="line">data&#x2F;obj&#x2F;img2.jpg</span><br><span class="line">data&#x2F;obj&#x2F;img3.jpg</span><br></pre></td></tr></table></figure>
-
-<ol start="7">
+<ol>
 <li>Download pre-trained weights for the convolutional layers and put to the directory <code>build\darknet\x64</code></li>
 </ol>
 <ul>
@@ -332,7 +292,7 @@ var _hmt = _hmt || [];
 <li>for <code>yolov3-tiny-prn.cfg , yolov3-tiny.cfg</code> (6 MB): <a target="_blank" rel="noopener" href="https://drive.google.com/file/d/18v36esoXCh-PsOKwyP2GWrpYDptDY8Zf/view?usp=sharing">yolov3-tiny.conv.11</a></li>
 <li>for <code>enet-coco.cfg (EfficientNetB0-Yolov3)</code> (14 MB): <a target="_blank" rel="noopener" href="https://drive.google.com/file/d/1uhh3D6RSn0ekgmsaTcl-ZW53WBaUDo6j/view?usp=sharing">enetb0-coco.conv.132</a></li>
 </ul>
-<ol start="8">
+<ol>
 <li>Start training by using the command line: <code>darknet.exe detector train data/obj.data yolo-obj.cfg yolov4.conv.137</code></li>
 </ol>
 <p>To train on Linux use command: <code>./darknet detector train data/obj.data yolo-obj.cfg yolov4.conv.137</code> (just use <code>./darknet</code> instead of <code>darknet.exe</code>)</p>
@@ -375,7 +335,7 @@ var _hmt = _hmt || [];
 </li>
 <li><p>希望您的训练数据集包含没有检测目标的图像（对应空的.txt文件）-使用与带有对象的图像一样多的负样本图像</p>
 </li>
-<li><p>针对图像中有大量对象的情况，训练前请在cfg文件的最后一个[yolo]层或[region]层中添加参数max = 200或更高的值（YoloV3可以检测到的最多目标数量是0,0615234375 *（width * height），其中width和height是cfg文件中[net]部分的参数）。</p>
+<li><p>针对图像中有大量对象的情况，训练前请在cfg文件的最后一个[yolo]层或[region]层中添加参数max = 200或更高的值（YoloV3可以检测到的最多目标数量是0,0615234375 <em>（width </em> height），其中width和height是cfg文件中[net]部分的参数）。</p>
 </li>
 <li><p>要训练小目标（将图像调整为416x416后小于16x16的目标称为小目标），设置<code>layers = 23</code>,而不是<code>layers = 54</code>(<a target="_blank" rel="noopener" href="https://github.com/AlexeyAB/darknet/blob/6f718c257815a984253346bba8fb7aa756c55090/cfg/yolov4.cfg#L895">https://github.com/AlexeyAB/darknet/blob/6f718c257815a984253346bba8fb7aa756c55090/cfg/yolov4.cfg#L895</a>)</p>
 <p>设置<code>stride = 4</code>而不是<code>stride = 2</code>(<a target="_blank" rel="noopener" href="https://github.com/AlexeyAB/darknet/blob/6f718c257815a984253346bba8fb7aa756c55090/cfg/yolov4.cfg#L892">https://github.com/AlexeyAB/darknet/blob/6f718c257815a984253346bba8fb7aa756c55090/cfg/yolov4.cfg#L892</a>)</p>
@@ -392,7 +352,7 @@ var _hmt = _hmt || [];
 </li>
 <li><p>加快训练速度（伴随降低检测精度）在cfg文件中为第136层设置参数<code>stopbackward = 1</code></p>
 </li>
-<li><p>为了使检测到的边界框更准确，您可以向每个[yolo]层添加3个参数<code>ignore_thresh = .9</code> <code>iou_normalizer = 0.5</code> <code>iou_loss = giou</code>并进行训练，它将增加<a href="mailto:&#x6d;&#x41;&#x50;&#64;&#48;&#46;&#x39;">&#x6d;&#x41;&#x50;&#64;&#48;&#46;&#x39;</a>，但减小<a href="mailto:&#x6d;&#x41;&#x50;&#64;&#48;&#46;&#53;">&#x6d;&#x41;&#x50;&#64;&#48;&#46;&#53;</a>。</p>
+<li><p>为了使检测到的边界框更准确，您可以向每个[yolo]层添加3个参数<code>ignore_thresh = .9</code> <code>iou_normalizer = 0.5</code> <code>iou_loss = giou</code>并进行训练，它将增加mAP@0.9，但减小mAP@0.5。</p>
 </li>
 <li><p>仅当您是神经检测网络专家时再这么做 ：在cfg文件中重新计算数据集的锚框的宽度和高度：<code>darknet.exe detector calc_anchors data/obj.data -num_of_clusters 9 -width 416 -height 416</code>然后设置相同的9个锚点在cfg文件的3个[yolo]图层中的每个图层中。但是您应该为每个[yolo]层更改anchor的遮罩 <code>masks</code>，因此对于YOLOv4，第一层[yolo]层的锚点小于30x30，第二层小于60x60，剩下的第3层，以此类推。同样，您应该在每个[yolo]层之前更改<code>filter =（classs + 5）* &lt;mask的数量&gt;</code>。如果许多计算出的锚不适合在适当的图层下, 那就使用默认锚框即可。</p>
 </li>
@@ -407,21 +367,18 @@ var _hmt = _hmt || [];
 <p>这带给我们一个启示：“数据集图片尺寸不要跟网络的输入尺寸差距很大”。举个例子，咱们用手机相机拍摄的照片一般都很清晰，我的是4000多×2000多，但是<strong>越大越高分辨率的图片对神经网络来说是越不清晰</strong>！因为网络在预处理是会把图片尺寸除以原始图片的长边，比如我这里是除以4000多像素，那假如我的目标是100×200，转换成608×608的图片后，它的大小变成了15×30，也就是15×30的像素要表达我的那个目标，可想而知这丢失了很多目标信息，这样模型的小目标检测效果就会特别差！所以我建议把数据集的图片裁剪变小，推荐一个<a target="_blank" rel="noopener" href="https://watermarkly.com/crop-photo/">裁剪工具</a>。</p>
 <h1 id="智能标注工具"><a href="#智能标注工具" class="headerlink" title="智能标注工具"></a>智能标注工具</h1><p>训练前的数据标注是一个简单重复又意义重要的工作，现在就诞生了几个不错的数据标注工具，它们会帮你比如OPENCV/openvinotoolkit出品的CVAT（Computer Vision Annotation Tool），这里我用它的<a target="_blank" rel="noopener" href="https://cvat.org/">在线版</a>演示一下单张图片单个类别的目标检测标注：</p>
 <p>左侧工具栏有个魔术棒图标，我们可也利用它自己生成标注框：</p>
-<img src="https://pic.downk.cc/item/5f7d93fd1cd1bbb86b6ac487.jpg">
-
+<p><img src="https://pic.downk.cc/item/5f7d93fd1cd1bbb86b6ac487.jpg"></p>
 <p>标注结束后记得点一下save，最后就是点menu -&gt; Export as a dataset导出你想要的格式的数据集了：</p>
-<img src="https://pic.downk.cc/item/5f7db1f41cd1bbb86b7255c1.jpg">
-
+<p><img src="https://pic.downk.cc/item/5f7db1f41cd1bbb86b7255c1.jpg"></p>
 <p>下载下来的数据集如下图所示，我导出的就是YOLO格式：</p>
-<img src="https://pic.downk.cc/item/5f7d98a21cd1bbb86b6bbcdc.jpg">
-
+<p><img src="https://pic.downk.cc/item/5f7d98a21cd1bbb86b6bbcdc.jpg"></p>
 <p>这款工具还可能标注实例分割，数据源是视频等，功能还是比较强大的，但是缺点是因为是网页版，所以上传大的数据集容易网络断开。</p>
 <p>具有半自动标注的工具了还有：</p>
 <ul>
 <li><p><a target="_blank" rel="noopener" href="https://github.com/virajmavani/semi-auto-image-annotation-tool">semi-auto-image-annotation-tool</a>，不过似乎维护得比较不频繁了，但我觉得他们当时的创新之举还是值得一提的。</p>
 </li>
-<li><p><a target="_blank" rel="noopener" href="https://github.com/microsoft/VoTT">VOTT</a>，在学位帽图标这里设置，Model Provider让你设置用什么模型预测，是SSD还是自定义模型，Predict让你设置预测出来框是否还给你带上标签Tag，Auto Detect让你设置点击下一张图片后是否自动检测</p>
-<img src="https://pic.downk.cc/item/5f9d724a1cd1bbb86bc764e1.jpg" width=90%></li>
+<li><p><a target="_blank" rel="noopener" href="https://github.com/microsoft/VoTT">VOTT</a>，在学位帽图标这里设置，Model Provider让你设置用什么模型预测，是SSD还是自定义模型，Predict让你设置预测出来框是否还给你带上标签Tag，Auto Detect让你设置点击下一张图片后是否自动检测<br><img src="https://pic.downk.cc/item/5f9d724a1cd1bbb86bc764e1.jpg" width=90%></p>
+</li>
 </ul>
 <p>如果不自动检测的话，就得自己手动点下面这个同样学位帽的图标：<br> <img src="https://pic.downk.cc/item/5f9d72741cd1bbb86bc775db.jpg" ></p>
 <p> 目前（2020/10/31）VOTT还不支持导出YOLO格式的功能，但这个<a target="_blank" rel="noopener" href="https://github.com/microsoft/VoTT/issues/994">issue</a>里官方给的建议是用他们的<a target="_blank" rel="noopener" href="https://roboflow.com/convert/vott-json-to-yolo-darknet-txt">Roboflow</a>转换工具把VoTT Json格式转换成YOLO txt格式。</p>

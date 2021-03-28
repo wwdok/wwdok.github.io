@@ -56,7 +56,11 @@ var _hmt = _hmt || [];
 </script>
 
 
-</head>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --></head>
 
 </html>
 
@@ -122,65 +126,50 @@ var _hmt = _hmt || [];
     <div class="article-entry" itemprop="articleBody">
        
   <p>这篇文章<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_42374559/article/details/96032672">《多目标跟踪入门篇(1)：SORT算法详解》</a>对SORT算法进行了一个很好的概括，字字珠玑。我觉得配上下面这张图(<a target="_blank" rel="noopener" href="https://blog.csdn.net/HaoBBNuanMM/article/details/85555547">来源</a>)能更好的理解匈牙利算法的背景和作用：</p>
-<h1 id="C-版SORT"><a href="#C-版SORT" class="headerlink" title="C++ 版SORT"></a>C++ 版SORT</h1><img src="https://s1.ax1x.com/2020/07/26/a9vvBF.png" alt="a9vvBF.png" border="0" />
-
+<h1 id="C-版SORT"><a href="#C-版SORT" class="headerlink" title="C++ 版SORT"></a>C++ 版SORT</h1><p><img src="https://s1.ax1x.com/2020/07/26/a9vvBF.png" alt="a9vvBF.png" border="0" /></p>
 <p>匈牙利算法就是通过计算预测跟检测的BBOX的IOU值来完成前后两帧里的所有BBOX的匹配。</p>
-<p>下面将介绍如何跑通这个SORT算法的C++版本（<a target="_blank" rel="noopener" href="https://github.com/mcximing/sort-cpp%EF%BC%89%EF%BC%9A">https://github.com/mcximing/sort-cpp）：</a></p>
-<h2 id="1-下载安装opencv"><a href="#1-下载安装opencv" class="headerlink" title="1.下载安装opencv"></a>1.下载安装opencv</h2><p>因为这个SORT项目用到了opencv，所以需要先配置opencv的环境，去opencv官网：<a target="_blank" rel="noopener" href="https://opencv.org/releases/%EF%BC%8C">https://opencv.org/releases/，</a> 选择Windows版下载。安装好后是这样子的：</p>
+<p>下面将介绍如何跑通这个SORT算法的C++版本（<a target="_blank" rel="noopener" href="https://github.com/mcximing/sort-cpp）：">https://github.com/mcximing/sort-cpp）：</a></p>
+<h2 id="1-下载安装opencv"><a href="#1-下载安装opencv" class="headerlink" title="1.下载安装opencv"></a>1.下载安装opencv</h2><p>因为这个SORT项目用到了opencv，所以需要先配置opencv的环境，去opencv官网：<a target="_blank" rel="noopener" href="https://opencv.org/releases/，">https://opencv.org/releases/，</a> 选择Windows版下载。安装好后是这样子的：</p>
 <p><img src="https://s1.ax1x.com/2020/07/25/aSvcYq.png" alt="aSvcYq.png"></p>
 <h2 id="2-设置环境变量："><a href="#2-设置环境变量：" class="headerlink" title="2.设置环境变量："></a>2.设置环境变量：</h2><p>将<code>opencv\build\x64\vc15\bin</code>加入用户或者系统的环境变量path里面，如果你已经启动Visual studio，那么得重启才生效。不做该步骤的话后面会提示“找不到 opencv_world430.dll”<br><img src="https://s1.ax1x.com/2020/07/25/aSvo79.png" alt="aSvo79.png" border="0" width=70%/></p>
 <p><img src="https://s1.ax1x.com/2020/07/25/aShrX6.png" alt="aShrX6.png"></p>
 <h2 id="3-在VS打开项目-解决方案"><a href="#3-在VS打开项目-解决方案" class="headerlink" title="3.在VS打开项目/解决方案"></a>3.在VS打开项目/解决方案</h2><p>用VS打开下载下来的仓库的文件夹，打开后大概是这个样子：</p>
-<img src="https://s1.ax1x.com/2020/07/25/aSxm7j.png" alt="aSxm7j.png" border="0" />
-
+<p><img src="https://s1.ax1x.com/2020/07/25/aSxm7j.png" alt="aSxm7j.png" border="0" /></p>
 <span id="more"></span>
-
 <h2 id="4-配置管理器"><a href="#4-配置管理器" class="headerlink" title="4.配置管理器"></a>4.配置管理器</h2><p>在VS界面上方有下图所示的解决方案配置和解决方案平台，解决方案配置你选Release还是Debug取决于你，但后面那个解决方案平台如果默认不是x64的话，就得换成x64，因为从opencv\build下面的x64文件夹，我们推断opencv只支持x64。由于我这里默认是Win32，所以我需要添加新的活动解决方案平台，否则后面会报错：“模块计算机类型“x64”与目标计算机类型“X86”冲突”</p>
-<img src="https://s1.ax1x.com/2020/07/26/aSx09x.png" alt="aSx09x.png" border="0" />
-
-<img src="https://s1.ax1x.com/2020/07/26/aSxcHH.png" alt="aSxcHH.png" border="0" />
-
-<img src="https://s1.ax1x.com/2020/07/26/aSxW4I.png" alt="aSxW4I.png" border="0" width=60%/>
-
+<p><img src="https://s1.ax1x.com/2020/07/26/aSx09x.png" alt="aSx09x.png" border="0" /></p>
+<p><img src="https://s1.ax1x.com/2020/07/26/aSxcHH.png" alt="aSxcHH.png" border="0" /></p>
+<p><img src="https://s1.ax1x.com/2020/07/26/aSxW4I.png" alt="aSxW4I.png" border="0" width=60%/></p>
 <h2 id="5-配置属性"><a href="#5-配置属性" class="headerlink" title="5.配置属性"></a>5.配置属性</h2><p>在工具栏：项目-属性，调出项目属性框;或者右击解决方案管理器里的项目，列表最下方就是属性。</p>
 <h3 id="5-1-切换平台工具集"><a href="#5-1-切换平台工具集" class="headerlink" title="5.1 切换平台工具集"></a>5.1 切换平台工具集</h3><p>因为这个项目默认的平台工具集是VS 2013，而我的电脑安装的是VS 2019，所以我需要把平台工具集换成Visual Studio 2019 （V142）</p>
-<img src="https://s1.ax1x.com/2020/07/26/aSzgMT.png" alt="aSzgMT.png" border="0" />
-
+<p><img src="https://s1.ax1x.com/2020/07/26/aSzgMT.png" alt="aSzgMT.png" border="0" /></p>
 <h3 id="5-2-添加头文件包含路径"><a href="#5-2-添加头文件包含路径" class="headerlink" title="5.2 添加头文件包含路径"></a>5.2 添加头文件包含路径</h3><p>在VC++目录栏的包含目录中添加<code>opencv\build\include</code>路径。在库目录中添加<code>opencv\build\x64\vc15\lib</code>路径。</p>
-<img src="https://s1.ax1x.com/2020/07/26/aSzqsO.png" alt="aSzqsO.png" border="0" />
-
+<p><img src="https://s1.ax1x.com/2020/07/26/aSzqsO.png" alt="aSzqsO.png" border="0" /></p>
 <p>如果不配置，则会出现“C1083    : “opencv2/video/tracking.hpp”: No such file or directory”的报错</p>
 <h3 id="5-3-添加附加包含目录"><a href="#5-3-添加附加包含目录" class="headerlink" title="5.3 添加附加包含目录"></a>5.3 添加附加包含目录</h3><p>在C/C++ 里的附加包含目录也添加<code>opencv\build\include</code>路径：</p>
-<img src="https://s1.ax1x.com/2020/07/26/apSPQf.png" alt="apSPQf.png" border="0" />
-
+<p><img src="https://s1.ax1x.com/2020/07/26/apSPQf.png" alt="apSPQf.png" border="0" /></p>
 <h3 id="5-4-添加链接库"><a href="#5-4-添加链接库" class="headerlink" title="5.4 添加链接库"></a>5.4 添加链接库</h3><p>首先在链接器的常规页面里添加lib文件夹，再在输入页面的附加依赖项中添加<code>opencv_world430d.lib</code>，这个文件就是<code>opencv\build\x64\vc15\lib</code>路径下的lib文件，不同版本的名字可能不同。Debug时添加末尾有“d”的lib，release版添加末尾没有“d”的lib。如果这一步配置有问题，后面会遇到“无法解析的外部符号…”的报错<br><img src="https://s1.ax1x.com/2020/07/26/apSdl6.png" alt="apSdl6.png" border="0" /></p>
-<img src="https://s1.ax1x.com/2020/07/26/apS6kd.png" alt="apS6kd.png" border="0" />
-
+<p><img src="https://s1.ax1x.com/2020/07/26/apS6kd.png" alt="apS6kd.png" border="0" /></p>
 <h2 id="6-修改源代码"><a href="#6-修改源代码" class="headerlink" title="6.修改源代码"></a>6.修改源代码</h2><p>配置完各种环境，有几处源代码也需要修改一下：</p>
 <ul>
-<li><p>cvWaitKey(40);  <strong>–&gt;</strong>  waitKey(40);</p>
+<li><p>cvWaitKey(40);  <strong>—&gt;</strong>  waitKey(40);</p>
 </li>
-<li><p>*(Mat_<float>(stateNum, stateNum)  <strong>–&gt;</strong>  (Mat_<float>(stateNum, stateNum)</p>
+<li><p><em>(Mat_<float>(stateNum, stateNum)  <em>*—&gt;</em></em>  (Mat_<float>(stateNum, stateNum)</p>
 </li>
 </ul>
 <p>右击资源管理器里的项目，选择 重新生成，没问题的话，会看到以下输出：</p>
-<img src="https://s1.ax1x.com/2020/07/26/apSgfI.png" alt="apSgfI.png" border="0" />
-
+<p><img src="https://s1.ax1x.com/2020/07/26/apSgfI.png" alt="apSgfI.png" border="0" /></p>
 <h2 id="7-下载数据集"><a href="#7-下载数据集" class="headerlink" title="7.下载数据集"></a>7.下载数据集</h2><p>去 <a target="_blank" rel="noopener" href="https://motchallenge.net/data/2D_MOT_2015/#download">https://motchallenge.net/data/2D_MOT_2015/#download</a> 下载数据集，注意，得是完整数据集，无法下载单个视频，另外我们也不能只下载单个视频，因为我们这里要用到的其实是一连串的视频截图。下载解压后，把源代码中的<strong>imgPath</strong>修改成你的路径</p>
-<img src="https://s1.ax1x.com/2020/07/26/apf4HO.png" alt="apf4HO.png" border="0" />
-
+<p><img src="https://s1.ax1x.com/2020/07/26/apf4HO.png" alt="apf4HO.png" border="0" /></p>
 <h2 id="8-运行代码"><a href="#8-运行代码" class="headerlink" title="8.运行代码"></a>8.运行代码</h2><p>最后一步，看main.cpp的第76、77行，如果你选择<strong>TestSORT(seq, false);</strong> 如果是false，则不会跟踪以上任何一个视频，如果true，则会跟踪以上所有视频。如果你选择 <strong>TestSORT(“ADL-Rundle-8”, true);</strong> ，那么只对ADL-Rundle-8这个视频进行跟踪。最后点击<strong>本地Windows调试器</strong>，就能看到跟踪效果的视频啦！</p>
-<img src="https://s1.ax1x.com/2020/07/26/apIi2d.png" alt="apIi2d.png" border="0" />
-
+<p><img src="https://s1.ax1x.com/2020/07/26/apIi2d.png" alt="apIi2d.png" border="0" /></p>
 <p>在这里说一个我发现的玄学，就是如果我按下键盘的空格键后，视频播放速度会加快，比较正常，不然视频播放速度是偏慢的。</p>
 <h2 id="python-版SORT"><a href="#python-版SORT" class="headerlink" title="python 版SORT"></a>python 版SORT</h2><p>如果也想跑一下python版的SORT算法，可以看我fork的这个<a target="_blank" rel="noopener" href="https://github.com/wwdok/sort">repo</a>。</p>
 <h1 id="DeepSort"><a href="#DeepSort" class="headerlink" title="DeepSort"></a><strong>DeepSort</strong></h1><p>DeepSORT来自论文《<a target="_blank" rel="noopener" href="https://arxiv.org/abs/1703.07402">Simple Online and Realtime Tracking with a Deep Association Metric</a>》，它在SORT的基础上集成了基于深度外观描述符（deep appearance descriptor）的外观信息（appearance information）。换句话说就是，引入了在行人重识别数据集（MARS：Motion Analysis and Re-identification Set)）上训练的深度学习模型（mars-small128），在实时目标追踪过程中，提取目标的表观特征进行最近邻匹配，可以改善有遮挡情况下的目标追踪效果。同时，也减少了目标ID跳变的问题。</p>
 <p>【<a target="_blank" rel="noopener" href="https://github.com/nwojke/deep_sort">DeepSort官方Github仓库</a>】<br>【<a target="_blank" rel="noopener" href="https://github.com/bitzy/DeepSort">C++版DeepSort Github仓库</a>】</p>
-<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a><strong>安装</strong></h3><img src="https://pic.downk.cc/item/5f9ade781cd1bbb86beb23c5.jpg">
-
+<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a><strong>安装</strong></h3><p><img src="https://pic.downk.cc/item/5f9ade781cd1bbb86beb23c5.jpg"></p>
 <p>下载repo和两个detections、networks，放在如下所示新建的resources文件夹里：</p>
-<img src="https://pic.downk.cc/item/5f9addf21cd1bbb86beb03bf.jpg">
-
+<p><img src="https://pic.downk.cc/item/5f9addf21cd1bbb86beb03bf.jpg"></p>
 <h3 id="让模型跑起来"><a href="#让模型跑起来" class="headerlink" title="让模型跑起来"></a><strong>让模型跑起来</strong></h3><p>在让模型跑起来之前，先对deep_sort_app.py的命令行参数进行说明：</p>
 <p>1.<strong>sequence_dir</strong>：SORT的跟踪数据集用的是2D_MOT_2015，而DeepSort用的是MOT16，所以要再去下载一下这个数据集（<a target="_blank" rel="noopener" href="https://motchallenge.net/data/MOT16/">官网下载链接</a>）。我这里设置为：<code>r&#39;D:\MachineLearning\DataSet\MOT16\test\MOT16-06&#39;</code>。</p>
 <p>2.<strong>detection_file</strong>：我这里设置为：<code>r&#39;./resources/detections/MOT16_POI_test/MOT16-06.npy&#39;</code>.npy文件是numpy专用的二进制文件，在DeepSORT里它跟在SORT里的txt文件一样，存储了预先检测好的矩形框位置信息。</p>
@@ -193,20 +182,17 @@ var _hmt = _hmt || [];
 <p>8.<strong>nn_budget</strong>：神经网络预算</p>
 <p>9.<strong>display</strong>：这个默认是True的，开启后运行代码时会跳出窗口显示跟踪效果。这不是必须的嘛，我不知道作者给大家这个选择的意义是什么，作者还写了一个bool_string()来规定输入的类型。</p>
 <p>因为我懒得在命令行里敲入参数再运行，这样每次关掉命令行窗口后还要重新打一遍字，所以我直接在deep_sort_app.py里修改，修改5个地方，即：修改2处路径，删除两处<code>required=True</code>,修改<code>nn_budget</code>默认值为某个整数。</p>
-<img src="https://pic.downk.cc/item/5f9842a01cd1bbb86b3d32e0.jpg">
-
-
+<p><img src="https://pic.downk.cc/item/5f9842a01cd1bbb86b3d32e0.jpg"></p>
 <p>修改完之后，在Pycharm里run一下就能看到跟踪效果的窗口显示出来了。按下空格键可以暂停，按下ESC键关闭窗口。</p>
 <p>按下空格键可以暂停视频，我们会发现画面中的目标周边有两个矩形框，一个所有目标都是红色的矩形框，和一个随目标不同而不同颜色的矩形框。</p>
-<img src="https://pic.downk.cc/item/5f9ae0721cd1bbb86bebb1b1.jpg">
-
+<p><img src="https://pic.downk.cc/item/5f9ae0721cd1bbb86bebb1b1.jpg"></p>
 <p>前面开头说了mars-small128.pb是一个在Re-ID数据集上训练出来的人体检测模型，那它在这个项目里有什么用呢？其实它就是配合generate_detection.py使用：<code>python tools/generate_detections.py --model=resources/networks/mars-small128.pb --mot_dir=./MOT16/train --output_dir=./resources/detections/MOT16_train</code>,输出detection文件夹下那种目标检测结果的文件，用于你如果有其他非MOT16数据集里的视频，然后你想跟踪这个视频里的人体，那么就可以用mars-small128.pb先导出检测结果，然后再像常规那样运行deep_sort_app.py。所以这个东西对我来说意义不大，一是因为我实践中肯定是希望检测和跟踪是同时进行的，而不是断开来进行，否则就没有了应用的意义，另一个是这个模型只能检测人体，如果我想检测跟踪汽车，那这个模型就用不上了。</p>
 <p>这个原始的repo还有个问题是，它的输入图像是一帧帧独立的图片，如果想输入视频呢，这个<a target="_blank" rel="noopener" href="https://github.com/nwojke/deep_sort/issues/4">issue</a>里就讨论了这个问题，Ravisik 给出了代码片段，qidian123更是把deepsort跟yolov3结合了起来。</p>
-<p>马氏距离：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/abella/p/11171364.html%EF%BC%8Chttps://www.biaodianfu.com/mahalanobis-distance.html">https://www.cnblogs.com/abella/p/11171364.html，https://www.biaodianfu.com/mahalanobis-distance.html</a></p>
+<p>马氏距离：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/abella/p/11171364.html，https://www.biaodianfu.com/mahalanobis-distance.html">https://www.cnblogs.com/abella/p/11171364.html，https://www.biaodianfu.com/mahalanobis-distance.html</a></p>
 <p>TheAIGuy开源了<a target="_blank" rel="noopener" href="https://github.com/theAIGuysCode/yolov4-deepsort">yolov4-deepsort</a>，亲测好用。</p>
 <p>其他跟踪方法：</p>
 <p>光流跟踪</p>
-<h2 id="参考链接："><a href="#参考链接：" class="headerlink" title="参考链接："></a>参考链接：</h2><p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/133670271">《搞不懂MOT数据集，会跑代码有啥用！》</a><br><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/zjc910997316/article/details/89447272">《SORT详解： 代码解读》</a><br><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/sgfmby1994/article/details/98517210">《Deep sort算法代码解读》</a><br><br><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1zE411W7Fn?from=search&seid=14150103438250024110">《Win10环境下OpenCV-4.2.0 Visual Studio C++开发环境设置》</a><br><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/HaoBBNuanMM/article/details/85555547">《【算法分析】SORT/Deep SORT 物体跟踪算法解析》</a></p>
+<h2 id="参考链接："><a href="#参考链接：" class="headerlink" title="参考链接："></a>参考链接：</h2><p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/133670271">《搞不懂MOT数据集，会跑代码有啥用！》</a><br><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/zjc910997316/article/details/89447272">《SORT详解： 代码解读》</a><br><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/sgfmby1994/article/details/98517210">《Deep sort算法代码解读》</a><br><br><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1zE411W7Fn?from=search&amp;seid=14150103438250024110">《Win10环境下OpenCV-4.2.0 Visual Studio C++开发环境设置》</a><br><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/HaoBBNuanMM/article/details/85555547">《【算法分析】SORT/Deep SORT 物体跟踪算法解析》</a></p>
  
       <!-- reward -->
       

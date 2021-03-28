@@ -56,7 +56,11 @@ var _hmt = _hmt || [];
 </script>
 
 
-</head>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --></head>
 
 </html>
 
@@ -123,7 +127,7 @@ var _hmt = _hmt || [];
        
   <p>最近频繁被Tansformer刷屏，于是我决定学习一下Transformer，看看它的厉害之处在哪里。</p>
 <p>本篇博客就像是一个链接中枢，我会放很多我认为不错的教程链接，因为到现在，网上已经有不少好教程了，我不会再摘抄一遍它们的内容，我只会放上链接，加上一点个人的理解补充。</p>
-<p>Shusen Wang做了一个Transformer的youtube系列视频：《<a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=aButdUV0dxI&list=PLvOO0btloRntpSWSxFbwPIjIum3Ub4GSC">Transformer模型</a>》，但是在学习这个系列视频之前，还需要对RNN、LSTM、Attention这些专业术语有所了解，这就需要再去看一下他的另一个YouTube系列视频：<a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=NWcShtqr8kc&list=PLvOO0btloRnuTUGN4XqO85eKPeFSZsEqK">《RNN模型与NLP应用》</a>（建议1.5倍速观看哈）。</p>
+<p>Shusen Wang做了一个Transformer的youtube系列视频：《<a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=aButdUV0dxI&amp;list=PLvOO0btloRntpSWSxFbwPIjIum3Ub4GSC">Transformer模型</a>》，但是在学习这个系列视频之前，还需要对RNN、LSTM、Attention这些专业术语有所了解，这就需要再去看一下他的另一个YouTube系列视频：<a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=NWcShtqr8kc&amp;list=PLvOO0btloRnuTUGN4XqO85eKPeFSZsEqK">《RNN模型与NLP应用》</a>（建议1.5倍速观看哈）。</p>
 <p>本博客将以这两个系列视频为主线展开，对其中的一些知识点进行补充说明。</p>
 <ul>
 <li><p>《RNN模型与NLP应用(1/9)：数据处理基础》：这一节比较简单，无需补充说明</p>
@@ -133,14 +137,12 @@ var _hmt = _hmt || [];
 <p>视频中有一页ppt是下图这样的，我这里注释了x1和x2，这样从左边的Parameter matrix到右边的坐标位置就很简单易懂了。</p>
 </li>
 </ul>
-<img src="https://i.loli.net/2021/01/30/d6jkSXZOEMvplri.png" alt="image-20210130172025692" style="zoom: 67%;" />
-
+<p><img src="https://i.loli.net/2021/01/30/d6jkSXZOEMvplri.png" alt="image-20210130172025692" style="zoom: 67%;" /></p>
 <ul>
 <li><p>《RNN模型与NLP应用(3/9)：Simple RNN模型》：</p>
 <p>这一节跟下一节视频用到的一些插图来自这篇英语博客<a target="_blank" rel="noopener" href="http://colah.github.io/posts/2015-08-Understanding-LSTMs/">《Understanding LSTM Networks》</a>，这篇博客强烈推荐阅读，英语不太好的可以搭配看这篇翻译版<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/95d5c461924c">博客</a>。插图中C和h的含义，C代表Cell state （也有人说是Conveyor）， h代表Hidden state。</p>
 <p>由下图圆圈可知，上一个RNN模块传给下一个RNN模块的东西就是hidden state，同一个东西拷贝了两份而已：</p>
-<img src="https://i.loli.net/2021/01/30/SfY6Ja4EPqpOTu1.png" alt="image-20210130231449052" style="zoom:50%;" />
-
+<p><img src="https://i.loli.net/2021/01/30/SfY6Ja4EPqpOTu1.png" alt="image-20210130231449052" style="zoom:50%;" /></p>
 <p>而下面要介绍的LSTM每个模块输出的不仅有hidden state，还有cell state。</p>
 </li>
 <li><p>《RNN模型与NLP应用(4/9)：LSTM模型》：</p>
@@ -164,24 +166,23 @@ var _hmt = _hmt || [];
 <p>不是说LSTM就是用来解决记忆久远信息的吗，怎么Seq2Seq还会有记不住太长信息的问题？我的理解是因为不管Encoder输入的词量是多少，Encoder和Decoder中间的那个语义向量Thought Vector的长度总是固定不变的，如果Encoder输入的词量非常多，那么Thought   Vector就容不下那么多语义信息。</p>
 <p><img src="https://camo.githubusercontent.com/e63bf968fbd0095c5474d241434a72b4a59df473860857a3871039a73eab2bae/68747470733a2f2f73757269796164656570616e2e6769746875622e696f2f696d672f736571327365712f73657132736571322e706e67" alt="img"></p>
 <p>借用下图说明一下这一点，图中800×800和3000×3000代表输入Encoder的不同长度的词量，100KB就是Thought Vector的长度，可见过于密集的输入信息最后编码成Thought Vector必然会变得稀疏：</p>
-<img src="https://easy-ai.oss-cn-shanghai.aliyuncs.com/2019-10-28-yasuo.png" alt="Encoder-Decoder的缺点：输入过长会损失信息" style="zoom:50%;" />
-
+<p><img src="https://easy-ai.oss-cn-shanghai.aliyuncs.com/2019-10-28-yasuo.png" alt="Encoder-Decoder的缺点：输入过长会损失信息" style="zoom:50%;" /></p>
 <p>而Attention会考虑到每一个输入词向量产生的$h_i$，有多少个输入词向量，后面Decoder更新每个$s_i$时就考虑多少个Encoder的$h_i$。</p>
 <ul>
 <li><p>《RNN模型与NLP应用(9/9)：Self-Attention (自注意力机制)》：</p>
 <p>听过前面的视频，这个视频的内容不难理解。</p>
 </li>
 </ul>
-<p>———————————————-分割线————————————————-</p>
+<p>———————————————————————分割线————————————————————————-</p>
 <p>了解完RNN和LSTM，现在你应该对NLP领域的一些名词有些概念了，开始学习Transformer。</p>
 <p>网上有很多讲解Transoformer的博客，但很多博客的内容和图片都来自这篇英文博客《<a target="_blank" rel="noopener" href="http://jalammar.github.io/illustrated-transformer/">The Illustrated Transformer</a>》，这位<a target="_blank" rel="noopener" href="http://jalammar.github.io/">Jay Alammar</a>的博客主页还有很多利用可视化图片视频讲解机器学习原理的博客，推荐各位去看一看！</p>
-<p>在看完Shusen Wan的<a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=aButdUV0dxI&list=PLvOO0btloRntpSWSxFbwPIjIum3Ub4GSC">Transformer模型</a>系列视频，我还是很难完全理解positional encoding的原理，在youtube搜索positional encoding时，我遇到了另一个宝藏博主 - <a target="_blank" rel="noopener" href="https://www.youtube.com/channel/UCmUi2gnk9EbJQjvWo2VdZCA">Hedu - Mathematics of Intelligence</a>，目前她推出的<a target="_blank" rel="noopener" href="https://www.youtube.com/playlist?list=PL86uXYUJ7999zE8u2-97i4KG_2Zpufkfb">Visual Guide to Transformer Neural Networks</a>系列视频包含3部分：</p>
+<p>在看完Shusen Wan的<a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=aButdUV0dxI&amp;list=PLvOO0btloRntpSWSxFbwPIjIum3Ub4GSC">Transformer模型</a>系列视频，我还是很难完全理解positional encoding的原理，在youtube搜索positional encoding时，我遇到了另一个宝藏博主 - <a target="_blank" rel="noopener" href="https://www.youtube.com/channel/UCmUi2gnk9EbJQjvWo2VdZCA">Hedu - Mathematics of Intelligence</a>，目前她推出的<a target="_blank" rel="noopener" href="https://www.youtube.com/playlist?list=PL86uXYUJ7999zE8u2-97i4KG_2Zpufkfb">Visual Guide to Transformer Neural Networks</a>系列视频包含3部分：</p>
 <ul>
-<li><p><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=dichIcUZfOw&t=611s">Visual Guide to Transformer Neural Networks - (Part 1) Position Embeddings</a></p>
+<li><p><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=dichIcUZfOw&amp;t=611s">Visual Guide to Transformer Neural Networks - (Part 1) Position Embeddings</a></p>
 </li>
 <li><p><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=mMa2PmYJlCo">Visual Guide to Transformer Neural Networks - (Part 2) Multi-Head &amp; Self-Attention</a></p>
 </li>
-<li><p><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=gJ9kaJsE78k&t=2s">Visual Guide to Transformer Neural Networks - (Part 3) Decoder’s Masked Attention</a></p>
+<li><p><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=gJ9kaJsE78k&amp;t=2s">Visual Guide to Transformer Neural Networks - (Part 3) Decoder’s Masked Attention</a></p>
 </li>
 </ul>
 <p>其中(Part 1) Position Embeddings就很生动易懂地解释了位置编码地原理（有一定基础的人可以从6:04分开始观看），而她地(Part 2) Multi-Head &amp; Self-Attention视频则讲清楚了为什么两个矩阵相乘可以用来求相似度（不像其他博客都想当然），总之，你可以先去看看其他人的Transformer博客，再去看Hedu - Mathematics of Intelligence的视频，你就知道她的视频有多好了！</p>

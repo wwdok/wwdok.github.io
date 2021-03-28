@@ -56,7 +56,11 @@ var _hmt = _hmt || [];
 </script>
 
 
-</head>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --></head>
 
 </html>
 
@@ -97,7 +101,7 @@ var _hmt = _hmt || [];
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> Word count:</span>
-            <span class="post-count">566</span>
+            <span class="post-count">614</span>
         </span>
     </span>
 
@@ -106,7 +110,7 @@ var _hmt = _hmt || [];
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> Reading time≈</span>
-            <span class="post-count">1 min</span>
+            <span class="post-count">2 min</span>
         </span>
     </span>
 </div>
@@ -127,6 +131,7 @@ var _hmt = _hmt || [];
 <p>上面的过程看上去好像一气呵成，没什么问题。但实际上，<strong>我们在调整参数，反复用测试集测试精度时，测试集已经被“污染”了。换句话说，测试集中的数据在你不断调整参数的过程中已经泄露给了模型。这样模型面对的就不再是全新的数据集，我们也无法真正判断出模型的泛化能力到底如何。</strong></p>
 <p>那怎么解决这个问题呢？</p>
 <p>我们只需要再额外划分出一块数据集，称之为“验证集”。我们在训练集上拟合模型，在验证集上对模型进行调参，最后再测试集上对模型进行泛化能力的评估（此阶段不调参）。</p>
+<p>验证集需要我们提供ground truth的矩形框，而测试集不需要，用模型跑测试集，推理结果好不好就由我们人脑自己来判断了。</p>
 <p><img src="https://s1.ax1x.com/2020/06/29/NhqTJK.png" alt="NhqTJK.png"></p>
 <h2 id="今生-交叉验证"><a href="#今生-交叉验证" class="headerlink" title="今生 - 交叉验证"></a><strong>今生 - 交叉验证</strong></h2><p>似乎交叉验证出现之后，训练模型时就很少让你再划分出验证集了，因为交叉验证会自己从训练集里划分出验证集。</p>
 <p>交叉验证:将拿到的所有大训练集数据,再分为子训练集和验证集。以下图为例:</p>

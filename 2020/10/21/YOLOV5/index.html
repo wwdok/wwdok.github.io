@@ -56,7 +56,11 @@ var _hmt = _hmt || [];
 </script>
 
 
-</head>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --></head>
 
 </html>
 
@@ -97,7 +101,7 @@ var _hmt = _hmt || [];
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> Word count:</span>
-            <span class="post-count">4.6k</span>
+            <span class="post-count">5.2k</span>
         </span>
     </span>
 
@@ -106,7 +110,7 @@ var _hmt = _hmt || [];
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> Reading time≈</span>
-            <span class="post-count">20 min</span>
+            <span class="post-count">23 min</span>
         </span>
     </span>
 </div>
@@ -136,17 +140,14 @@ var _hmt = _hmt || [];
 <h2 id="经验与建议："><a href="#经验与建议：" class="headerlink" title="经验与建议："></a><strong>经验与建议</strong>：</h2><ol>
 <li>下载pytorch和torchvision去官网获取命令行下载，不要自己输个pip install pytorch/torchvision就下载，很可能会报错。</li>
 </ol>
-<img src="https://pic.downk.cc/item/5fa632791cd1bbb86bdd8aef.png" width=70%>
-
+<p><img src="https://pic.downk.cc/item/5fa632791cd1bbb86bdd8aef.png" width=70%></p>
 <p>细心的你可能会发现通过conda和pip安装pytorch，命令行内容是不一样的，一个是torch一个是pytorch，这个问题我在这个<a target="_blank" rel="noopener" href="https://github.com/pytorch/pytorch/issues/47333">issue</a>里问过pytorch的贡献者，总之不需要通过conda 和 pip安装两次。</p>
-<p>如果通过这个命令行安装太慢，那你可以选择去清华镜像源网站（<a target="_blank" rel="noopener" href="https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/pytorch/%EF%BC%89%E4%B8%8B%E8%BD%BD%E8%87%AA%E5%B7%B1%E5%AF%B9%E5%BA%94%E7%9A%84%E7%89%88%E6%9C%AC%EF%BC%8C%E7%84%B6%E5%90%8E%E6%8A%8A%E5%8E%8B%E7%BC%A9%E5%8C%85%E6%94%BE%E5%88%B0%60C:/ProgramData/Anaconda3/pkgs%60%E9%87%8C%E9%9D%A2%EF%BC%8C%E4%BB%A5%E7%AE%A1%E7%90%86%E5%91%98%E8%BA%AB%E4%BB%BD%E6%89%93%E5%BC%80%E5%91%BD%E4%BB%A4%E8%A1%8C%E7%AA%97%E5%8F%A3%EF%BC%8Ccd%E5%88%B0%E8%BF%99%E9%87%8C%EF%BC%8C%E7%84%B6%E5%90%8E%E8%BF%90%E8%A1%8C%60conda">https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/pytorch/）下载自己对应的版本，然后把压缩包放到`C:\ProgramData\Anaconda3\pkgs`里面，以管理员身份打开命令行窗口，cd到这里，然后运行`conda</a> install –offline pytorch-1.7.0-py3.7_cuda101_cudnn7_0.tar.bz2<code>。torchvision以此类推。最后运行</code>python -m torch.utils.collect_env`检查一下安装是否成功（需要先安装typing_extensions）。</p>
+<p>如果通过这个命令行安装太慢，那你可以选择去清华镜像源网站（<a target="_blank" rel="noopener" href="https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/pytorch/）下载自己对应的版本，然后把压缩包放到`C:\ProgramData\Anaconda3\pkgs`里面，以管理员身份打开命令行窗口，cd到这里，然后运行`conda">https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/pytorch/）下载自己对应的版本，然后把压缩包放到`C:\ProgramData\Anaconda3\pkgs`里面，以管理员身份打开命令行窗口，cd到这里，然后运行`conda</a> install —offline pytorch-1.7.0-py3.7_cuda101_cudnn7_0.tar.bz2<code>。torchvision以此类推。最后运行</code>python -m torch.utils.collect_env`检查一下安装是否成功（需要先安装typing_extensions）。</p>
 <p>注意，通过pip来安装或升级torch和torchvision时，务必在最后加上<code>-f https://download.pytorch.org/whl/torch_stable.html</code>, 比如升级torchvision到0.8.1的命令如下：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install torchvision&#x3D;&#x3D;0.8.1 -f https:&#x2F;&#x2F;download.pytorch.org&#x2F;whl&#x2F;torch_stable.html --user</span><br></pre></td></tr></table></figure>
-
-<ol start="2">
+<ol>
 <li><p>自己训练模型在准备数据集时，需要注意图片和标签的文件夹结构和命名，我采用的是像coco128.yaml一样的指定文件夹路径而不是指定txt文件路径，这样的话图片文件夹和标签文件夹需要命名为images和labels，且属于同级目录，子目录均包括train和val，相关的文档在<a target="_blank" rel="noopener" href="https://github.com/ultralytics/yolov5/wiki/Train-Custom-Data#3-organize-directories">这里</a>，相关的代码是dataset.py里的<code>img2label_paths()</code>和<code>LoadImagesAndLabels()</code>。因为我的这个数据集也会用nanodet训练，它们理论上应该共用一个图片文件夹，但是一开始nanodet的数据集格式是VOC，所以图片文件夹叫<code>JPEGImages</code>, 但是yolov5这边得叫images，为了不改nanodet的训练脚本，也不重复一遍图片，我用了软链接的方法，windows下软链接命令和运行成功的样子是：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mklink &#x2F;d D:\MachineLearning\DataSet\SpecialVehicle\images D:\MachineLearning\DataSet\SpecialVehicle\JPEGImages</span><br><span class="line">为 D:\MachineLearning\DataSet\SpecialVehicle\images &lt;&lt;&#x3D;&#x3D;&#x3D;&gt;&gt; D:\MachineLearning\DataSet\SpecialVehicle\JPEGImages 创建的符号链接</span><br></pre></td></tr></table></figure>
-
 <p>详细的windows软链接使用方法见<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_37861937/article/details/79064841">这里</a>。</p>
 </li>
 <li><p>训练开始时会让你输入wandb API key，这个去<code>https://wandb.ai/settings</code>里找，复制过来后粘贴，粘贴完是不可见的，所以不要以为“咦怎么粘贴不了”。另外，当你使用yolov5训练新的目标检测任务时，请更改train.py里的wandb.init()里的project名，这样你在wandb网站上才能区分不同的目标检测任务。</p>
@@ -154,51 +155,47 @@ var _hmt = _hmt || [];
 <li><p>你可能第一次训练完100个epochs后发现，曲线像下图这样还没平稳，感觉精度还可以更高，损失还可以更低：</p>
 </li>
 </ol>
-<img src="https://pic.downk.cc/item/5fa6329d1cd1bbb86bdd9188.png">
-
+<p><img src="https://pic.downk.cc/item/5fa6329d1cd1bbb86bdd9188.png"></p>
 <p>然后你想重新训练，可以的。</p>
 <p>第一，修改命令行的epochs为你第二次想要训练的次数；</p>
 <p>第二，修改超参数。打开hyp.custom.yaml,里面有一堆超参数让我们设置，最下面几个是数据增强，第二次重新训练不需要改变，要改变的是 <code>lr0</code> 和 <code>warmup_epochs</code> 。<code>lr0</code>要改成多少，要看你上次训练结束时的学习率是多少，从下图可以看出我这里是0.002，所以<code>lr0</code>从0.01改成0.002，然后<code>warmup_epochs</code>改成0，设成0后，就是说我们第二次就不需要这个热身的过程了，因为我们的意图很明显，就是让曲线顺延着第一次训练结果走下去，如果热身的话，学习率就会像下图那样会有个短期的下降。这个warm up就是让你的学习率一开始以较小的值训练，经过几个epoch后，学习率再恢复到你设置的<code>lr0</code>学习率，这就是图中曲线一开始是一个爬坡样子的原因。</p>
-<img src="https://pic.downk.cc/item/5fa632b31cd1bbb86bdd9551.png">
-
+<p><img src="https://pic.downk.cc/item/5fa632b31cd1bbb86bdd9551.png"></p>
 <p>如果第二次训练不改这两个超参数会怎么样呢？会导致你第二次所有epoch跑完了，检测效果跟第一次结束时差不多，甚至更糟糕！</p>
 <p>其他参数,<code>momentum</code>是控制历史权重值的影响因子，一般是0.9几；<code>weight_decay</code> 是加在正则项前面的，设置得大一点可以减小过拟合。</p>
 <p>这么一直接着训练下去，怎么判断模型是否到底过拟合了没有呢？我是看验证集val的曲线，只要它还没出现损失上升，就认为它还没过拟合</p>
-<img src="https://pic.downk.cc/item/5fa632c81cd1bbb86bdd9980.png">
-
+<p><img src="https://pic.downk.cc/item/5fa632c81cd1bbb86bdd9980.png"></p>
 <p>4.我们可以利用训练好的模型去检测新增的数据集，将检测结果导出生成txt文件，然后在labelimg里再把annotation的保存目录改到txt文件保存的目录就可以了，这样labelimg就会把检测结果矩形框显示出来，你只需要调整一下矩形框，就可以完成标注了，实现半自动化标注。</p>
-<p>作者**<a target="_blank" rel="noopener" href="https://github.com/glenn-jocher">glenn-jocher</a>**说：</p>
+<p>作者<strong><a target="_blank" rel="noopener" href="https://github.com/glenn-jocher">glenn-jocher</a></strong>说：</p>
 <blockquote>
 <p>如果你是想把检测结果导出为txt格式的文件，使用下面代码：<br><code>python detect.py --save-txt</code></p>
 <p>如果你是想把检测结果导出为coco json格式的文件，使用下面代码：<br><code>python test.py --save-json</code></p>
 </blockquote>
 <p>不过我看了一下<code>detect.py</code>和<code>test.py</code>的源码，发现两者都支持导出json，但只有detext.py支持导出txt，然后，两者指定输入图片的位置也不太一样，detect.py通过<code>--source</code>指定输入图片位置，比较好理解，默认位于<code>inference/images</code>，而test.py是通过<code>--data</code>指定输入图片位置，两者都可以通过<code>--save-dir</code>指定输出文件位置，但<code>detect.py</code>的输出位置默认位于<code>inference/output</code>， <code>test.py</code>的输出位置默认位于<code>runs/test</code>。</p>
 <p><code>detect.py</code>  :</p>
-<img src="https://pic.downk.cc/item/5fa635511cd1bbb86bde1741.jpg">
-
+<p><img src="https://pic.downk.cc/item/5fa635511cd1bbb86bde1741.jpg"></p>
 <p>有两个参数比较有意思，一个是 <code>--classes</code>，可用来过滤不想要的类别，一个是<code>--augment</code>，用于检测时提高检测结果的准确度，相关的讨论在<a target="_blank" rel="noopener" href="https://github.com/ultralytics/yolov5/issues/303">这里</a>， 更多TTA的资料（<a target="_blank" rel="noopener" href="https://www.kaggle.com/andrewkh/test-time-augmentation-tta-worth-it">link1</a>， <a target="_blank" rel="noopener" href="https://github.com/qubvel/ttach">link2</a>）。</p>
 <p><code>test.py</code> ：</p>
-<img src="https://pic.downk.cc/item/5fa635c61cd1bbb86bde2bbf.jpg">
-
+<p><img src="https://pic.downk.cc/item/5fa635c61cd1bbb86bde2bbf.jpg"></p>
 <p>我这边实际运行的命令行是：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python detect.py --weights weights&#x2F;iguard-best.pt --source D:\MachineLearning\DataSet\iGuardDataset\IMAGE\temp --save-dir D:\MachineLearning\DataSet\iGuardDataset\IMAGE\temp\labels --save-txt --augment</span><br></pre></td></tr></table></figure>
-
 <p>导出的结果如下所示，我看了一下效果很好：</p>
-<img src="https://pic.downk.cc/item/5fabe49d1cd1bbb86b0a3641.jpg">
-
-<p>现在的yolov5（2020年11月12日）导出的txt有问题，在每一行最后面它都有个空格，这在LabelImg里打开是会报错的，得把这个空格删掉，我提了个<a target="_blank" rel="noopener" href="https://github.com/ultralytics/yolov5/issues/1355">issue</a>告诉作者这个问题，后来作者让我PR了，再后来我发现 –source 跟 –save-dir 不能是同一个目录，否则代码会删除所有 –source 里的图片，不过那时候作者告诉我yolov5的文件结构已经重新设计了，大家请自己去看一下最新的detect.py里的参数。</p>
-<h2 id="疑问与解释"><a href="#疑问与解释" class="headerlink" title="疑问与解释"></a><strong>疑问与解释</strong></h2><ol>
-<li>10月份的比7月份的版本在models/yolov5s.yaml里面的backbone多了   [-1, 3, BottleneckCSP, [1024, False]]，这一行是什么意思，什么作用，有什么影响？</li>
+<p><img src="https://pic.downk.cc/item/5fabe49d1cd1bbb86b0a3641.jpg"></p>
+<p>现在的yolov5（2020年11月12日）导出的txt有问题，在每一行最后面它都有个空格，这在LabelImg里打开是会报错的，得把这个空格删掉，我提了个<a target="_blank" rel="noopener" href="https://github.com/ultralytics/yolov5/issues/1355">issue</a>告诉作者这个问题，后来作者让我PR了，再后来我发现 —source 跟 —save-dir 不能是同一个目录，否则代码会删除所有 —source 里的图片，不过那时候作者告诉我yolov5的文件结构已经重新设计了，大家请自己去看一下最新的detect.py里的参数。</p>
+<ol>
+<li>如果你的epochs设置的很大，但你看到val loss还没结束就已经升高很多了，于是你中断了训练，这时候模型文件会比预训练模型大很多，因为为了后面你resume，模型文件里还保存了下次接着训练的数据，所以你确定后面不会再训练的话，可以把模型里的多余数据删除，方法是在根目录下新建一个py脚本，运行以下代码：</li>
 </ol>
-<ol start="2">
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> utils.general <span class="keyword">import</span> strip_optimizer</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"></span><br><span class="line">save_dir = <span class="string">r&#x27;E:/Repo/yolov5/runs/train/exp&#x27;</span></span><br><span class="line"></span><br><span class="line">last = os.path.join(save_dir, <span class="string">&#x27;weights&#x27;</span>, <span class="string">&#x27;last.pt&#x27;</span>)</span><br><span class="line">best = os.path.join(save_dir, <span class="string">&#x27;weights&#x27;</span>, <span class="string">&#x27;best.pt&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#strip_optimizer(last)  # 一般resume是从加载last.pt开始，如果best.pt够用的话，last.pt就先留着</span></span><br><span class="line">strip_optimizer(best)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># actual_anchors.py</span></span><br><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"></span><br><span class="line">model = torch.load(<span class="string">r&quot;E:\Repo\yolov5\runs\train\exp\weights\best.pt&quot;</span>)[<span class="string">&#x27;model&#x27;</span>]</span><br><span class="line"></span><br><span class="line">m = model.model[-<span class="number">1</span>]  <span class="comment"># Detect()</span></span><br><span class="line">m.anchors  <span class="comment"># in stride units</span></span><br><span class="line">m.anchor_grid  <span class="comment"># in pixel units</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(m.anchor_grid.view(-<span class="number">1</span>, <span class="number">2</span>))</span><br></pre></td></tr></table></figure>
+<h2 id="疑问与解释"><a href="#疑问与解释" class="headerlink" title="疑问与解释"></a><strong>疑问与解释</strong></h2><ol>
+<li>10月份的比7月份的版本在models/yolov5s.yaml里面的backbone多了   [-1, 3, BottleneckCSP, [1024, False]]，这一行是什么意思，什么作用，有什么影响？</li>
+</ol>
+<ol>
 <li><p><strong>yolov5在哪里配置数据增强？</strong></p>
 <p> SSD是在config里通过选择数据增强项来配置数据增强用哪些，yolov5的数据增强配置在<code>data/hyp.scratch.yaml</code>里,这里除了有数据增强的参数外，还有诸如学习率等超参数的配置。yolov5默认支持并应用多种图像增强：</p>
- <img src="https://pic.downk.cc/item/5f9ce17c1cd1bbb86b89a76d.jpg" width =70%>
- </li>
+<p> <img src="https://pic.downk.cc/item/5f9ce17c1cd1bbb86b89a76d.jpg" width =70%></p>
+</li>
 <li><p><strong>怎样减小false positive？</strong></p>
-<p> false positive高的话就是说图像中没目标却把一些背景识别成目标，这个issue里讨论了这个问题，下面的兄弟的做法是：</p>
- <img src="https://pic.downk.cc/item/5fa632de1cd1bbb86bdd9db0.png">
-
+<p> false positive高的话就是说图像中没目标却把一些背景识别成目标，这个issue里讨论了这个问题，下面的兄弟的做法是：<br> <img src="https://pic.downk.cc/item/5fa632de1cd1bbb86bdd9db0.png"></p>
 <p> （1）把无目标的图片放到images文件夹里</p>
 <p> （2）创建一个同名的txt文件，里面是空的</p>
 <p> 但是也不宜过多，因为带目标的图片里那些背景部分其实就是很多的负样本了。</p>
@@ -214,13 +211,11 @@ var _hmt = _hmt || [];
 <p> 矩形训练时的预处理比矩形推理时的预处理更复杂一些，因为训练时需要先找到这一个batch里面最方形的那张图像，然后按上面所说的思路把这张最方形图像变成矩形后，接下来所有同批次的图像就要变成跟它一样大小。</p>
 <p> 但这种处理方式有个小漏洞，就是当一个批次里，有一张图像很正方形时，那么最后整个batch里的所有图像都会被填充成类正方形【<a target="_blank" rel="noopener" href="https://github.com/ultralytics/yolov3/issues/232#issuecomment-562870597">相关comment</a>】。</p>
 <p> yolov5/utils/dataloader.py里有个<a target="_blank" rel="noopener" href="https://github.com/ultralytics/yolov5/blob/481d46cffb0b7a2ec5cec76d9ec85357128b28ea/utils/datasets.py#L721">letterbox()</a>函数，就是用来预处理图像供神经网络矩形训练和矩形推理，维基百科对letterbox的释义是：</p>
- <img src=https://img-blog.csdnimg.cn/20201030101451732.png width=50%>
-
+<p> <img src=https://img-blog.csdnimg.cn/20201030101451732.png width=50%></p>
 <p> 不过yolov5这里不是填充纯黑色，从letterbox()函数里的color=(114, 114, 114)可知是用灰色填充。</p>
 </li>
 <li><p>怎么看训练时runs文件夹里的labels.jpg那张图？</p>
- <img src="https://pic.downk.cc/item/5fa632371cd1bbb86bdd7757.png" width=70%>
-
+<p> <img src="https://pic.downk.cc/item/5fa632371cd1bbb86bdd7757.png" width=70%></p>
 <p> runs里的这张labels图展示了标签的分布情况，第一幅图展示的是数据集各个类别的标签数量，我只有一个类型，且其数目有4000多个，第二幅图展示的是标签/矩形框的中心点在图片中的位置，我这里的图说明大部分矩形框分布在中心，但四周的分布也有不少，总体比较平均，第三幅图说明的是矩形框的宽和高相对原图的宽和高的比例，我这里的类别是香烟，目标比较小，所以大部分是（0.05，0.05）左右。</p>
 </li>
 <li><p><strong>如何将yolov5的模型转换成ncnn的格式和tflite格式</strong></p>
@@ -231,98 +226,85 @@ var _hmt = _hmt || [];
 <p><a target="_blank" rel="noopener" href="https://imgchr.com/i/Bof1fg"><img src="https://s1.ax1x.com/2020/11/08/Bof1fg.png" alt="Bof1fg.png"></a></p>
 <p>在<a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2003.13630.pdf">TResNet paper</a>. p2. 它又被叫做 SpaceToDepth</p>
 <p>代码演示：<a target="_blank" rel="noopener" href="https://github.com/ultralytics/yolov5/issues/804#issuecomment-678141008">https://github.com/ultralytics/yolov5/issues/804#issuecomment-678141008</a></p>
+<ol>
+<li>yolov5使用的LambdaLR的工作原理是什么</li>
+</ol>
+<p>相关代码为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"># train.py</span><br><span class="line">    if opt.linear_lr:</span><br><span class="line">        lf &#x3D; lambda x: (1 - x &#x2F; (epochs - 1)) * (1.0 - hyp[&#39;lrf&#39;]) + hyp[&#39;lrf&#39;]  # linear</span><br><span class="line">    else:</span><br><span class="line">        lf &#x3D; one_cycle(1, hyp[&#39;lrf&#39;], epochs)  # cosine 1-&gt;hyp[&#39;lrf&#39;]</span><br><span class="line">    scheduler &#x3D; lr_scheduler.LambdaLR(optimizer, lr_lambda&#x3D;lf)</span><br><span class="line">    </span><br><span class="line"># general.py </span><br><span class="line">def one_cycle(y1&#x3D;0.0, y2&#x3D;1.0, steps&#x3D;100):</span><br><span class="line">    # lambda function for sinusoidal ramp from y1 to y2</span><br><span class="line">    return lambda x: ((1 - math.cos(x * math.pi &#x2F; steps)) &#x2F; 2) * (y2 - y1) + y1</span><br></pre></td></tr></table></figure>
+<p>当y1=1.0， y2=0.2时，lambda x: ((1 - math.cos(x <em> math.pi / steps)) / 2) </em> (y2 - y1) + y1的函数图如下：</p>
+<p><img src="https://gitlab.com/wwdok/my-image-bed/-/raw/master/pictures/2021/03/25_16_46_35_image-20210325164632607.png" alt="image-20210325164632607"></p>
+<p>从wandb上的学习率变化图可以看出，学习率在热身阶段先从极小值升高到0.01，再按sin函数下降到0.002。这两个值看起来是不是是上面函数的极值1和0.2的0.01倍。</p>
+<p><img src="https://gitlab.com/wwdok/my-image-bed/-/raw/master/pictures/2021/03/25_16_51_38_image-20210325165136718.png" alt="image-20210325165136718"></p>
+<p>因为一般学习率主要还受optimizer里设置的学习率的影响：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># train.py</span><br><span class="line">if opt.adam:</span><br><span class="line">        optimizer &#x3D; optim.Adam(pg0, lr&#x3D;hyp[&#39;lr0&#39;], betas&#x3D;(hyp[&#39;momentum&#39;], 0.999))  # adjust beta1 to momentum</span><br><span class="line">    else:</span><br><span class="line">        optimizer &#x3D; optim.SGD(pg0, lr&#x3D;hyp[&#39;lr0&#39;], momentum&#x3D;hyp[&#39;momentum&#39;], nesterov&#x3D;True)</span><br></pre></td></tr></table></figure>
 <p><strong>转换为TFLite格式</strong>：</p>
-<p>这里使用<a target="_blank" rel="noopener" href="https://github.com/zldrobit">zldrobit</a> 开源的<a target="_blank" rel="noopener" href="https://github.com/zldrobit/yolov5/tree/tf-android">fork yolov5的项目</a>，相关的话题在这个<a target="_blank" rel="noopener" href="https://github.com/ultralytics/yolov5/pull/1127">issue</a>里。摘取的内容如下：</p>
+<p>这里使用<a target="_blank" rel="noopener" href="https://github.com/zldrobit">zldrobit</a> 开源的<a target="_blank" rel="noopener" href="https://github.com/zldrobit/yolov5/tree/tf-android">fork yolov5的项目</a>，相关的话题在这个<a target="_blank" rel="noopener" href="https://github.com/ultralytics/yolov5/pull/1127">issue</a>里。前面的步骤请阅读README.md，这里从下面的内容开始：</p>
 <p>注意，在windows上面，执行以下语句前需要先执行<code>set PYTHONPATH=.</code>，如下所示：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">C:\MachineLearning\CV\Object_Detection\yolov5-tf-android&gt;set PYTHONPATH&#x3D;.</span><br></pre></td></tr></table></figure>
-
+<p>不执行这句的话，会遇到报错：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Traceback (most recent call last):</span><br><span class="line">  File &quot;models&#x2F;tf.py&quot;, line 17, in &lt;module&gt;</span><br><span class="line">    from models.common import Conv, Bottleneck, SPP, DWConv, Focus, BottleneckCSP, Concat, autopad, C3</span><br><span class="line">ModuleNotFoundError: No module named &#39;models&#39;</span><br></pre></td></tr></table></figure>
 <ul>
 <li>Export TensorFlow models (GraphDef and saved model) using:</li>
 </ul>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python models&#x2F;tf.py --weights weights&#x2F;yolov5s.pt --cfg models&#x2F;yolov5s.yaml --img 640</span><br></pre></td></tr></table></figure>
-
 <ul>
 <li>Export non-quantized TFLite models using:</li>
 </ul>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python  models&#x2F;tf.py --weight weights&#x2F;yolov5s.pt --cfg models&#x2F;yolov5s.yaml</span><br></pre></td></tr></table></figure>
-
 <p>or</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python  models&#x2F;tf.py --weight weights&#x2F;yolov5s.pt --cfg models&#x2F;yolov5s.yaml --no-tfl-detect</span><br></pre></td></tr></table></figure>
-
 <p>with <code>--no-tfl-detect</code>, the generated TFLite model can be used in the Android project.</p>
 <ul>
 <li>Export quantized TFLite models using:</li>
 </ul>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python  models&#x2F;tf.py --weight weights&#x2F;yolov5s.pt --cfg models&#x2F;yolov5s.yaml --no-tfl-detect --tfl-int8 --source D:\MachineLearning\DataSet\coco\val2017 --ncalib 100</span><br></pre></td></tr></table></figure>
-
+<p>导出的模型位于 <code>--weight</code>的同级目录下。</p>
 <p>这句代码我在执行过程中遇到了Could not create cudnn handle: CUDNN_STATUS_ALLOC_FAILED的报错，参考<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_40394402/article/details/109012083">这里</a>解决了问题，解决方法是在tf.py文件里、import tensorflow as tf后面加上下面代码块里的后两行：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">import tensorflow as tf</span><br><span class="line">if tf.__version__.startswith(&#39;1&#39;):</span><br><span class="line">    tf.enable_eager_execution()</span><br><span class="line"></span><br><span class="line">gpus &#x3D; tf.config.experimental.list_physical_devices(device_type&#x3D;&#39;GPU&#39;)</span><br><span class="line">tf.config.experimental.set_memory_growth(gpus[0], True)</span><br></pre></td></tr></table></figure>
-
 <p>转换过程中输出的模型结构信息：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line">Model: &quot;functional_1&quot;</span><br><span class="line">__________________________________________________________________________________________________</span><br><span class="line">Layer (type)                    Output Shape         Param #     Connected to</span><br><span class="line">&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;</span><br><span class="line">input_1 (InputLayer)            [(None, 640, 640, 3) 0</span><br><span class="line">__________________________________________________________________________________________________</span><br><span class="line">tf__focus (tf_Focus)            (None, 320, 320, 32) 3584        input_1[0][0]</span><br><span class="line">__________________________________________________________________________________________________</span><br><span class="line">tf__conv_1 (tf_Conv)            (None, 160, 160, 64) 18688       tf__focus[0][0]</span><br><span class="line">__________________________________________________________________________________________________</span><br><span class="line">tf__bottleneck_csp (tf_Bottlene (None, 160, 160, 64) 20352       tf__conv_1[0][0]</span><br><span class="line">__________________________________________________________________________________________________</span><br><span class="line">tf__conv_6 (tf_Conv)            (None, 80, 80, 128)  74240       tf__bottleneck_csp[0][0]</span><br><span class="line">__________________________________________________________________________________________________</span><br><span class="line">tf__bottleneck_csp_1 (tf_Bottle (None, 80, 80, 128)  162560      tf__conv_6[0][0]</span><br><span class="line">__________________________________________________________________________________________________</span><br><span class="line">tf__conv_15 (tf_Conv)           (None, 40, 40, 256)  295936      tf__bottleneck_csp_1[0][0]</span><br><span class="line">__________________________________________________________________________________________________</span><br><span class="line">tf__bottleneck_csp_2 (tf_Bottle (None, 40, 40, 256)  644608      tf__conv_15[0][0]</span><br><span class="line">__________________________________________________________________________________________________</span><br><span class="line">tf__conv_24 (tf_Conv)           (None, 20, 20, 512)  1181696     tf__bottleneck_csp_2[0][0]</span><br><span class="line">__________________________________________________________________________________________________</span><br><span class="line">tf_spp (tf_SPP)                 (None, 20, 20, 512)  658432      tf__conv_24[0][0]</span><br><span class="line">__________________________________________________________________________________________________</span><br><span class="line">tf__bottleneck_csp_3 (tf_Bottle (None, 20, 20, 512)  1252352     tf_spp[0][0]</span><br><span class="line">__________________________________________________________________________________________________</span><br><span class="line">tf__conv_31 (tf_Conv)           (None, 20, 20, 256)  132096      tf__bottleneck_csp_3[0][0]</span><br><span class="line">__________________________________________________________________________________________________</span><br><span class="line">tf__upsample (tf_Upsample)      (None, 40, 40, 256)  0           tf__conv_31[0][0]</span><br><span class="line">__________________________________________________________________________________________________</span><br><span class="line">tf__concat (tf_Concat)          (None, 40, 40, 512)  0           tf__upsample[0][0]</span><br><span class="line">                                                                 tf__bottleneck_csp_2[0][0]</span><br><span class="line">__________________________________________________________________________________________________</span><br><span class="line">tf__bottleneck_csp_4 (tf_Bottle (None, 40, 40, 256)  380416      tf__concat[0][0]</span><br><span class="line">__________________________________________________________________________________________________</span><br><span class="line">tf__conv_36 (tf_Conv)           (None, 40, 40, 128)  33280       tf__bottleneck_csp_4[0][0]</span><br><span class="line">__________________________________________________________________________________________________</span><br><span class="line">tf__upsample_1 (tf_Upsample)    (None, 80, 80, 128)  0           tf__conv_36[0][0]</span><br><span class="line">__________________________________________________________________________________________________</span><br><span class="line">tf__concat_1 (tf_Concat)        (None, 80, 80, 256)  0           tf__upsample_1[0][0]</span><br><span class="line">                                                                 tf__bottleneck_csp_1[0][0]</span><br><span class="line">__________________________________________________________________________________________________</span><br><span class="line">tf__bottleneck_csp_5 (tf_Bottle (None, 80, 80, 128)  96000       tf__concat_1[0][0]</span><br><span class="line">__________________________________________________________________________________________________</span><br><span class="line">tf__conv_41 (tf_Conv)           (None, 40, 40, 128)  147968      tf__bottleneck_csp_5[0][0]</span><br><span class="line">__________________________________________________________________________________________________</span><br><span class="line">tf__concat_2 (tf_Concat)        (None, 40, 40, 256)  0           tf__conv_41[0][0]</span><br><span class="line">                                                                 tf__conv_36[0][0]</span><br><span class="line">__________________________________________________________________________________________________</span><br><span class="line">tf__bottleneck_csp_6 (tf_Bottle (None, 40, 40, 256)  314880      tf__concat_2[0][0]</span><br><span class="line">__________________________________________________________________________________________________</span><br><span class="line">tf__conv_46 (tf_Conv)           (None, 20, 20, 256)  590848      tf__bottleneck_csp_6[0][0]</span><br><span class="line">__________________________________________________________________________________________________</span><br><span class="line">tf__concat_3 (tf_Concat)        (None, 20, 20, 512)  0           tf__conv_46[0][0]</span><br><span class="line">                                                                 tf__conv_31[0][0]</span><br><span class="line">__________________________________________________________________________________________________</span><br><span class="line">tf__bottleneck_csp_7 (tf_Bottle (None, 20, 20, 512)  1252352     tf__concat_3[0][0]</span><br><span class="line">__________________________________________________________________________________________________</span><br><span class="line">tf__detect (tf_Detect)          ((1, 25200, 85), [(N 229245      tf__bottleneck_csp_5[0][0]</span><br><span class="line">                                                                 tf__bottleneck_csp_6[0][0]</span><br><span class="line">                                                                 tf__bottleneck_csp_7[0][0]</span><br><span class="line">&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;</span><br><span class="line">Total params: 7,489,533</span><br><span class="line">Trainable params: 7,468,157</span><br><span class="line">Non-trainable params: 21,376</span><br></pre></td></tr></table></figure>
-
+<p>2021/3/22更新：今天我再执行以上步骤时，发现Total params等3个参数量变了，模型的输入尺寸也从之前的640变成了现在的320。</p>
 <p>因为我们命令行里指定校准的图片的数量是100张，所以可以看到下图的输出，代码在用val2017里的前100张图片来校准：</p>
-<img src="https://pic.downk.cc/item/5fa955611cd1bbb86b8bcc2a.jpg">
-
+<p><img src="https://pic.downk.cc/item/5fa955611cd1bbb86b8bcc2a.jpg"></p>
 <p>最后成功导出以下模型：</p>
-<img src="https://pic.downk.cc/item/5fa954c21cd1bbb86b8ba7b6.jpg" width=70%>
-
+<p><img src="https://pic.downk.cc/item/5fa954c21cd1bbb86b8ba7b6.jpg" width=70%></p>
 <p>检测的结果默认输出在inference/output文件夹，来看看检测的效果，可以看出对小目标的检测效果还不错，就是执行时间很长，一张图片推理需要86秒：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">C:\MachineLearning\CV\Object_Detection\yolov5-tf-android&gt;python detect.py --weight weights&#x2F;yolov5s-int8.tflite --tfl-int8 --tfl-detect</span><br><span class="line">Namespace(agnostic_nms&#x3D;False, augment&#x3D;False, cfg&#x3D;&#39;.&#x2F;models&#x2F;yolov5s.yaml&#39;, classes&#x3D;None, conf_thres&#x3D;0.4, device&#x3D;&#39;&#39;, img_size&#x3D;[640], iou_thres&#x3D;0.5, no_tf_nms&#x3D;False, output&#x3D;&#39;inference&#x2F;output&#39;, save_conf&#x3D;False, save_dir&#x3D;&#39;inference&#x2F;output&#39;, save_txt&#x3D;False, source&#x3D;&#39;inference&#x2F;images&#39;, tfl_detect&#x3D;True, tfl_int8&#x3D;True, update&#x3D;False, view_img&#x3D;False, weights&#x3D;[&#39;weights&#x2F;yolov5s-int8.tflite&#39;])</span><br><span class="line">Using CUDA device0 _CudaDeviceProperties(name&#x3D;&#39;GeForce GTX 1660 Ti&#39;, total_memory&#x3D;6144MB)</span><br><span class="line"></span><br><span class="line">2020-11-09 22:05:35.711239: I tensorflow&#x2F;stream_executor&#x2F;platform&#x2F;default&#x2F;dso_loader.cc:48] Successfully opened dynamic library cudart64_101.dll</span><br><span class="line">image 1&#x2F;3 C:\MachineLearning\CV\Object_Detection\yolov5-tf-android\inference\images\IMG_20201107_120437_DRO.jpg: 640x640 5 persons, 4 motorcycles, 2 buss, Done. (86.168s)</span><br><span class="line">image 2&#x2F;3 C:\MachineLearning\CV\Object_Detection\yolov5-tf-android\inference\images\bus.jpg: 640x640 4 persons, 1 buss, Done. (86.730s)</span><br><span class="line">image 3&#x2F;3 C:\MachineLearning\CV\Object_Detection\yolov5-tf-android\inference\images\zidane.jpg: 640x640 2 persons, 1 ties, Done. (85.811s)</span><br><span class="line">Results saved to inference\output</span><br><span class="line">Done. (346.666s)</span><br></pre></td></tr></table></figure>
-
-<img src="https://pic.downk.cc/item/5fa957341cd1bbb86b8c3239.jpg">
-
-
-
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">C:\MachineLearning\CV\Object_Detection\yolov5-tf-android&gt;python detect.py --weight weights&#x2F;yolov5s-int8.tflite --tfl-int8 --img 320</span><br><span class="line">Namespace(agnostic_nms&#x3D;False, augment&#x3D;False, cfg&#x3D;&#39;.&#x2F;models&#x2F;yolov5s.yaml&#39;, classes&#x3D;None, conf_thres&#x3D;0.4, device&#x3D;&#39;&#39;, img_size&#x3D;[640], iou_thres&#x3D;0.5, no_tf_nms&#x3D;False, output&#x3D;&#39;inference&#x2F;output&#39;, save_conf&#x3D;False, save_dir&#x3D;&#39;inference&#x2F;output&#39;, save_txt&#x3D;False, source&#x3D;&#39;inference&#x2F;images&#39;, tfl_detect&#x3D;True, tfl_int8&#x3D;True, update&#x3D;False, view_img&#x3D;False, weights&#x3D;[&#39;weights&#x2F;yolov5s-int8.tflite&#39;])</span><br><span class="line">Using CUDA device0 _CudaDeviceProperties(name&#x3D;&#39;GeForce GTX 1660 Ti&#39;, total_memory&#x3D;6144MB)</span><br><span class="line"></span><br><span class="line">2020-11-09 22:05:35.711239: I tensorflow&#x2F;stream_executor&#x2F;platform&#x2F;default&#x2F;dso_loader.cc:48] Successfully opened dynamic library cudart64_101.dll</span><br><span class="line">image 1&#x2F;3 C:\MachineLearning\CV\Object_Detection\yolov5-tf-android\inference\images\IMG_20201107_120437_DRO.jpg: 640x640 5 persons, 4 motorcycles, 2 buss, Done. (86.168s)</span><br><span class="line">image 2&#x2F;3 C:\MachineLearning\CV\Object_Detection\yolov5-tf-android\inference\images\bus.jpg: 640x640 4 persons, 1 buss, Done. (86.730s)</span><br><span class="line">image 3&#x2F;3 C:\MachineLearning\CV\Object_Detection\yolov5-tf-android\inference\images\zidane.jpg: 640x640 2 persons, 1 ties, Done. (85.811s)</span><br><span class="line">Results saved to inference\output</span><br><span class="line">Done. (346.666s)</span><br></pre></td></tr></table></figure>
+<p><img src="https://pic.downk.cc/item/5fa957341cd1bbb86b8c3239.jpg"></p>
 <p>TFLite export is only supported under TensorFlow 2.3.0.</p>
 <p><code>auto</code> controls whether to pad a resized input image to square. If True, input image is rectangle, otherwise, imput image is square.</p>
 <p>TensorFlow does not require square inference, but require fixed input size.<br>Set <code>auto=False</code> to assure the padded image size equals <code>new_shape</code> in <code>letterbox</code>:</p>
-<img src="https://pic.downk.cc/item/5fa7f2a11cd1bbb86b416a07.jpg">
-
+<p><img src="https://pic.downk.cc/item/5fa7f2a11cd1bbb86b416a07.jpg"></p>
 <p>Thus, the input image sizes after preprocess are the same.</p>
 <p>The input size is fixed while exporting TensorFlow and TFLite:</p>
 <p><a target="_blank" rel="noopener" href="https://github.com/ultralytics/yolov5/blob/23fe35efeb09e366b142e5a4757031f9b208f528/models/tf.py#L394-L395">yolov5/models/tf.py</a></p>
 <p>Lines 394 to 395 in <a target="_blank" rel="noopener" href="https://github.com/ultralytics/yolov5/commit/23fe35efeb09e366b142e5a4757031f9b208f528">23fe35e</a></p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">inputs = keras.Input(shape=(*opt.img_size, <span class="number">3</span>)) </span><br><span class="line">keras_model = keras.Model(inputs=inputs, outputs=tf_model.predict(inputs)) </span><br></pre></td></tr></table></figure>
-
 <p>Take COCO dataset for example, in int8 calibration, if one use <code>auto=True</code>, different size images will be fed to TFLite model<br>while model’s input size is fixed.<br>For rectangle inference of TFLite int8 calibration, one could set <code>--img-size</code> to a rectangle (e.g. 640x320) while setting <code>auto=False</code>.</p>
 <p>You could change it to multiples of 32 using <code>--img</code>.<br>For example, use</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python  models&#x2F;tf.py --weight weights&#x2F;yolov5s.pt --cfg models&#x2F;yolov5s.yaml --img 320 --no-tfl-detect --tfl-int8 --source &#x2F;data&#x2F;dataset&#x2F;coco&#x2F;coco2017&#x2F;train2017 --ncalib 100</span><br></pre></td></tr></table></figure>
-
 <p>to generate TF and TFLite models.<br>Then, use one of</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">python detect.py --weight weights&#x2F;yolov5s.pb --img 320</span><br><span class="line">python detect.py --weight weights&#x2F;yolov5s_saved_model&#x2F; --img 320</span><br><span class="line">python detect.py --weight weights&#x2F;yolov5s-fp16.tflite --img 320 --tfl-detect</span><br><span class="line">python detect.py --weight weights&#x2F;yolov5s-int8.tflite --img 320 --tfl-int8 --tfl-detect</span><br></pre></td></tr></table></figure>
-
 <p>to detect objects.</p>
 <p>Or put the TFLite models to <code>asset</code> folder of Android project, and replace</p>
 <p><a target="_blank" rel="noopener" href="https://github.com/ultralytics/yolov5/blob/eb626a611aba0a83535ff72e9581014be8402a59/android/app/src/main/java/org/tensorflow/lite/examples/detection/tflite/DetectorFactory.java#L32-L33">yolov5/android/app/src/main/java/org/tensorflow/lite/examples/detection/tflite/DetectorFactory.java</a></p>
 <p>Lines 32 to 33 in <a target="_blank" rel="noopener" href="https://github.com/ultralytics/yolov5/commit/eb626a611aba0a83535ff72e9581014be8402a59">eb626a6</a></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">inputSize &#x3D; 640; </span><br><span class="line">output_width &#x3D; new int[]&#123;80, 40, 20&#125;; </span><br></pre></td></tr></table></figure>
-
 <p>and</p>
 <p><a target="_blank" rel="noopener" href="https://github.com/ultralytics/yolov5/blob/eb626a611aba0a83535ff72e9581014be8402a59/android/app/src/main/java/org/tensorflow/lite/examples/detection/tflite/DetectorFactory.java#L42-L43">yolov5/android/app/src/main/java/org/tensorflow/lite/examples/detection/tflite/DetectorFactory.java</a></p>
 <p>Lines 42 to 43 in <a target="_blank" rel="noopener" href="https://github.com/ultralytics/yolov5/commit/eb626a611aba0a83535ff72e9581014be8402a59">eb626a6</a></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">inputSize &#x3D; 640; </span><br><span class="line">output_width &#x3D; new int[]&#123;80, 40, 20&#125;; </span><br></pre></td></tr></table></figure>
-
 <p>with</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">inputSize &#x3D; 320;</span><br><span class="line">output_width &#x3D; new int[]&#123;40, 20, 10&#125;;</span><br></pre></td></tr></table></figure>
-
 <p>to build and run the Android project.<br>This reduces around</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">75% time of fp16 model inference on Snapdragon 820 CPU (4 threads) from 1.9s to 0.5s, </span><br><span class="line">70%                              on Snapdragon 820 GPU from 1.3s to 0.4s, </span><br><span class="line">70%      of int8                 on Snapdargon 820 CPU (4 threads) from 1.7s to lesser than 0.5s. </span><br></pre></td></tr></table></figure>
-
 <p>It is possible to export to tflite in a shape of the 16:9 aspect ratio like 320 : 192</p>
 <p>Run</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python  models&#x2F;tf.py --weight weights&#x2F;yolov5s.pt --cfg models&#x2F;yolov5s.yaml --img 320 192 --no-tfl-detect --tfl-int8 --source &#x2F;data&#x2F;dataset&#x2F;coco&#x2F;coco2017&#x2F;train2017 --ncalib 100</span><br></pre></td></tr></table></figure>
-
 <p>to export a TFLite model of 320 vertical by 192 horizontal input , and run one of</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">python detect.py --weight weights&#x2F;yolov5s-int8.tflite --img 320 192 --tfl-detect --tfl-int8</span><br><span class="line">python detect.py --weight weights&#x2F;yolov5s-fp16.tflite --img 320 192 --tfl-detect</span><br></pre></td></tr></table></figure>
-
 <p>To access current model anchors:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">import torch</span><br><span class="line">model &#x3D; torch.load(&#39;yolov5s.pt&#39;)[&#39;model&#39;]</span><br><span class="line">m &#x3D; model.model[-1]  # Detect()</span><br><span class="line">m.anchors  # in stride units</span><br><span class="line">m.anchor_grid  # in pixel units</span><br><span class="line"></span><br><span class="line">print(m.anchor_grid.view(-1,2))</span><br><span class="line">#tensor([[ 10.,  13.],</span><br><span class="line">        [ 16.,  30.],</span><br><span class="line">        [ 33.,  23.],</span><br><span class="line">        [ 30.,  61.],</span><br><span class="line">        [ 62.,  45.],</span><br><span class="line">        [ 59., 119.],</span><br><span class="line">        [116.,  90.],</span><br><span class="line">        [156., 198.],</span><br><span class="line">        [373., 326.]])</span><br></pre></td></tr></table></figure>
-
-
-
-
-
 <h1 id="YOLOV5-V-S-YOLOV4"><a href="#YOLOV5-V-S-YOLOV4" class="headerlink" title="YOLOV5 V.S. YOLOV4"></a>YOLOV5 V.S. YOLOV4</h1><p>YOLOV4 V.S. YOLOV5 的<a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=H4Wa6QY28e8">对比视频</a>，从视频看，准确率可能相差不明显，但v5的帧率比v4快了很多。</p>
  
       <!-- reward -->

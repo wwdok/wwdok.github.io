@@ -56,7 +56,11 @@ var _hmt = _hmt || [];
 </script>
 
 
-</head>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --></head>
 
 </html>
 
@@ -97,7 +101,7 @@ var _hmt = _hmt || [];
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> Word count:</span>
-            <span class="post-count">3.4k</span>
+            <span class="post-count">122</span>
         </span>
     </span>
 
@@ -106,7 +110,7 @@ var _hmt = _hmt || [];
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> Reading time≈</span>
-            <span class="post-count">13 min</span>
+            <span class="post-count">1 min</span>
         </span>
     </span>
 </div>
@@ -123,72 +127,73 @@ var _hmt = _hmt || [];
        
   <p>目标检测任务的损失函数由Classificition Loss和Bounding Box Regeression Loss两部分构成。本文介绍目标检测任务中近几年来Bounding Box Regression Loss Function的演进过程，其演进路线是Smooth L1 Loss → IoU Loss → GIoU Loss → DIoU Loss → CIoU Loss，本文按照此路线进行讲解。</p>
 <h2 id="1-Smooth-L1-Loss"><a href="#1-Smooth-L1-Loss" class="headerlink" title="1. Smooth L1 Loss"></a>1. <strong>Smooth L1 Loss</strong></h2><p>在Faster R-CNN以及SSD中对边框的回归使用的损失函数都是Smooth L1 作为损失函数，其定义为：</p>
-<p>$$SmoothL_1(x) =<br>\begin{cases}<br>    0.5x^2 \qquad if|x|&lt;1\<br>    |x| - 0.5   \quad otherwise<br>\end{cases}$$</p>
-<p>其中，$x=f(x_i)−y_i$ 为预测值和真实值的差值。</p>
+<script type="math/tex; mode=display">SmoothL_1(x) = 
+\begin{cases}
+    0.5x^2 \qquad if|x|<1\\
+    |x| - 0.5   \quad otherwise
+\end{cases}</script><p>其中，$x=f(x_i)−y_i$ 为预测值和真实值的差值。</p>
 <p>实际目标检测框回归任务中的损失loss为</p>
-<p>$$L(g,p) = \sum_{i\in{(x,y,w,h)}}smooth_{L1}(g_i - p_i)$$</p>
-<p>其中 $g=(g_x,g_y,g_w,g_h)$ 表示Ground Truth的框坐标，  $p=(p_x,p_y,p_w,p_h)$ 表示Prediction的框坐标，即分别求4个点的loss，然后相加作为Bounding Box Regression Loss。</p>
+<script type="math/tex; mode=display">L(g,p) = \sum_{i\in{(x,y,w,h)}}smooth_{L1}(g_i - p_i)</script><p>其中 $g=(g_x,g_y,g_w,g_h)$ 表示Ground Truth的框坐标，  $p=(p_x,p_y,p_w,p_h)$ 表示Prediction的框坐标，即分别求4个点的loss，然后相加作为Bounding Box Regression Loss。</p>
 <p><strong>对比 L1 Loss 和 L2 Loss</strong></p>
 <p>L1 loss可以看做是平均绝对误差（Mean Absolute Error,MAE) 是指模型预测值f(x)和真实值y之间距离的平均值，其公式如下：</p>
-<p>$$M A E=\frac{\sum_{n=1}^{n}\left|f\left(x_{i}\right)-y_{i}\right|}{n}$$</p>
-<p>其中，$y_i$和$f(x_i)$分别表示第i个样本的真实值及其对应的预测值，n为样本的个数。</p>
+<script type="math/tex; mode=display">M A E=\frac{\sum_{n=1}^{n}\left|f\left(x_{i}\right)-y_{i}\right|}{n}</script><p>其中，$y_i$和$f(x_i)$分别表示第i个样本的真实值及其对应的预测值，n为样本的个数。</p>
 <p>忽略下标 i ，设n=1，以f(x)−y为横轴，MAE的值为纵轴，得到函数的图形如下：</p>
-<img src="https://pic.downk.cc/item/5f905bbd1cd1bbb86b8f3fec.png">
-
+<p><img src="https://pic.downk.cc/item/5f905bbd1cd1bbb86b8f3fec.png"></p>
 <p>相比于MSE，MAE有个优点就是，对于离群点不那么敏感。</p>
-<img src="https://pic.downk.cc/item/5f905bd71cd1bbb86b8f479a.png">
-
+<p><img src="https://pic.downk.cc/item/5f905bd71cd1bbb86b8f479a.png"></p>
 <p>L2 loss可以看作是均方误差（Mean Square Error,MSE）是模型预测值f(x) 与真实样本值y 之间差值平方的平均值，其公式如下;</p>
-<p>$$M S E=\frac{\sum_{i=1}^{n}\left(f_{x_{i}}-y_{i}\right)^{2}}{n}$$</p>
-<p>忽略下标 i ，设n=1，以f(x)−y为横轴，MSE的值为纵轴，得到函数的图形如下：</p>
-<img src="https://pic.downk.cc/item/5f905fd11cd1bbb86b90638f.png">
-
+<script type="math/tex; mode=display">M S E=\frac{\sum_{i=1}^{n}\left(f_{x_{i}}-y_{i}\right)^{2}}{n}</script><p>忽略下标 i ，设n=1，以f(x)−y为横轴，MSE的值为纵轴，得到函数的图形如下：</p>
+<p><img src="https://pic.downk.cc/item/5f905fd11cd1bbb86b90638f.png"></p>
 <p>如果样本中存在离群点，MSE会给离群点更高的权重，这就会牺牲其他正常点数据的预测效果，最终降低整体的模型性能。 如下图：</p>
-<img src="https://pic.downk.cc/item/5f905bfe1cd1bbb86b8f5299.png">
-
+<p><img src="https://pic.downk.cc/item/5f905bfe1cd1bbb86b8f5299.png"></p>
 <p>可见，使用 MSE 损失函数，受离群点的影响较大，虽然样本中只有 5 个离群点，但是拟合的直线还是比较偏向于离群点。</p>
 <p>假设$x=f(x_i)−y_i$ ，则上面的公式可以概括为：</p>
-<p>$$L_1(x) = ± x$$<br>$$L_2(x) = x^2$$<br>$$SmoothL_1(x) =<br>\begin{cases}<br>    0.5x^2 \qquad if|x|&lt;1\<br>    |x| - 0.5   \quad otherwise<br>\end{cases}$$</p>
-<p>上面损失函数对$x$的导数为：<br>$$<br>\begin{aligned}<br>\frac{\partial L_{1}(x)}{\partial x} &amp;=\left{\begin{array}{cl}<br>1 &amp; \text { if } x \geq 0 \<br>-1 &amp; \text { otherwise }<br>\end{array}\right.\</p>
-<p>\frac{\partial L_{2}(x)}{\partial x} &amp;=2 x \</p>
-<p>\frac{\partial \operatorname{smooth}<em>{L</em>{1}}(x)}{\partial x} &amp;=\left{\begin{array}{ll}<br>x &amp; \text { if }|x|&lt;1 \<br>\pm 1 &amp; \text { otherwise }<br>\end{array}\right.<br>\end{aligned}<br>$$<br>上面导数可以看出：</p>
+<script type="math/tex; mode=display">L_1(x) = ± x</script><script type="math/tex; mode=display">L_2(x) = x^2</script><script type="math/tex; mode=display">SmoothL_1(x) = 
+\begin{cases}
+    0.5x^2 \qquad if|x|<1\\
+    |x| - 0.5   \quad otherwise
+\end{cases}</script><p>上面损失函数对$x$的导数为：</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+\frac{\partial L_{1}(x)}{\partial x} &=\left\{\begin{array}{cl}
+1 & \text { if } x \geq 0 \\
+-1 & \text { otherwise }
+\end{array}\right.\\
+
+\frac{\partial L_{2}(x)}{\partial x} &=2 x \\
+
+\frac{\partial \operatorname{smooth}_{L_{1}}(x)}{\partial x} &=\left\{\begin{array}{ll}
+x & \text { if }|x|<1 \\
+\pm 1 & \text { otherwise }
+\end{array}\right.
+\end{aligned}</script><p>上面导数可以看出：</p>
 <p>对于L1导数,L1对x的导数为常数，在<strong>训练后期</strong>，预测值与ground truth差异很小时，L1的导数的绝对值仍然为1，而 learning rate 如果不变，损失函数将在稳定值附近波动，难以继续收敛以达到更高精度。</p>
 <p>对于L2导数，当x增大时，L2的损失也增大。 这就导致在<strong>训练初期</strong>，预测值与 groud truth 差异过于大时，损失函数对预测值的梯度十分大，训练不稳定。</p>
 <p>对于Smooth L1导数，Smotth L1在x较小时，对x的梯度也会变小。 而当x较大时，对x的梯度的上限为1，也不会太大以至于破坏网络参数。Smooth L1完美的避开了L1和L2作为损失函数的缺陷。</p>
 <p><strong>L1 Loss ,L2 Loss以及SmoothL1 放在一起的函数曲线对比</strong></p>
-<img src="https://pic.downk.cc/item/5f905c111cd1bbb86b8f5910.png">
-
+<p><img src="https://pic.downk.cc/item/5f905c111cd1bbb86b8f5910.png"></p>
 <p>从上面可以看出，该函数实际上就是一个分段函数，在[-1,1]之间实际上就是L2损失，这样解决了L1的不光滑问题，在[-1,1]区间外，实际上就是L1损失，这样就解决了离群点梯度爆炸的问题。</p>
-<h2 id="IOU-Loss"><a href="#IOU-Loss" class="headerlink" title="IOU_Loss"></a><strong>IOU_Loss</strong></h2><img src=https://pic3.zhimg.com/80/v2-c812620791de642ccb7edcde9e1bd742_720w.jpg>
-
+<h2 id="IOU-Loss"><a href="#IOU-Loss" class="headerlink" title="IOU_Loss"></a><strong>IOU_Loss</strong></h2><p><img src=https://pic3.zhimg.com/80/v2-c812620791de642ccb7edcde9e1bd742_720w.jpg></p>
 <p>可以看到IOU的loss其实很简单，主要是交集/并集，但其实也存在两个问题:</p>
-<img src=https://picb.zhimg.com/80/v2-e3d9a882dec6bb5847be80899bb98ea3_720w.jpg>
-
+<p><img src=https://picb.zhimg.com/80/v2-e3d9a882dec6bb5847be80899bb98ea3_720w.jpg></p>
 <p>问题1：即上图中状态1的情况，当预测框和目标框不相交时，IOU=0，无法反应两个框距离的远近，此时损失函数不可导，IOU_Loss无法优化两个框不相交的情况。</p>
 <p>问题2：即上图中状态2和状态3的情况，当两个预测框大小相同，两个IOU也相同，IOU_Loss无法区分两者相交情况的不同。</p>
 <p>因此2019年出现了GIOU_Loss来进行改进。</p>
-<h2 id="GIOU-Loss-Generalized-IOU"><a href="#GIOU-Loss-Generalized-IOU" class="headerlink" title="GIOU_Loss(Generalized IOU)"></a><strong>GIOU_Loss(Generalized IOU)</strong></h2><img src=https://pic1.zhimg.com/80/v2-443123f1aa540f7dfdc84b233edcdc67_720w.jpg>
-
+<h2 id="GIOU-Loss-Generalized-IOU"><a href="#GIOU-Loss-Generalized-IOU" class="headerlink" title="GIOU_Loss(Generalized IOU)"></a><strong>GIOU_Loss(Generalized IOU)</strong></h2><p><img src=https://pic1.zhimg.com/80/v2-443123f1aa540f7dfdc84b233edcdc67_720w.jpg></p>
 <p>GIOU的创新之处在于考虑了<strong>最小外接矩形</strong>和<strong>差集</strong>这两个指标，用差集除以最小外接矩形就能区分开IOU问题里的状态2和状态3了，状态3的差集除以最小外接矩形的值更小，所以状态3的GIOU更大，GIOU_LOSS更小。</p>
 <p>但是GIOU还存在一种不足：</p>
-<img src=https://pic1.zhimg.com/80/v2-49024c2ded9faafe7639c5207e575ed6_720w.jpg>
-
+<p><img src=https://pic1.zhimg.com/80/v2-49024c2ded9faafe7639c5207e575ed6_720w.jpg></p>
 <p>问题：状态1、2、3都是 <strong>预测框在目标框内部</strong> 且 <strong>预测框大小一致</strong> 的情况，这时预测框和目标框的差集和最小外接矩形都是相同的，因此这三种状态的GIOU值也都是相同的，这时GIOU退化成了IOU，无法区分相对位置关系。<br>基于这个问题，2020年的AAAI出现了DIOU_Loss。</p>
-<h2 id="DIOU-Loss-Distance-IoU"><a href="#DIOU-Loss-Distance-IoU" class="headerlink" title="DIOU_Loss(Distance-IoU)"></a><strong>DIOU_Loss(Distance-IoU)</strong></h2><img src=https://pic4.zhimg.com/80/v2-029f094658e87f441bf30c80cb8d07d0_720w.jpg>
-
+<h2 id="DIOU-Loss-Distance-IoU"><a href="#DIOU-Loss-Distance-IoU" class="headerlink" title="DIOU_Loss(Distance-IoU)"></a><strong>DIOU_Loss(Distance-IoU)</strong></h2><p><img src=https://pic4.zhimg.com/80/v2-029f094658e87f441bf30c80cb8d07d0_720w.jpg></p>
 <p>DIOU的定义和GIOU很像，相当于把 “差集面积/最小外接矩形面积” 替换成 “中心点距离平方/最小外接矩形对角线距离平方”，公式长这个样子：</p>
-<p>$$D I o U=I o U-\frac{\rho^{2}\left(b, b^{g t}\right)}{c^{2}}$$</p>
-<p>但是DIOU仍然有缺点，那就是没有考虑到长宽比。</p>
-<img src=https://pic4.zhimg.com/80/v2-22bf2e9c8a2fbbbb877e0f1ede69009f_720w.jpg>
-
+<script type="math/tex; mode=display">D I o U=I o U-\frac{\rho^{2}\left(b, b^{g t}\right)}{c^{2}}</script><p>但是DIOU仍然有缺点，那就是没有考虑到长宽比。</p>
+<p><img src=https://pic4.zhimg.com/80/v2-22bf2e9c8a2fbbbb877e0f1ede69009f_720w.jpg></p>
 <p>比如上面三种情况，目标框包裹预测框，预测框的中心点的位置都是一样的，因此按照DIOU_Loss的计算公式，三者的值都是相同的，但是这3种状态中，看起来应该是状态1最好吧。那应该怎么区别这3种状态的好坏呢？</p>
 <p>针对这个问题，又提出了CIOU_Loss，不得不说，好的解决方案都是前人用时间一点一点积累起来的！</p>
 <h2 id="CIOU-Loss-Complete-IoU"><a href="#CIOU-Loss-Complete-IoU" class="headerlink" title="CIOU_Loss(Complete-IoU)"></a><strong>CIOU_Loss(Complete-IoU)</strong></h2><p>CIOU_Loss和DIOU_Loss前面的公式都是一样的，不过在此基础上还增加了一个影响因子$\alpha v$，将预测框和目标框的长宽比都考虑了进去。</p>
 <p>其中$v$是衡量长宽比一致性的参数，定义为：</p>
-<p>$$v=\frac{4}{\pi^{2}}\left(\arctan \frac{w^{g t}}{h^{g t}}-\arctan \frac{w}{h}\right)^{2}$$</p>
-<p>$\alpha$ 是用于做trade-off的参数:</p>
-<p>$$\alpha=\frac{v}{(1-I o U)+v}$$</p>
-<p>完整的定义为$L_{C I o U}=1-I o U+\frac{\rho^{2}\left(b, b^{g t}\right)}{c^{2}}+\alpha v$，</p>
+<script type="math/tex; mode=display">v=\frac{4}{\pi^{2}}\left(\arctan \frac{w^{g t}}{h^{g t}}-\arctan \frac{w}{h}\right)^{2}</script><p>$\alpha$ 是用于做trade-off的参数:</p>
+<script type="math/tex; mode=display">\alpha=\frac{v}{(1-I o U)+v}</script><p>完整的定义为$L_{C I o U}=1-I o U+\frac{\rho^{2}\left(b, b^{g t}\right)}{c^{2}}+\alpha v$，</p>
 <p>或者在我们这里是：$\mathrm{ClOU}_{-} \mathrm{Loss}=1 - \mathrm{CIOU}=1-\left(\mathrm{I} 0 \mathrm{U}-\frac{\text { Distance } 2^{2}}{\text { Distance }-\mathrm{C}^{2}}-\frac{v^{2}}{(1-\mathrm{IOU})+v}\right)$</p>
 <p>这样CIOU_Loss就将目标框回归函数应该考虑三个重要几何因素：重叠面积、中心点距离，长宽比全都考虑进去了。</p>
 <p>再来综合的看下各个Loss函数的不同点：</p>
@@ -200,35 +205,36 @@ var _hmt = _hmt || [];
 <p>上面的各种IOU不仅可以用来基于先验框的预测框的回归训练，还可以用在NMS上。常用的目标检测算法中，一般采用普通的NMS来进行预测框的筛选，Yolov4则借鉴上面D/CIOU来进行预测框的筛选，论文：<a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1911.08287.pdf">https://arxiv.org/pdf/1911.08287.pdf</a></p>
 <p>将其中计算IOU的部分替换成DIOU的方式：</p>
 <p>来看下实际的案例</p>
-<img src=https://pic4.zhimg.com/80/v2-ddb336d26adb2a2e37415b6266c88ec6_720w.jpg>
-
+<p><img src=https://pic4.zhimg.com/80/v2-ddb336d26adb2a2e37415b6266c88ec6_720w.jpg></p>
 <p>在上图重叠的摩托车检测中，黄色箭头所指的中间的摩托车因为考虑边界框中心点的位置信息，也可以回归出来。</p>
 <p>因此在重叠目标的检测中，DIOU_nms的效果优于传统的nms。</p>
 <p>注意：有读者会有疑问，这里为什么不用CIOU_nms，而用DIOU_nms?</p>
 <p>答：因为前面讲到的CIOU_loss，是在DIOU_loss的基础上，添加的影响因子，包含groundtruth标注框的信息，在训练时用于回归。</p>
 <p>但在测试过程中，并没有groundtruth的信息，不用考虑影响因子，因此直接用DIOU_nms即可。</p>
 <h2 id="Focal-Loss"><a href="#Focal-Loss" class="headerlink" title="Focal Loss"></a><strong>Focal Loss</strong></h2><p>Focal loss主要是为了解决one-stage目标检测中正负样本比例严重失衡的问题。<br>我们知道，anchor-based算法会产生大量的背景简单负样本 、少量的目标简单正样本、中量的背景目标过渡区域困难正、负样本。现在考虑数量最多的简单背景负样本，这些简单背景负样本很容易被分类为背景，所以它们的损失很小，但毕竟负样本数量太多，模型还是不得不考虑这些样本，所以最终的结果是，模型优化了大量背景负样本的损失，而忽视了优化那些目标样本的损失，也就是说优化重点跑偏了。同时因为背景负样本很容易分类，它们的损失已经低到不能再低了，所以还会导致模型的loss后期很难继续收敛。</p>
-<img src="https://s1.ax1x.com/2020/10/02/0QAJG8.png" alt="0QAJG8.png" border="0" />
-
+<p><img src="https://s1.ax1x.com/2020/10/02/0QAJG8.png" alt="0QAJG8.png" border="0" /></p>
 <p>OHEM（online hard example mining）是后来针对正负样本不均衡提出的一种筛选example的方法，OHEM的主要思想可以用原文的一句话概括：In OHEM each example is scored by its loss, non-maximum suppression (NMS) is then applied, and a minibatch is constructed with the highest-loss examples。OHEM算法虽然增加了困难样本的权重，但是却忽略了容易分类的样本，结果它把所有的easy example都去除掉，造成无法用easy positive example进一步提升训练的精度。</p>
 <p>于是后来2017年何凯明等人提出了Focal loss，他提出只要通过将原先训练回归任务常用的 交叉熵误差CE (Cross Entropy) 改为 FL (Focal Loss) 即可，首先回顾二分类交叉上损失：</p>
-<p>$$<br>\mathrm{L}_{Cross Entropy}(y,y’)=-\mathrm{ylog} y^{\prime}-(1-y) \log \left(1-y^{\prime}\right)=\left{\begin{array}{ll}<br>-\log y^{\prime} \quad &amp; y=1 \<br>-\log \left(1-y^{\prime}\right) &amp; y=0<br>\end{array}\right.<br>$$<br>$y’$是样本属于正样本的概率值。可见普通的交叉熵对于正样本(y=1)而言，$y’$越大损失越小。对于负样本(y=0)而言，$y’$越小则损失越小。</p>
+<script type="math/tex; mode=display">
+\mathrm{L}_{Cross Entropy}(y,y')=-\mathrm{ylog} y^{\prime}-(1-y) \log \left(1-y^{\prime}\right)=\left\{\begin{array}{ll}
+-\log y^{\prime} \quad & y=1 \\
+-\log \left(1-y^{\prime}\right) & y=0
+\end{array}\right.</script><p>$y’$是样本属于正样本的概率值。可见普通的交叉熵对于正样本(y=1)而言，$y’$越大损失越小。对于负样本(y=0)而言，$y’$越小则损失越小。</p>
 <p>下面我们来看一下Focal Loss的公式：</p>
-<p>$$<br>\mathrm{L}_{FocalLoss}(y,y’)=\left{\begin{array}{ll}<br>-\alpha\left(1-y^{\prime}\right)^{\gamma} \log y^{\prime} &amp; y=1 \<br>-(1-\alpha) y^{\prime \gamma} \log \left(1-y^{\prime}\right) &amp; y=0<br>\end{array}\right.<br>$$</p>
-<p>在公式中，α主要负责调节正负样本的失衡，γ主要负责调节难易样本的失衡。</p>
+<script type="math/tex; mode=display">
+\mathrm{L}_{FocalLoss}(y,y')=\left\{\begin{array}{ll}
+-\alpha\left(1-y^{\prime}\right)^{\gamma} \log y^{\prime} & y=1 \\
+-(1-\alpha) y^{\prime \gamma} \log \left(1-y^{\prime}\right) & y=0
+\end{array}\right.</script><p>在公式中，α主要负责调节正负样本的失衡，γ主要负责调节难易样本的失衡。</p>
 <p>先不管α，先思考一下γ的作用逻辑。对于正样本（y=1），其易分类的样本的$y’$趋近于1，所以$(1-y’)^\gamma$很小；对于负样本（y=0），其易分类的样本$y’$趋近于0，所以$y’^\gamma$也很小。合起来说就是，对于易分类的（well-classified）样本的权值都被调低了。</p>
 <p>文章也对于 $\gamma,\alpha$ 的取值做了一番实验：</p>
-<img src="https://s1.ax1x.com/2020/10/02/01EBm4.png" alt="01EBm4.png" border="0" />
-
+<p><img src="https://s1.ax1x.com/2020/10/02/01EBm4.png" alt="01EBm4.png" border="0" /></p>
 <p>在实验中，发现当γ=0的时候，α=0.75的效果最好，但γ不为0时，则是 $\gamma = 2, \alpha = 0.25$ 的取值组合效果最好，这一点是有点反直觉，因为正样本竟然被分配了一个更小的权重，我的理解是可能$y’^\gamma$对负样本的权重影响更大，$y’^\gamma$使得简单负样本的权重仍然很小。</p>
 <p>为此，FAIR团队还专门写了一个简单的one-stage detector来验证focal loss的强大。并将该网络结构起名RetinaNet：</p>
-<img src=https://pic1.zhimg.com/v2-f3ef4c6e92c2f6d9e2782e7e32361042_1440w.jpg>
-
+<p><img src=https://pic1.zhimg.com/v2-f3ef4c6e92c2f6d9e2782e7e32361042_1440w.jpg></p>
 <p>最后赋个具体的值来感受一下这个公式的作用：</p>
 <p>假设我们有1000000个 $p_t = 0.99$ 的简单负样本（根据下图可以算出这个负样本的正样本概率为p=0.01，awesome）和 10个 $p_t=0.01$ 的困难正样本（根据下图可以算出这个正样本的正样本的概率只有p=0.01，awful）。alpha取0.25，则负样本的$\alpha_t$=1-α=0.75，正样本的$\alpha_t$=α=0.25。γ取2。负样本的$\alpha_{t}\left(1-p_{t}\right)^{\gamma}=0.000075$，正样本的$\alpha_{t}\left(1-p_{t}\right)^{\gamma}=0.245025$。</p>
-<img src="https://s1.ax1x.com/2020/10/03/01umfs.png" alt="01umfs.png" border="0" width=70%/>
-<img src="https://s1.ax1x.com/2020/10/03/01KpEF.png" alt="01KpEF.png" border="0" width=40%/>
-
+<p><img src="https://s1.ax1x.com/2020/10/03/01umfs.png" alt="01umfs.png" border="0" width=70%/><br><img src="https://s1.ax1x.com/2020/10/03/01KpEF.png" alt="01KpEF.png" border="0" width=40%/></p>
 <p>在使用普通交叉熵损失的情况下，来自负样本的损失为 1000000$\cdot$log(0.99)=1000000×0.0043648054=4364 正面例子的损失是 10$\cdot$log(0.01)=10×2=20。正例的损失贡献为20/(4364+20)=0.0046。几乎可以忽略不计。</p>
 <p>在使用焦点损失的情况下，来自负面示例的损失为1000000×0.0043648054×0.000075=0.3274 正面例子的损失是 10×2×0.245025=4.901。正例的损失贡献为4.901/(4.901+0.3274)=0.9374！现在正例主宰了总损失！</p>
 <h2 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h2><blockquote>

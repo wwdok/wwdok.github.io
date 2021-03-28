@@ -56,7 +56,11 @@ var _hmt = _hmt || [];
 </script>
 
 
-</head>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --></head>
 
 </html>
 
@@ -137,26 +141,23 @@ var _hmt = _hmt || [];
 <p><strong>先决条件</strong>：<strong>已安装node.js</strong></p>
 <h2 id="第一步："><a href="#第一步：" class="headerlink" title="第一步："></a><strong>第一步：</strong></h2><p>我这里重新注册了一个163邮箱为例，注册完进入邮箱，点击设置，开启<strong>IMAP/SMTP服务</strong>，为什么要开启这个服务？因为正如页面下方所说的“<strong>POP3/SMTP/IMAP服务能让你在本地客户端上收发邮件</strong>”，我们运行脚本发送邮件就是在本地电脑上实现的。</p>
 <p>开启后先是手机验证，验证成功会给你一串密钥，<strong>这串密码务必保存备份好</strong>，后面要写入代码中，没它不行。</p>
-<img src="https://s1.ax1x.com/2020/07/18/U2K4mT.png" alt="U2K4mT.png" border="0" />
-
+<p><img src="https://s1.ax1x.com/2020/07/18/U2K4mT.png" alt="U2K4mT.png" border="0" /></p>
 <h2 id="第二步："><a href="#第二步：" class="headerlink" title="第二步："></a><strong>第二步：</strong></h2><p>新建一个存放本程序的文件夹，比如“send-email”。然后进入该文件夹在当前路径下打开命令行窗口，敲写<code>npm init -y</code>, 这时候会在文件夹下面生成一个package.json文件，不用管它。</p>
 <h2 id="第三步："><a href="#第三步：" class="headerlink" title="第三步："></a><strong>第三步：</strong></h2><p>安装nodemailer</p>
 <p><code>npm install nodemailer -S</code></p>
 <h2 id="第四步："><a href="#第四步：" class="headerlink" title="第四步："></a><strong>第四步：</strong></h2><p>敲写<code>touch send-email.js</code>创建js脚本，接下来我们要在里面写代码</p>
 <h2 id="第五步："><a href="#第五步：" class="headerlink" title="第五步："></a><strong>第五步：</strong></h2><p>用VSCODE 打开send-email.js, 敲入下面的代码：</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> nodemailer = <span class="built_in">require</span>(<span class="string">&#x27;nodemailer&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> transporter = nodemailer.createTransport(&#123;</span><br><span class="line">  service: <span class="string">&#x27;163&#x27;</span>,</span><br><span class="line">  <span class="comment">//支持的邮箱类型 :https://nodemailer.com/smtp/well-known/</span></span><br><span class="line"><span class="comment">//   port: 465, // SMTP 端口</span></span><br><span class="line"><span class="comment">//   secureConnection: true, // 使用了 SSL</span></span><br><span class="line">  auth: &#123;</span><br><span class="line">    user: <span class="string">&#x27;abcdefg@163.com&#x27;</span>,<span class="comment">//发件箱地址</span></span><br><span class="line">    <span class="comment">// 下面填写163邮箱的smtp授权码，就是刚刚第一步说的密钥</span></span><br><span class="line">    pass: <span class="string">&#x27;UEOG*******EGOCR&#x27;</span>,</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> mailOptions  = &#123;</span><br><span class="line">  <span class="keyword">from</span>: <span class="string">&#x27;&quot;某某小程序&quot; &lt;abcdefg@163.com&gt;&#x27;</span>, <span class="comment">// 发送地址</span></span><br><span class="line">  to: <span class="string">&#x27;xxxx.xxxx@outlook.com&#x27;</span>, <span class="comment">// 接收地址</span></span><br><span class="line">  subject: <span class="string">&#x27;注册某某微信小程序&#x27;</span>, <span class="comment">// 邮件标题</span></span><br><span class="line">  <span class="comment">// 发送text或者html</span></span><br><span class="line">  <span class="comment">// text: &#x27;Hello World&#x27;,</span></span><br><span class="line">  html: <span class="string">&#x27;&lt;h1&gt;您的注册验证码为123456&lt;/h1&gt;&#x27;</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">transporter.sendMail(mailOptions, <span class="function">(<span class="params">err, data</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">if</span> (err) &#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="built_in">console</span>.log(<span class="string">&#x27;Error occurs&#x27;</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> <span class="built_in">console</span>.log(<span class="string">&#x27;Email sent!!!&#x27;</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-
 <p>在代码区右击Run Code或者<code>node send-email.js</code>，一切正常的话，就会出现下面的’Email sent!!!’</p>
-<img src="https://s1.ax1x.com/2020/07/18/U2nvgx.png" alt="U2nvgx.png" border="0" />
-
+<p><img src="https://s1.ax1x.com/2020/07/18/U2nvgx.png" alt="U2nvgx.png" border="0" /></p>
 <p>如果发送的内容是比较复杂的HTML页面，那么可以通过Node的fs模块加载一个HTML文件来实现</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> mailOptions  = &#123;</span><br><span class="line">  <span class="keyword">from</span>: <span class="string">&#x27;&quot;某某小程序&quot; &lt;abcdefg@163.com&gt;&#x27;</span>, <span class="comment">// 发送地址</span></span><br><span class="line">  to: <span class="string">&#x27;xxxx.xxxx@outlook.com&#x27;</span>, <span class="comment">// 接收地址</span></span><br><span class="line">  subject: <span class="string">&#x27;注册某某微信小程序&#x27;</span>, <span class="comment">// 邮件标题</span></span><br><span class="line">  html: fs.createReadStream(path.resolve(__dirname, <span class="string">&#x27;email.html&#x27;</span>))</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
 <h2 id="第六步："><a href="#第六步：" class="headerlink" title="第六步："></a><strong>第六步：</strong></h2><p>邮件内容里的验证码我的想法是通过加密算法实现对任意输入字符串输出一个固定长度（比如6位）的字符串，这时先不讲。</p>
 <p><strong>拓展阅读</strong></p>
 <ol>
 <li><p>更多使用node.js处理邮件问题的教程请见这个仓库：<br><a target="_blank" rel="noopener" href="https://github.com/accimeesterlin/nodemailer-examples">https://github.com/accimeesterlin/nodemailer-examples</a></p>
- <img src="https://s1.ax1x.com/2020/07/18/U2QWZT.png" alt="U2QWZT.png" border="0" width=60%/></li>
+<p> <img src="https://s1.ax1x.com/2020/07/18/U2QWZT.png" alt="U2QWZT.png" border="0" width=60%/></p>
+</li>
 <li><p>短信验证码的教程请见这篇公众号文章《<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/tZINGlt3TplBJfdGNRJQpw">10分钟实现短信验证码</a>》</p>
 </li>
 </ol>

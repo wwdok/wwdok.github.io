@@ -56,7 +56,11 @@ var _hmt = _hmt || [];
 </script>
 
 
-</head>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --></head>
 
 </html>
 
@@ -123,7 +127,7 @@ var _hmt = _hmt || [];
        
   <p>网上关于批量标准化/归一化的的介绍文章有不少，这里先贴上几个不错的教程：</p>
 <p>周莫烦的这个视频<a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=-5hESl-Lj-4">《为什么要批标准化（Batch Normalization）？》</a>会给你一个直观的感受，知道为什么要批量标准化。</p>
-<p>吴恩达的这个视频<a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=5qefnAek8OA&list=PLkDaE6sCZn6Hn0vK8co82zjQtt3T2Nkqc&index=30">《Batch Norm At Test Time (C2W3L07)》</a>告诉你测试时的批量归一化跟训练时有何不同</p>
+<p>吴恩达的这个视频<a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=5qefnAek8OA&amp;list=PLkDaE6sCZn6Hn0vK8co82zjQtt3T2Nkqc&amp;index=30">《Batch Norm At Test Time (C2W3L07)》</a>告诉你测试时的批量归一化跟训练时有何不同</p>
 <p>这篇文章<a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1591375">《【AlexeyAB DarkNet框架解析】十一，BN层代码详解(batchnorm_layer.c)》</a>给出了BN层的代码。</p>
 <p>在配置文件（比如samples\configs\ssd_mobilenet_v2_quantized_300x300_coco.config”）里，box_predictor{}和feature_extractor{}里都有一个batch_norm:</p>
 <pre><code>batch_norm &#123;
@@ -133,26 +137,22 @@ var _hmt = _hmt || [];
     decay: 0.97,
     epsilon: 0.001,
 &#125;
-</code></pre>
-<p>这里面的decay是什么意思呢？</p>
+</code></pre><p>这里面的decay是什么意思呢？</p>
 <p>在上面那篇文章的代码里，有这样一段代码：</p>
 <pre><code>running_mean = momentum * running_mean + (1 - momentum) * sample_mean
 running_var = momentum * running_var + (1 - momentum) * sample_var
-</code></pre>
-<p>这个公式里的momentum就是上面tensorflow config里说的decay。而running_mean和running_var就是给后面测试用的均值和方差的估计值。</p>
+</code></pre><p>这个公式里的momentum就是上面tensorflow config里说的decay。而running_mean和running_var就是给后面测试用的均值和方差的估计值。</p>
 <p>从源代码里还可以知道sample_mean和sample_var就是训练时当下mini batch算出来的均值和方差。</p>
 <ul>
 <li><p>如果momentum/decay = 0：</p>
 <pre><code>  running_mean = 1 * sample_mean
   running_var = 1  * sample_var
-</code></pre>
-<p>  则运行均值和运行方差始终是当下那个小批量的均值和方差，完全不考虑之前的批次得到的均值和方差，该种情况下训练性能和验证性能可能存在显着差异。</p>
+</code></pre><p>  则运行均值和运行方差始终是当下那个小批量的均值和方差，完全不考虑之前的批次得到的均值和方差，该种情况下训练性能和验证性能可能存在显着差异。</p>
 </li>
 <li><p>如果momentum/decay = 1：</p>
 <pre><code>  running_mean = 1 * running_mean  
   running_var = 1 * running_var 
-</code></pre>
-<p>  则运行均值和运行方差始终是第一个小批量的均值和方差，完全不考虑之后的批次得到的均值和方差，毫无疑问，跟前面一种情况类似，只考虑某一个批次计算得到的均值和方差，只不过一个是总是变成最新的，一个总是保持一开始的均值和方差不变。</p>
+</code></pre><p>  则运行均值和运行方差始终是第一个小批量的均值和方差，完全不考虑之后的批次得到的均值和方差，毫无疑问，跟前面一种情况类似，只考虑某一个批次计算得到的均值和方差，只不过一个是总是变成最新的，一个总是保持一开始的均值和方差不变。</p>
 </li>
 </ul>
 <p>由于我们希望对尽可能多的样本进行“平均”，并且过去小批次中的样本很重要，因此对代表着历史均值和历史方差的running_mean和running_var应赋予较大的权重（0.9以上），而对当下批次的均值和方差（sample_mean和sample_var）赋予一个小的权重（小于0.1），毕竟假如我们要训练5万个批次，第5万次批次的均值和方差的权重总不能给到0.1或更大吧，那之前49999个批次的均值和方差不就没有参与的意义了吗，这样就不平衡了。momentum/decay一般设置成0.99、0.99、0.9些数值之一，而且训练步数/批次越多，这个值应该越接近1，即有更多的9。</p>

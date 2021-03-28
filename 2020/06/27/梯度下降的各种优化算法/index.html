@@ -56,7 +56,11 @@ var _hmt = _hmt || [];
 </script>
 
 
-</head>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --></head>
 
 </html>
 
@@ -124,29 +128,20 @@ var _hmt = _hmt || [];
   <p>梯度下降法，是一种非常有名的优化（optimization）算法，也是至今最常用的优化神经网络的方法。当你自己构造一个神经网络时，代码上一般要指定一种优化算法：<br><img src="https://s1.ax1x.com/2020/06/27/N6NZVA.png" alt="N6NZVA.png" border="0" /><br><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=cvNtZqphr6A">截图来源</a></p>
 <p>以下内容主要来源于medium上的一个<a target="_blank" rel="noopener" href="https://medium.com/tag/learning-parameters/latest">《Learning Parameters》系列</a>文章的翻译，加上本人的一些理解。</p>
 <span id="more"></span>
-
-<h2 id="《Learning-Parameters-Part-1-Gradient-Descent》"><a href="#《Learning-Parameters-Part-1-Gradient-Descent》" class="headerlink" title="《Learning Parameters, Part 1: Gradient Descent》"></a><a target="_blank" rel="noopener" href="https://towardsdatascience.com/learning-parameters-part-1-eb3e8bb9ffbb"><strong>《Learning Parameters, Part 1: Gradient Descent》</strong></a></h2><h2 id="为什么要用梯度下降法"><a href="#为什么要用梯度下降法" class="headerlink" title="为什么要用梯度下降法"></a><strong>为什么要用梯度下降法</strong></h2><p>假设这里的神经网络只有一个神经元，我们训练这个神经元的目标就是找到weight和bias的最佳组合，以使损失函数 L(w，b) 输出值最小。（更直观的感受请参考3blue1brown的<a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=IHZwWFHWa-w">视频</a>）<br><img src="https://miro.medium.com/max/1400/1*ZBDrFo0woUzqNPjP0TMs-Q.png"></p>
-<table><tr>
-<td><img src=https://wiki.analytica.com/images/b/be/SigmoidGraph.png border=0></td>
-<td><img src=https://miro.medium.com/max/756/1*HaUe7o3HKmyS-JpdgS_iuQ.png border=0></td>
-</tr></table>
-<center>左图：标准sigmoid函数；右图：训练后的sigmoid函数</center>
-假设我们用（x，y）=（0.5，0.2） 和（2.5，0.9）来训练神经网络，在训练结束时，我们期望找到 w* 和 b* ，使得 f（0.5）输出0.2和 f（2.5）输出0.9，也就是说我们希望看到一个S型函数，使（0.5，0.2）和（2.5，0.9）位于S型函数上。
-
-<p>我们可以手动找到这样的w *和b *吗？让我们尝试一个随机的猜测，例如:w = 0.5，b = 0<br><img src=https://miro.medium.com/max/1400/1*NkCdVlIPhoMnVhW-Ntu4Kw.png><br>看来不行，两个已知点都不在我们尝试的S型函数上，我们接着尝试…..<br><img src=https://miro.medium.com/max/1400/1*LPxbwM51k2iXDsM5vrqcpw.gif><br><img src=https://miro.medium.com/max/1400/1*bj0KLAu8bluOe1AxIu2VNA.png><br>最后找到 w=1.78, b=-2.27 的S型函数是比较符合我们的（x，y）的。</p>
+<h2 id="《Learning-Parameters-Part-1-Gradient-Descent》"><a href="#《Learning-Parameters-Part-1-Gradient-Descent》" class="headerlink" title="《Learning Parameters, Part 1: Gradient Descent》"></a><a target="_blank" rel="noopener" href="https://towardsdatascience.com/learning-parameters-part-1-eb3e8bb9ffbb"><strong>《Learning Parameters, Part 1: Gradient Descent》</strong></a></h2><h2 id="为什么要用梯度下降法"><a href="#为什么要用梯度下降法" class="headerlink" title="为什么要用梯度下降法"></a><strong>为什么要用梯度下降法</strong></h2><p>假设这里的神经网络只有一个神经元，我们训练这个神经元的目标就是找到weight和bias的最佳组合，以使损失函数 L(w，b) 输出值最小。（更直观的感受请参考3blue1brown的<a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=IHZwWFHWa-w">视频</a>）</p>
+<p><img src="https://gitlab.com/wwdok/my-image-bed/-/raw/master/pictures/2021/03/25_10_25_5_image-20210325102503389.png" alt="image-20210325102503389"></p>
+<p><img src="https://gitlab.com/wwdok/my-image-bed/-/raw/master/pictures/2021/03/25_10_27_9_image-20210325102706232.png" alt="image-20210325102706232"></p>
+<p>假设我们用（x，y）=（0.5，0.2） 和（2.5，0.9）来训练神经网络，在训练结束时，我们期望找到 w<em> 和 b</em> ，使得 f（0.5）输出0.2和 f（2.5）输出0.9，也就是说我们希望看到一个S型函数，使（0.5，0.2）和（2.5，0.9）位于S型函数上。</p>
+<p>我们可以手动找到这样的w <em>和b </em>吗？让我们尝试一个随机的猜测，例如:w = 0.5，b = 0<br><img src=https://miro.medium.com/max/1400/1*NkCdVlIPhoMnVhW-Ntu4Kw.png><br>看来不行，两个已知点都不在我们尝试的S型函数上，我们接着尝试…..<br><img src=https://miro.medium.com/max/1400/1*LPxbwM51k2iXDsM5vrqcpw.gif><br><img src=https://miro.medium.com/max/1400/1*bj0KLAu8bluOe1AxIu2VNA.png><br>最后找到 w=1.78, b=-2.27 的S型函数是比较符合我们的（x，y）的。</p>
 <p>由于我们只有2个(x,y)和2个参数（w，b），因此我们可以轻松地绘制不同（w，b）的L （w，b）,并选择L（w，b）最小的那个。但是，一旦拥有更多的数据点和更多的参数，这么摸索的话这将变得很棘手！此外，这里我们仅针对（-6，6 ）的小范围（w，b）绘制了误差表面，而不是（-inf，inf）。</p>
 <p>梯度下降来救援！</p>
 <p>梯度下降为我们提供了遍历误差表面的理论方法，从而我们可以快速求出最小值，而无需借助蛮力的试验和摸索。</p>
-<h2 id="梯度下降推理"><a href="#梯度下降推理" class="headerlink" title="梯度下降推理"></a><strong>梯度下降推理</strong></h2><img src=https://miro.medium.com/max/1400/1*jKpqYCSvhEEv-jynCwNKdQ.png width=80% height=80%>
-
+<h2 id="梯度下降推理"><a href="#梯度下降推理" class="headerlink" title="梯度下降推理"></a><strong>梯度下降推理</strong></h2><p><img src="https://gitlab.com/wwdok/my-image-bed/-/raw/master/pictures/2021/03/25_10_28_23_image-20210325102821705.png" alt="image-20210325102821705"></p>
 <p>但是，我们如何找到最“理想的” θ变化呢？使用哪个Δ θ才是正确的呢？答案来自<a target="_blank" rel="noopener" href="http://fourier.eng.hmc.edu/e176/lectures/NM/node45.html">泰勒级数</a>。</p>
-<img src=https://miro.medium.com/max/1400/1*9B5TFde4a7Yh0Yt35nsBeA.png>
-
+<p><img src=https://miro.medium.com/max/1400/1*9B5TFde4a7Yh0Yt35nsBeA.png></p>
 <p>这意味着我们想要移动的 u 或者 Δθ 的方向是梯度方向的180°。在损失表面上的给定点处，我们往与损失函数的梯度相反的方向上移动。这就是黄金梯度下降法则！</p>
-<h3 id="参数更新法则"><a href="#参数更新法则" class="headerlink" title="参数更新法则"></a><strong>参数更新法则</strong></h3><img src=https://miro.medium.com/max/1400/1*imRrzCELAOGiGHPg6YMlsg.png width=90% height=90%>
-
-<img src=https://miro.medium.com/max/1306/1*RjdP7GPIZjtsj3YQUn5oNA.png width=70% height=70%>
-
+<h3 id="参数更新法则"><a href="#参数更新法则" class="headerlink" title="参数更新法则"></a><strong>参数更新法则</strong></h3><p><img src="https://gitlab.com/wwdok/my-image-bed/-/raw/master/pictures/2021/03/25_10_29_16_image-20210325102915720.png" alt="image-20210325102915720"></p>
+<p><img src="https://gitlab.com/wwdok/my-image-bed/-/raw/master/pictures/2021/03/25_10_29_51_image-20210325102949777.png" alt="image-20210325102949777"></p>
 <h3 id="python代码"><a href="#python代码" class="headerlink" title="python代码"></a><strong>python代码</strong></h3><p><a target="_blank" rel="noopener" href="https://gist.github.com/acl21/703ecc8949a01f472d17db3359d56985">前往Gist查看</a></p>
 <h2 id="可视化插图"><a href="#可视化插图" class="headerlink" title="可视化插图"></a><strong>可视化插图</strong></h2><p>让我们从误差表面上的某个随机点开始，看看梯度是怎么更新的。<br><img src=https://miro.medium.com/max/984/1*ghMZkEOArRtRVGOFMu4aOQ.gif></p>
 <h2 id="局限性"><a href="#局限性" class="headerlink" title="局限性"></a><strong>局限性</strong></h2><p>原始形式的Gradient Descent具有明显的缺点。让我们看一个示例曲线f（x）=x²+ 1，如下所示：<br><img src=https://miro.medium.com/max/638/1*_V2aSf3uNzbWEy_JRYak-A.png></p>
@@ -163,90 +158,69 @@ var _hmt = _hmt || [];
 <p>如果下山者一再被要求朝同一个方向前进，那么他应该获得一些信心，并朝那个方向迈出更大的一步。就像球在滚下斜坡时获得动力一样。</p>
 </blockquote>
 <h3 id="基于动量的参数更新法则"><a href="#基于动量的参数更新法则" class="headerlink" title="基于动量的参数更新法则"></a><strong>基于动量的参数更新法则</strong></h3><p>我们将动量概念应用在梯度更新中，如下所示：</p>
-<img src="https://miro.medium.com/max/922/1*NosPqDgX13dZbvs8E-a7FA.png">
-
+<p><img src="https://gitlab.com/wwdok/my-image-bed/-/raw/master/pictures/2021/03/25_10_30_37_image-20210325103035848.png" alt="image-20210325103035848"></p>
 <p>除了要考虑当前的更新，我们还查看历史的更新。我们从零开始演示一下怎么应用这个法则：</p>
-<img src="https://miro.medium.com/max/1400/1*ZDBsBanwX5jSFse4m2fxMQ.png">
-
-<p>您可以看到，当前更新不仅与当前的梯度成比例，而且与先前步骤的梯度成比例。以$update_3$为例，它跟$\nabla\omega_3$成 $\eta$ 比例，跟之前的梯度$\nabla\omega_2$成 $\gamma\cdot\eta$ 比例，跟$\nabla\omega_1$成 $\gamma^2\cdot\eta$ 比例，这就是我们在平缓区域提高更新幅度的方式，即将之前的梯度积累起来，加快当前梯度的更新幅度。</p>
+<p><img src="https://gitlab.com/wwdok/my-image-bed/-/raw/master/pictures/2021/03/25_10_31_2_image-20210325103100657.png" alt="image-20210325103100657" style="zoom:80%;" /></p>
+<p>您可以看到，当前更新不仅与当前的梯度成比例，而且与先前步骤的梯度成比例。以$update_3$为例，它跟$\nabla\omega_3$成 $\eta$ 比例，跟之前的梯度$\nabla\omega_2$成 $\gamma\cdot\eta$ 比例，跟$\nabla\omega_1$成 $\gamma^2\cdot\eta$ 比例，$\eta$代表学习率，$\gamma$代表动量率，这就是我们在平缓区域提高更新幅度的方式，即将之前的梯度积累起来，加快当前梯度的更新幅度。</p>
 <h3 id="python代码-1"><a href="#python代码-1" class="headerlink" title="python代码"></a><strong>python代码</strong></h3><p><a target="_blank" rel="noopener" href="https://gist.github.com/acl21/686a9bc9ed34455c6fe618adb912e439">前往Gist查看</a></p>
 <h2 id="可视化插图-1"><a href="#可视化插图-1" class="headerlink" title="可视化插图"></a><strong>可视化插图</strong></h2><p>让我们看看GD和MBGD的起始点放在一个缓坡上的效果如何。<br><img src="https://miro.medium.com/max/988/1*sbUtb2ySE2DUSBYHhQJRaw.gif"></p>
 <p>从动图的一开始我们看到，由于处在缓坡区（等高线图上同一种颜色的区域），批量梯度下降100次迭代后产生了一条黑色线条，而且还没走出缓坡区。而基于动量的梯度下降经过一开始的“动量”积累，3秒之后突然快速迭代了起来。</p>
 <p>但是，快速的移动始终是件好事吗？会不会哪一次就突然越过目标了？让我们通过更改输入数据，以此得到一个不同的误差表面，然后再来测试一遍MBGD。</p>
-<img src="https://miro.medium.com/max/856/1*sVpzlIuRspAhsS7Pnv0pWA.png">
-
+<p><img src="https://miro.medium.com/max/856/1*sVpzlIuRspAhsS7Pnv0pWA.png"></p>
 <p>如上图所示，在最低谷的两侧，误差都很高。在这种情况下，动量是否仍然可以发挥良好作用，还是会有害呢？让我们找出答案。</p>
-<img src="https://miro.medium.com/max/992/1*t-kykynrtQ0olmFeNgIB0w.gif">
-
+<p><img src="https://miro.medium.com/max/992/1*t-kykynrtQ0olmFeNgIB0w.gif"></p>
 <p>我们可以观察到，基于动量的梯度下降在峡谷中左右振荡。这使它在最终收敛之前经历了许多U型走位。尽管有这些U型走位，它的收敛速度仍然比批量梯度下降快。经过100次迭代后，基于动量的方法达到了0.00001的误差，而批量梯度下降的误差仍然为0.36。</p>
 <p>我们可以做些减少振动/U型走位的事情吗？没问题，Nesterov加速梯度下降可以帮助我们做到这一点。</p>
 <h2 id="Nesterov加速梯度下降-Nesterov-Accelerated-Gradient-Descent"><a href="#Nesterov加速梯度下降-Nesterov-Accelerated-Gradient-Descent" class="headerlink" title="Nesterov加速梯度下降/Nesterov Accelerated Gradient Descent"></a><strong>Nesterov加速梯度下降/Nesterov Accelerated Gradient Descent</strong></h2><p>NAGD背后的直觉可以用一个短语来表达：<br>跳跃前先展望！</p>
-<img src="https://miro.medium.com/max/1386/1*zjEZHrbahO4RSA7HHgsL6w.png">
-
-<h3 id="NAGD更新法则"><a href="#NAGD更新法则" class="headerlink" title="NAGD更新法则"></a><strong>NAGD更新法则</strong></h3><img src="https://miro.medium.com/max/1016/1*ewQ9mtcJW00Dgp0ZJFNKmg.png">
-
+<p><img src="https://gitlab.com/wwdok/my-image-bed/-/raw/master/pictures/2021/03/25_10_32_18_image-20210325103212032.png" alt="image-20210325103212032"></p>
+<h3 id="NAGD更新法则"><a href="#NAGD更新法则" class="headerlink" title="NAGD更新法则"></a><strong>NAGD更新法则</strong></h3><p><img src="https://gitlab.com/wwdok/my-image-bed/-/raw/master/pictures/2021/03/25_10_32_39_image-20210325103238241.png" alt="image-20210325103238241"></p>
 <p>但是，为什么展望前方能帮助我们避免冲过头呢？您可以先暂停思考一下，再看下面这张图。</p>
-<img src="https://s1.ax1x.com/2020/06/27/NcmHHO.png" alt="NcmHHO.png" border="0" />
-
+<p><img src="https://s1.ax1x.com/2020/06/27/NcmHHO.png" alt="NcmHHO.png" border="0" /></p>
 <p>在图（a）中，因为 $\omega_0$ 增加而 L 减小，说明第1次更新的梯度$update_t$的值为负，但经过 $\omega_{t+1}=\omega_t - update_t$ 后，$\omega_{t+1}$是越来越正/大的。 第2次更新也为正，并且由于动量的关系，可以看到它的更新量略大于更新1。因为动量和持续正的更新历史，更新3就会比更新1和2大。第4次更新让事情变得有趣起来。在原始的动量情况下，由于几次历史更新都为正，因此第4次更新就过头了，最后损失下降通过进行负更新来恢复。</p>
 <p>但是在NAG的情况下，见图（b），NAG的前3个更新与基于动量的方法非常相似但不完全相同，真正的区别在第4次更新。NAG的每次更新都分两个步骤进行：首先是前半部分更新4a，我们到达 $\omega_{look ahead}$点，然后是后半部分更新4b，到达$\omega_{t+1}$。NAG仍会导致跳跃过头，但与基于动量的梯度下降相比，它会较小。</p>
 <p>从公式上看，MBGD和NAGD最核心的区别在于$update_t$的等式，对于MBGD，它的最后一项是$\eta$✖$\nabla\omega_t$,而对于NAGD，它的最后一项是是$\eta$✖$\nabla\omega_{look ahead}$。<strong>在上图中，第4次更新的$\nabla\omega_t$是负值，$\nabla\omega_{look ahead}$是正值</strong>。这使得MBGD的$update_t$是一个比较小的负值（比如-2）.而NAGD的$update_t$是一个比较大的负值（比如-1），最后体现到$\omega_{t+1}$上就是，MBGD前进的步伐比较大，NAGD前进的步伐比较小，但（这里）都是往正的方向。</p>
 <p>对于第1、2、3次更新，NAGD前进的步伐也比MBGD前进的步伐小一点，因为$\omega_2$ 的斜率的负值比$\omega_1$处的小。</p>
 <h3 id="python代码-2"><a href="#python代码-2" class="headerlink" title="python代码"></a><strong>python代码</strong></h3><p><a target="_blank" rel="noopener" href="https://gist.github.com/acl21/baf51844c288f28ac0d6a34e9edf1c4a">前往Gist查看</a></p>
 <h2 id="可视化插图-2"><a href="#可视化插图-2" class="headerlink" title="可视化插图"></a><strong>可视化插图</strong></h2><p>还是用上面那个误差表面，我们将MBGD与NAGD的收敛性进行比较。</p>
-<img src="https://miro.medium.com/max/992/1*_Q1plMUkXfLPTRCCTRg36g.gif">
-
+<p><img src="https://miro.medium.com/max/992/1*_Q1plMUkXfLPTRCCTRg36g.gif"></p>
 <p>您会看到NAG（蓝色）的U型走位比动量（红色）的更小，。</p>
-<h2 id="《Learning-Parameters-Part-3-Stochastic-amp-Mini-Batch-Gradient-Descent》"><a href="#《Learning-Parameters-Part-3-Stochastic-amp-Mini-Batch-Gradient-Descent》" class="headerlink" title="《Learning Parameters, Part 3: Stochastic &amp; Mini-Batch Gradient Descent》"></a><strong><a target="_blank" rel="noopener" href="https://towardsdatascience.com/learning-parameters-part-3-ee8558f65dd7">《Learning Parameters, Part 3: Stochastic &amp; Mini-Batch Gradient Descent》</a></strong></h2><h2 id="批量梯度下降法（Batch-Gradient-Descent）"><a href="#批量梯度下降法（Batch-Gradient-Descent）" class="headerlink" title="批量梯度下降法（Batch Gradient Descent）"></a><strong>批量梯度下降法（Batch Gradient Descent）</strong></h2><p>也有人叫Vanilla 梯度下降法（注：Vanilla 是早期机器学习算法相关的名词，也是如今一个机器学习 python 库的名字，在该处指的是后者，参见：<a target="_blank" rel="noopener" href="https://github.com/vinhkhuc/VanillaML%EF%BC%89%E3%80%82">https://github.com/vinhkhuc/VanillaML）。</a></p>
+<h2 id="《Learning-Parameters-Part-3-Stochastic-amp-Mini-Batch-Gradient-Descent》"><a href="#《Learning-Parameters-Part-3-Stochastic-amp-Mini-Batch-Gradient-Descent》" class="headerlink" title="《Learning Parameters, Part 3: Stochastic &amp; Mini-Batch Gradient Descent》"></a><strong><a target="_blank" rel="noopener" href="https://towardsdatascience.com/learning-parameters-part-3-ee8558f65dd7">《Learning Parameters, Part 3: Stochastic &amp; Mini-Batch Gradient Descent》</a></strong></h2><h2 id="批量梯度下降法（Batch-Gradient-Descent）"><a href="#批量梯度下降法（Batch-Gradient-Descent）" class="headerlink" title="批量梯度下降法（Batch Gradient Descent）"></a><strong>批量梯度下降法（Batch Gradient Descent）</strong></h2><p>也有人叫Vanilla 梯度下降法（注：Vanilla 是早期机器学习算法相关的名词，也是如今一个机器学习 python 库的名字，在该处指的是后者，参见：<a target="_blank" rel="noopener" href="https://github.com/vinhkhuc/VanillaML）。">https://github.com/vinhkhuc/VanillaML）。</a></p>
 <h3 id="python代码-3"><a href="#python代码-3" class="headerlink" title="python代码"></a><strong>python代码</strong></h3><p><a target="_blank" rel="noopener" href="https://gist.github.com/acl21/ea90bccb1d69160e3df3ba3e417228cb">前往Gist查看</a></p>
 <h2 id="随机梯度下降法（Stochastic-Gradient-Descent）"><a href="#随机梯度下降法（Stochastic-Gradient-Descent）" class="headerlink" title="随机梯度下降法（Stochastic Gradient Descent）"></a><strong>随机梯度下降法（Stochastic Gradient Descent）</strong></h2><p>在处理大量的数据时，批量梯度下降法就有些力不从心了。批量梯度下降法求参数时，会使用全部的训练数据，这样计算的代价很大，计算量大，耗时很长。而随机梯度法是每次仅仅随机均匀采样的一个样本来求梯度。</p>
 <h3 id="python代码-4"><a href="#python代码-4" class="headerlink" title="python代码"></a><strong>python代码</strong></h3><p><a target="_blank" rel="noopener" href="https://gist.github.com/acl21/de0495b4f2cdc9f935d88a9422861091">前往Gist查看</a></p>
-<h3 id="可视化插图-3"><a href="#可视化插图-3" class="headerlink" title="可视化插图"></a><strong>可视化插图</strong></h3><img src=https://miro.medium.com/max/1020/1*EM62UF9uHIxgNmJQETYgZw.gif>
-
+<h3 id="可视化插图-3"><a href="#可视化插图-3" class="headerlink" title="可视化插图"></a><strong>可视化插图</strong></h3><p><img src=https://miro.medium.com/max/1020/1*EM62UF9uHIxgNmJQETYgZw.gif></p>
 <p>如果仔细观察，您会发现我们的下降最后会产生许多微小的振荡。为什么？因为我们正在做出贪婪的决定。每个点都试图将参数推向最有利的方向（不知道这会如何影响其他点）。在局部上有利于一个点的参数更新可能会损害其他点（几乎就像数据点相互竞争一样）。</p>
 <h2 id="小批量梯度下降法（Mini-batch-Gradient-Descent）"><a href="#小批量梯度下降法（Mini-batch-Gradient-Descent）" class="headerlink" title="小批量梯度下降法（Mini-batch Gradient Descent）"></a><strong>小批量梯度下降法（Mini-batch Gradient Descent）</strong></h2><p>批量梯度下降法和随机梯度下降法是两个极端，一个采用所有数据来梯度下降，一个用一个样本来梯度下降。自然各自的优缺点都非常突出。对于训练速度来说，随机梯度下降法由于每次仅仅采用一个样本来迭代，训练速度很快，而批量梯度下降法在样本量很大的时候，训练速度不能让人满意。对于准确度来说，随机梯度下降法用于仅仅用一个样本决定梯度方向，导致解很有可能不是最优。对于收敛速度来说，由于随机梯度下降法一次迭代一个样本，导致迭代方向变化很大，不能很快的收敛到局部最优解。小批量梯度下降法是批量梯度下降法和随机梯度下降法的折衷，也就是对于m个样本，我们采用个n样本来迭代，1&lt;n&lt;m。</p>
 <h3 id="python代码-5"><a href="#python代码-5" class="headerlink" title="python代码"></a><strong>python代码</strong></h3><p><a target="_blank" rel="noopener" href="https://gist.github.com/acl21/4f60cc010d9fd6eed3230dc9c67c93a8">前往Gist查看</a></p>
 <h3 id="可视化插图-4"><a href="#可视化插图-4" class="headerlink" title="可视化插图"></a><strong>可视化插图</strong></h3><p>让我们看看当mini_batch_size=2时的收敛效果如何</p>
-<img src=https://miro.medium.com/max/940/1*jGzsLBN07fS4ns4kFZmrvQ.gif>
-
+<p><img src=https://miro.medium.com/max/940/1*jGzsLBN07fS4ns4kFZmrvQ.gif></p>
 <p>可以看出，当批量大小为2时，振荡（红线）略有减少。批次大小的典型值为16、32、64。当然，只要我们使用“近似梯度”而不是“真实梯度” ，振荡就会一直存在。</p>
-<h2 id="SGD与MBGD与NAG"><a href="#SGD与MBGD与NAG" class="headerlink" title="SGD与MBGD与NAG"></a><strong>SGD与MBGD与NAG</strong></h2><img src=https://miro.medium.com/max/1400/1*30tXOexQixKbDPkRjJicNA.png>
-左边是单纯SGD的结果，右边是SGD-MBGD与SGD-NAGD的结果。
-
+<h2 id="SGD与MBGD与NAG"><a href="#SGD与MBGD与NAG" class="headerlink" title="SGD与MBGD与NAG"></a><strong>SGD与MBGD与NAG</strong></h2><p><img src=https://miro.medium.com/max/1400/1*30tXOexQixKbDPkRjJicNA.png><br>左边是单纯SGD的结果，右边是SGD-MBGD与SGD-NAGD的结果。</p>
 <p>虽然动量（红色）和NAG（蓝色）的随机形式都显示出震荡，但相对于动量，NAG仍然具有小的震荡。此外，它们都比随机梯度下降快，在60步之后，随机梯度下降[黑色-左图]仍然在很高的误差的位置，而NAG和动量接近收敛。</p>
 <h2 id="《Learning-Parameters-Part-4-Tips-For-Adjusting-Learning-Rate-Line-Search》"><a href="#《Learning-Parameters-Part-4-Tips-For-Adjusting-Learning-Rate-Line-Search》" class="headerlink" title="《Learning Parameters, Part 4: Tips For Adjusting Learning Rate, Line Search》"></a><strong><a target="_blank" rel="noopener" href="https://towardsdatascience.com/learning-parameters-part-4-6a18d1d3000b">《Learning Parameters, Part 4: Tips For Adjusting Learning Rate, Line Search》</a></strong></h2><p>前面几部分的内容（包括动量法）它们的学习率$\eta$都是始终没有变的，但是想想，为什么我们不把这个学习率改成可可变动的一个系数呢，比如在缓坡区，梯度不变的前提下，增大学习率不也可以增大步长吗</p>
 <p>……<br>下面的内容我觉得不太重要，所以不翻译了，好奇的朋友可以去原文看看<br>……</p>
 <h2 id="《Learning-Parameters-Part-5-AdaGrad-RMSProp-and-Adam》"><a href="#《Learning-Parameters-Part-5-AdaGrad-RMSProp-and-Adam》" class="headerlink" title="《Learning Parameters, Part 5: AdaGrad, RMSProp, and Adam》"></a><strong><a target="_blank" rel="noopener" href="https://towardsdatascience.com/learning-parameters-part-5-65a2f3583f7d">《Learning Parameters, Part 5: AdaGrad, RMSProp, and Adam》</a></strong></h2><h3 id="自适应学习率的动机"><a href="#自适应学习率的动机" class="headerlink" title="自适应学习率的动机"></a><strong>自适应学习率的动机</strong></h3><p>考虑以下具有S型激活函数的简单感知器网络(下图画的不好，1234应该用下标而不是上标)。<br><img src="https://miro.medium.com/max/1214/1*CRj9U6_LBVMFEaceunB0CA.png" width=70%></p>
 <p>应该很容易看到给定一个输入（$\vec x$，y），$\vec w$的梯度如下(上图用加粗代表向量，我这里用上方的箭头代表向量)：</p>
-<img src="https://miro.medium.com/max/1250/1*8t9xxheID3mR741SMGBxwA.png" width=70%>
-
+<p><img src="https://miro.medium.com/max/1250/1*8t9xxheID3mR741SMGBxwA.png" width=70%></p>
 <p>输出函数f（x） 对于某个特定权重的梯度取决于其相应的输入。如果有n个输入，我们可以将所有n个输入的梯度求和即可得出总梯度。这个方法既不是新方法也不是特别的方法。但是，如果某个输入（比如$x_1$）非常稀疏（即很多次$x_1$的输入值都为0），会发生什么？可以假设对于大多数输入，$\nabla w2$ 将为0（请参见上方的公式），因此w2将不会获得足够的更新。</p>
 <p>为什么那样的结果会打扰我们呢？因为如果x2既稀疏又重要，我们就必须认真对待对w2 的更新。为了确保即使在某个输入是稀疏的情况下也能进行更新，我们是否可以为每个参数设置不同的学习率，以照顾到 the frequency of the features（不知如何翻译）？当然可以。</p>
-<h2 id="AdaGrad-—-Adaptive-Gradient-Algorithm"><a href="#AdaGrad-—-Adaptive-Gradient-Algorithm" class="headerlink" title="AdaGrad — Adaptive Gradient Algorithm"></a><strong>AdaGrad — Adaptive Gradient Algorithm</strong></h2><h3 id="AdaGrad的更新法则"><a href="#AdaGrad的更新法则" class="headerlink" title="AdaGrad的更新法则"></a><strong>AdaGrad的更新法则</strong></h3><img src="https://miro.medium.com/max/654/1*KN7IkA5J5ZpQ6LjLrtmZwA.png" width=40%>
-
+<h2 id="AdaGrad-—-Adaptive-Gradient-Algorithm"><a href="#AdaGrad-—-Adaptive-Gradient-Algorithm" class="headerlink" title="AdaGrad — Adaptive Gradient Algorithm"></a><strong>AdaGrad — Adaptive Gradient Algorithm</strong></h2><h3 id="AdaGrad的更新法则"><a href="#AdaGrad的更新法则" class="headerlink" title="AdaGrad的更新法则"></a><strong>AdaGrad的更新法则</strong></h3><p><img src="https://gitlab.com/wwdok/my-image-bed/-/raw/master/pictures/2021/03/25_10_34_39_image-20210325103437729.png" alt="image-20210325103437729"></p>
 <p>从更新法则可以看出，梯度的历史值$\nabla w_t$积累在了$v_t$中。而 $v_t$ 和 $\epsilon$ 作为分母与η组成了一个自适应的学习率，随着更新次数的增加，这个学习率的分母越来越大，但分子始终不变，所以整体上这个学习率会变小衰减。</p>
 <h3 id="python代码-6"><a href="#python代码-6" class="headerlink" title="python代码"></a><strong>python代码</strong></h3><p><a target="_blank" rel="noopener" href="https://gist.github.com/acl21/f3b229d1747857235899f9e23616c7a2">前往Gist查看</a></p>
-<h2 id="可视化插图-5"><a href="#可视化插图-5" class="headerlink" title="可视化插图"></a><strong>可视化插图</strong></h2><img src="https://miro.medium.com/max/1198/1*g8b6r_qAQC4NiJ2h_UFsuw.png" width=70%>
-
+<h2 id="可视化插图-5"><a href="#可视化插图-5" class="headerlink" title="可视化插图"></a><strong>可视化插图</strong></h2><p><img src="https://miro.medium.com/max/1198/1*g8b6r_qAQC4NiJ2h_UFsuw.png" width=70%></p>
 <p>在我们研究AdaGrad之前，请先查看上面的其他3个优化器-批量GD（黑色），动量（红色），NAG（蓝色）。这三个优化器对此数据集做了一些有趣的事情。你能发现吗？暂停。思考。答：最初，所有三种算法都主要沿垂直（b）轴移动，而沿水平（w）轴的移动很小。为什么？因为在我们的数据中，与w对应的特征是稀疏的，因此w很少进行更新。另一方面，b非常密集，并经历了许多更新。这种稀疏性在包含数千个输入特征的大型神经网络中非常普遍，因此我们需要解决它。现在让我们来看一下使用AdaGrad的效果。</p>
-<img src="https://miro.medium.com/max/896/1*aflJY_KSjorG1YHNiz7Rnw.gif">
-
+<p><img src="https://miro.medium.com/max/896/1*aflJY_KSjorG1YHNiz7Rnw.gif"></p>
 <p>瞧！通过使用不同参数不同学习速率的策略，AdaGrad可以确保尽管某个特定输入稀疏，但w可获得较高的学习速率，因此更新量更大。此外，它还确保如果b进行大量更新，则由于分母的增加，其有效学习率会降低。在实践中，如果我们从分母中删除平方根（这值得深思），那么这将不能很好地工作。随着时间的流逝，b的有效学习率将下降到无法进一步更新b的程度。我们可以避免这种情况吗？RMSProp可以！</p>
 <h2 id="RMSProp-—-Root-Mean-Square-Propagation"><a href="#RMSProp-—-Root-Mean-Square-Propagation" class="headerlink" title="RMSProp — Root Mean Square Propagation"></a><strong>RMSProp — Root Mean Square Propagation</strong></h2><p>随着分母的增长，AdaGrad会极大地降低学习率。结果，一段时间后，由于学习率下降，一些参数将会接收非常小的更新。为了避免这种情况，为什么不阻止分母快速增长。</p>
-<h2 id="RMSProp的更新法则"><a href="#RMSProp的更新法则" class="headerlink" title="RMSProp的更新法则"></a><strong>RMSProp的更新法则</strong></h2><img src="https://miro.medium.com/max/742/1*oTk6bl5ccXp9540bFv8WXg.png"  width=50%>
-
+<h2 id="RMSProp的更新法则"><a href="#RMSProp的更新法则" class="headerlink" title="RMSProp的更新法则"></a><strong>RMSProp的更新法则</strong></h2><p><img src="https://gitlab.com/wwdok/my-image-bed/-/raw/master/pictures/2021/03/25_10_34_4_image-20210325103403433.png" alt="image-20210325103403433" style="zoom:80%;" /></p>
 <p>看起来与AdaGrad非常相似，尤其是$w_{t+1}$和$b_{t+1}$的表达式，两者都一样，不一样的地方在于RMSProp的$v^w_t$和$v^b_t$多了个超参数β。</p>
 <h3 id="python代码-7"><a href="#python代码-7" class="headerlink" title="python代码"></a><strong>python代码</strong></h3><p><a target="_blank" rel="noopener" href="https://gist.github.com/acl21/64213c8f9f65bc362d595c7bec359548">前往Gist查看</a></p>
-<h2 id="可视化插图-6"><a href="#可视化插图-6" class="headerlink" title="可视化插图"></a><strong>可视化插图</strong></h2><img src="https://miro.medium.com/max/976/1*rn3JEQkOB3Znob1Y_EHakg.gif">
-
+<h2 id="可视化插图-6"><a href="#可视化插图-6" class="headerlink" title="可视化插图"></a><strong>可视化插图</strong></h2><p><img src="https://miro.medium.com/max/976/1*rn3JEQkOB3Znob1Y_EHakg.gif"></p>
 <p>你看到了什么？RMSProp（粉红色）与AdaGrad有何不同？暂停。思考。答： AdaGrad在接近收敛时陷入困境，由于学习速度下降，它不再能够沿垂直（b）方向移动，而RMSProp通过减少学习率的衰减而克服了这个问题，最后RMSProp的终点更往上。</p>
-<h2 id="Adam-—-Adaptive-Moment-Estimation"><a href="#Adam-—-Adaptive-Moment-Estimation" class="headerlink" title="Adam — Adaptive Moment Estimation"></a><strong>Adam — Adaptive Moment Estimation</strong></h2><h3 id="Adam更新法则"><a href="#Adam更新法则" class="headerlink" title="Adam更新法则"></a><strong>Adam更新法则</strong></h3><img src="https://miro.medium.com/max/1076/1*Qzpf8aKwdBYTgMuL69C5qw.png" width=60%>
-(bias类似)
-
+<h2 id="Adam-—-Adaptive-Moment-Estimation"><a href="#Adam-—-Adaptive-Moment-Estimation" class="headerlink" title="Adam — Adaptive Moment Estimation"></a><strong>Adam — Adaptive Moment Estimation</strong></h2><h3 id="Adam更新法则"><a href="#Adam更新法则" class="headerlink" title="Adam更新法则"></a><strong>Adam更新法则</strong></h3><p><img src="https://gitlab.com/wwdok/my-image-bed/-/raw/master/pictures/2021/03/25_10_33_27_image-20210325103326424.png" alt="image-20210325103326424" style="zoom:80%;" /><br>(bias类似)</p>
 <p>Adam的更新法则与RMSProp非常相似（尤指$v_t$），不同之处在于，我们也考虑了梯度的累积历史 $m _t$,这个思路跟momentum是一样的 。请注意，上述更新规则中的第三行是偏差校正。了解为什么偏差修正是必要的，可以查看Mitesh M Khapra教授的<a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=-0ZMU-gnm2g">讲解</a>。</p>
 <h3 id="python代码-8"><a href="#python代码-8" class="headerlink" title="python代码"></a><strong>python代码</strong></h3><p><a target="_blank" rel="noopener" href="https://gist.github.com/acl21/3e71544463c9739226a2afe42edef665">前往Gist查看</a></p>
-<h2 id="可视化插图-7"><a href="#可视化插图-7" class="headerlink" title="可视化插图"></a><strong>可视化插图</strong></h2><img src=https://miro.medium.com/max/976/1*m9JMNb9z2bzFlmPfK0WGUQ.gif>
-
+<h2 id="可视化插图-7"><a href="#可视化插图-7" class="headerlink" title="可视化插图"></a><strong>可视化插图</strong></h2><p><img src=https://miro.medium.com/max/976/1*m9JMNb9z2bzFlmPfK0WGUQ.gif></p>
 <p>很显然，采用累积的渐变历史记录可以加快渐变速度。对于此数据集，它似乎有点超调(overshooting)，但即使这样，它的收敛速度也比其他优化器快。</p>
 <h2 id="最终问题：使用哪种优化算法？"><a href="#最终问题：使用哪种优化算法？" class="headerlink" title="最终问题：使用哪种优化算法？"></a><strong>最终问题：使用哪种优化算法？</strong></h2><ul>
 <li>亚当现在似乎或多或少是默认选择（β1 = 0.9，β2 = 0.999和ϵ = 1e-8）。</li>
@@ -259,7 +233,7 @@ var _hmt = _hmt || [];
 <ul>
 <li><a target="_blank" rel="noopener" href="http://www.cse.iitm.ac.in/~miteshk/CS7015_2018.html">CS7015深度学习课程</a><br></li>
 <li><a target="_blank" rel="noopener" href="https://ruder.io/optimizing-gradient-descent/">《An overview of gradient descent optimization algorithms》</a><br></li>
-<li><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=mdKjMPmcWjY">&lt;Optimizers - EXPLAINED!&gt;</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=mdKjMPmcWjY"><Optimizers - EXPLAINED!></a></li>
 </ul>
 </blockquote>
  

@@ -56,7 +56,11 @@ var _hmt = _hmt || [];
 </script>
 
 
-</head>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --></head>
 
 </html>
 
@@ -125,13 +129,11 @@ var _hmt = _hmt || [];
 <li>博客中第3步讲到“<code>双击运行 jd-gui-1.4.0.jar 文件</code>”,是的，只要你电脑上有安装jdk，那么双击jar文件就能像双击exe一样打开软件界面。</li>
 <li>可能就是因为我是通过直接改apk后缀名解压的，所以我用<code>d2j-dex2jar.bat classes.dex</code>生成classes-dex2jar.jar时遇到了一个小报错，不过我依然把它拖进jd-gui-1.4.0.jar的界面里，一看还行，能看到大部分源码，而且都暴露无遗<br><img src="https://s1.ax1x.com/2020/06/09/thjyKP.png" alt="thjyKP.png"></li>
 </ol>
-<h1 id="APK的加固"><a href="#APK的加固" class="headerlink" title="APK的加固"></a>APK的加固</h1><p>一开始我是用Android Studio的Generate Signed APK打包APK，打包后的apk我上传到腾讯云-移动应用安全加固，结果老是报错<code>此安装包缺少签名</code>，我猜可能是Android Studio用的签名格式是JKS，而腾讯云支持的签名格式是keystore。后来我知道，腾讯云除了这个移动应用安全的<a target="_blank" rel="noopener" href="https://console.cloud.tencent.com/ms/reinforce/list">网页版服务</a>之外，还有个客户端软件-<strong>乐固</strong>，不过现在网上似乎很难找到这个安装包了，这是我从CSDN上找到的一个安装包，亲测可用，下载链接：<a target="_blank" rel="noopener" href="https://share.weiyun.com/7PDixZRV%E3%80%82">https://share.weiyun.com/7PDixZRV。</a> 建议大家使用客户端加固而不是网页端。</p>
-<span id="more"></span>
-<p>乐固软件初始界面：<br><img src="https://s1.ax1x.com/2020/06/09/thjuEF.png" alt="thjuEF.png"><br>点击辅助工具标签页后，可以看到左侧有<strong>签名APK</strong>的功能<br><img src="https://s1.ax1x.com/2020/06/09/tImq8s.png" alt="tImq8s.png"><br>下面还有<strong>制作签名</strong>的功能，下面有keystore格式和jks格式让你选，我选择keystore格式，用它来给apk签名，腾讯云就能识别出来了<br><img src="https://s1.ax1x.com/2020/06/09/thj3g1.png" alt="thj3g1.png"></p>
+<h1 id="APK的加固"><a href="#APK的加固" class="headerlink" title="APK的加固"></a>APK的加固</h1><p>一开始我是用Android Studio的Generate Signed APK打包APK，打包后的apk我上传到腾讯云-移动应用安全加固，结果老是报错<code>此安装包缺少签名</code>，我猜可能是Android Studio用的签名格式是JKS，而腾讯云支持的签名格式是keystore。后来我知道，腾讯云除了这个移动应用安全的<a target="_blank" rel="noopener" href="https://console.cloud.tencent.com/ms/reinforce/list">网页版服务</a>之外，还有个客户端软件-<strong>乐固</strong>，不过现在网上似乎很难找到这个安装包了，这是我从CSDN上找到的一个安装包，亲测可用，下载链接：<a target="_blank" rel="noopener" href="https://share.weiyun.com/7PDixZRV。">https://share.weiyun.com/7PDixZRV。</a> 建议大家使用客户端加固而不是网页端。<br><span id="more"></span><br>乐固软件初始界面：<br><img src="https://s1.ax1x.com/2020/06/09/thjuEF.png" alt="thjuEF.png"><br>点击辅助工具标签页后，可以看到左侧有<strong>签名APK</strong>的功能<br><img src="https://s1.ax1x.com/2020/06/09/tImq8s.png" alt="tImq8s.png"><br>下面还有<strong>制作签名</strong>的功能，下面有keystore格式和jks格式让你选，我选择keystore格式，用它来给apk签名，腾讯云就能识别出来了<br><img src="https://s1.ax1x.com/2020/06/09/thj3g1.png" alt="thj3g1.png"></p>
 <p>这个软件的操作还是比较简单明了的，大家下载后自己应该可以看得懂怎么操作。完成<strong>制作签名</strong>、<strong>签名APK</strong>两个步骤后，就是把签过名的apk上传上去了，最后加固成功的样子如下：<br><img src="https://s1.ax1x.com/2020/06/09/tIp9l4.png" alt="tIp9l4.png"></p>
 <p>同一个账户的信息也会更新到网页端去：<br><img src="https://s1.ax1x.com/2020/06/09/thjUED.png" alt="thjUED.png"><br>不过网页版的似乎还麻烦一点，腾讯云说：在加固apk之前，腾讯云得先把apk的签名移除掉才能加固，所以加固过的apk是没有签名的。所以你需要再回到乐固客户端，再对apk进行签名，然后就全部都好了。</p>
 <p>客户端的就方便多了，从下图可以看到，软件在app-release_aligned_signed.apk（即用乐固签过名的app-release.apk）的基础上生成了2个apk：<br><img src="https://s1.ax1x.com/2020/06/09/tIpu1e.png" alt="tIpu1e.png"><br>最后，加密过的apk就这么到手啦😄</p>
-<p>我们再把乐固加固过的apk导入Android Studio里分析，发现这时候class.dex已经是乱码不规则的形式了（如下图所示），一定程度上增加了反编译的难度。<br>|||<br>|–|–|<br>|加固前|<img src="https://s1.ax1x.com/2020/06/09/thjZuV.png" alt="thjZuV.png">|<br>|加固后|<img src="https://s1.ax1x.com/2020/06/09/thjk3n.png" alt="thjk3n.png">|</p>
+<p>我们再把乐固加固过的apk导入Android Studio里分析，发现这时候class.dex已经是乱码不规则的形式了（如下图所示），一定程度上增加了反编译的难度。<br>|||<br>|—|—|<br>|加固前|<img src="https://s1.ax1x.com/2020/06/09/thjZuV.png" alt="thjZuV.png">|<br>|加固后|<img src="https://s1.ax1x.com/2020/06/09/thjk3n.png" alt="thjk3n.png">|</p>
 <p>后记</p>
 <p>听朋友说类似的加固产品还有360加固，因为目前我用腾讯乐固就算比较满意了，感兴趣的朋友可以多试试</p>
 <p>参考阅读<br><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/e836428d61b9">Android apk加固实现原理</a><br><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/53078d03c9bf">Android-APK签名工具-jarsigner和apksigner</a></p>

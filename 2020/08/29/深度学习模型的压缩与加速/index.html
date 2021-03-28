@@ -56,7 +56,11 @@ var _hmt = _hmt || [];
 </script>
 
 
-</head>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --></head>
 
 </html>
 
@@ -121,14 +125,11 @@ var _hmt = _hmt || [];
 <p>从定义上来说，模型压缩就是让模型大小降低，比如一个tflite模型大小从16M降到4M，模型加速就是让模型推理速度更快，比如一个tflite模型在手机上目标检测一帧需要50mm快到只需要25ms。</p>
 <h2 id="权重共享-参数共享"><a href="#权重共享-参数共享" class="headerlink" title="权重共享/参数共享"></a><strong>权重共享/参数共享</strong></h2><p>参数共享包括权重（weight）共享和偏置(bias)共享。</p>
 <p>在我学习深度神经网络时，看到的已经时下面动图所示的原理，并想当然地认为深度神经网络一开始就是这么设计的</p>
-<img src=https://pic2.zhimg.com/v2-54fbd436effac6d20d75afbeae1604e7_b.webp>
-
+<p><img src=https://pic2.zhimg.com/v2-54fbd436effac6d20d75afbeae1604e7_b.webp></p>
 <p>简单点，就是下图这个样子：</p>
-<img src=https://pic1.zhimg.com/50/v2-a35a29688a764b9ec5e438d53bc1d35a_hd.webp>
-
+<p><img src=https://pic1.zhimg.com/50/v2-a35a29688a764b9ec5e438d53bc1d35a_hd.webp></p>
 <p>其实一开始的深度神经网络是下图这样子的：</p>
-<img src=https://pic4.zhimg.com/80/v2-5b79eb2d4ca654d514af834517889c28_720w.jpg>
-
+<p><img src=https://pic4.zhimg.com/80/v2-5b79eb2d4ca654d514af834517889c28_720w.jpg></p>
 <p>可以看到，图片上不同片区使用了不同的卷积核。</p>
 <p>权重共享/参数共享的含义就是一张图片上使用同一个卷积核去滑动扫描。这意味着一个卷积核专门用来检测某一个特征，这些特征位于图片的不同位置。比如有一组weights和bias是某个局部感知域学到的用来识别一个垂直的边。那么预测的时候不管这条边在图片上哪个位置，它都会被这个局部感知域检测到。更具体一点，卷积网络能很好的适应目标在图片中的位置变化：把图片中的狗稍微移动一下位置，它仍然知道这是一只狗。</p>
 <p>因为这个原因，我们有时把输入层到隐藏层的映射叫做特征映射(feature map)。我们把定义特征映射的权重叫做共享的权重(shared weights)，bias叫做共享的bias(shared bais)。这组weights和bias定义了一个kernel或者filter。</p>
@@ -143,31 +144,24 @@ var _hmt = _hmt || [];
 <p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL1pob3V6aXF1blpaUVpaUS9waWNCZWQvbWFzdGVyLzIwMTkxMDIzMTkyODU2LnBuZw?x-oss-process=image/format,png" alt="img"></p>
 <h2 id="矩阵分解"><a href="#矩阵分解" class="headerlink" title="矩阵分解"></a><strong>矩阵分解</strong></h2><p>矩阵分解本质上就是一个低秩因式分解的操作，将M x N的矩阵分解为M x K + K x N，只要让K &lt;&lt; M 且 K &lt;&lt; N，就可以大大降低模型体积。</p>
 <p>在最初的BERT中，以Base为例，Embedding层的维度与隐藏层的维度一样都是768，但是我们知道，对于词的分布式表示，往往并不需要这么高的维度，比如在Word2Vec时代就多采用50或300这样的维度。那么一个很简单的思想就是，通过将Embedding部分分解来达到降低参数量的作用。</p>
-<img src="https://wx1.sbimg.cn/2020/08/29/6usFJ.png" alt="6usFJ.png" border="0" />
-
+<p><img src="https://wx1.sbimg.cn/2020/08/29/6usFJ.png" alt="6usFJ.png" border="0" /></p>
 <p>V：词汇表(<strong>V</strong>ocabulary)大小 ；H：隐藏层(<strong>H</strong>idden)维度 ；E：词向量维度</p>
-<p>上图中，Base中的隐藏层大小H=768， 词汇表大小V=3w，此时的参数量为：768 * 3w = 23040000。 后来出现的ALBERT就应用了矩阵分解的方法，它将 Embedding 的维度改为 128，那么此时Embedding层的参数量为：128 * 3w + 128 * 768 = 3938304。二者的参数量相差为19101696，大约为19M，Embedding参数量从BERT的23M变为了ALBERT的4M。</p>
+<p>上图中，Base中的隐藏层大小H=768， 词汇表大小V=3w，此时的参数量为：768 <em> 3w = 23040000。 后来出现的ALBERT就应用了矩阵分解的方法，它将 Embedding 的维度改为 128，那么此时Embedding层的参数量为：128 </em> 3w + 128 * 768 = 3938304。二者的参数量相差为19101696，大约为19M，Embedding参数量从BERT的23M变为了ALBERT的4M。</p>
 <p><strong>使用小卷积核代替大卷积核</strong></p>
 <p>AlexNet中用到了一些非常大的卷积核，比如11×11、7×7卷积核，之前人们的观念是，卷积核越大，receptive field（感受野）越大，看到的图片信息越多，因此获得的特征越好。虽说如此，但是大的卷积核会导致计算量的暴增，不利于模型深度的增加，计算性能也会降低。于是在VGG（最早使用）、Inception网络中，利用2个3×3卷积核的组合比1个5×5卷积核的效果更佳(如下图所示)，同时参数量（3×3×2+1 VS 5×5×1+1）被降低，因此后来3×3卷积核被广泛应用在各种模型中。</p>
 <ul>
-<li><p>用两个3 * 3卷积核可以代替一个5 * 5卷积核</p>
+<li><p>用两个3 <em> 3卷积核可以代替一个5 </em> 5卷积核</p>
 </li>
-<li><p>用三个3 * 3卷积核可以代替一个7 * 7卷积核</p>
+<li><p>用三个3 <em> 3卷积核可以代替一个7 </em> 7卷积核</p>
 </li>
 </ul>
-<img src="https://pic.downk.cc/item/5f4bcb42160a154a678a99c9.jpg" width=80%>
-
-<h2 id="深度可分离卷积"><a href="#深度可分离卷积" class="headerlink" title="深度可分离卷积"></a><strong>深度可分离卷积</strong></h2><img src=https://img-blog.csdnimg.cn/20190706183157843.png>
-
-<img src=https://img-blog.csdnimg.cn/20190706184127821.png>
-
+<p><img src="https://pic.downk.cc/item/5f4bcb42160a154a678a99c9.jpg" width=80%></p>
+<h2 id="深度可分离卷积"><a href="#深度可分离卷积" class="headerlink" title="深度可分离卷积"></a><strong>深度可分离卷积</strong></h2><p><img src=https://img-blog.csdnimg.cn/20190706183157843.png></p>
+<p><img src=https://img-blog.csdnimg.cn/20190706184127821.png></p>
 <p>卷积核参数量和计算量的对比：</p>
-<img src=https://img-blog.csdnimg.cn/20190706184232915.png>
-
-<img src=https://img-blog.csdnimg.cn/20190706184703985.png>
-
-<img src=https://img-blog.csdnimg.cn/20190706185010762.png>
-
+<p><img src=https://img-blog.csdnimg.cn/20190706184232915.png></p>
+<p><img src=https://img-blog.csdnimg.cn/20190706184703985.png></p>
+<p><img src=https://img-blog.csdnimg.cn/20190706185010762.png></p>
 <p>可见参数量和乘加操作的运算量均下降为原来的</p>
 <p>$1/N + 1/(D^2_k)$</p>
 <p>我们通常所使用的是3×3的卷积核，也就是会下降到原来的九分之一到八分之一。</p>
@@ -176,26 +170,20 @@ var _hmt = _hmt || [];
 <p>但是全连接的参数实在是太多了，你想这张图里就有12x12x20x100个参数。所以现在的趋势是尽量避免全连接，目前主流的一个方法是全局平均值。也就是最后那一层的feature map（最后一层卷积的输出结果），直接求平均值。有多少种分类就训练出多少层。</p>
 <p>AlexNet和VGGNet中，全连接层几乎占据了90%的参数量。inceptionV1创造性的使用全局平均池化来代替最后的全连接层，使得其在网络结构更深的情况下（22层，AlexNet仅8层），参数量只有500万，仅为AlexNet的1/12。</p>
 <h2 id="伪量化"><a href="#伪量化" class="headerlink" title="伪量化"></a><strong>伪量化</strong></h2><p>伪量化是指在保存模型每一层时，利用低精度（比如8bit）来保存每一个网络参数，同时也保存拉伸比例scale和零值对应的浮点数zero_point。推理阶段，利用如下公式来网络参数还原为32bit浮点：</p>
-<img src="https://pic.downk.cc/item/5f4bcde0160a154a678b7470.jpg" width=80%>
-
+<p><img src="https://pic.downk.cc/item/5f4bcde0160a154a678b7470.jpg" width=80%></p>
 <p>这个过程被称为伪量化。 伪量化之所以得名，是因为存储时使用了低精度进行量化，但推理时会还原为正常高精度。为什么推理时不仍然使用低精度呢？这是因为一方面框架层有些算子只支持浮点运算，需要专门实现算子定点化才行。另一方面，高精度推理准确率相对高一些。伪量化可以实现模型压缩，但对模型加速没有多大效果。</p>
 <h2 id="定点化"><a href="#定点化" class="headerlink" title="定点化"></a><strong>定点化</strong></h2><p>与伪量化不同的是，定点化在推理时，不需要还原为浮点数。这需要框架实现算子的定点化运算支持。</p>
-<h2 id="剪枝"><a href="#剪枝" class="headerlink" title="剪枝"></a><strong>剪枝</strong></h2><img src="https://pic.downk.cc/item/5f4bd1d6160a154a678cca88.jpg" width=50%>
-
+<h2 id="剪枝"><a href="#剪枝" class="headerlink" title="剪枝"></a><strong>剪枝</strong></h2><p><img src="https://pic.downk.cc/item/5f4bd1d6160a154a678cca88.jpg" width=50%></p>
 <p><strong>非结构化剪枝：</strong></p>
 <p>非结构化修剪：对网络上任意位置的单个权重置零，这意味着删除神经元之间的单个连接（在密集层中）或删除卷积过滤器的单个权重（在卷积层中）。<br>请注意，生成的权重张量虽然稀疏了，但仍然保持其原始形状，这导致无法帮助模型降低推理成本，因为CPU、GPU并未针对稀疏矩阵乘法进行优化。</p>
-<img src="https://pic.downk.cc/item/5f4bd29f160a154a678d145e.jpg">
-
+<p><img src="https://pic.downk.cc/item/5f4bd29f160a154a678d145e.jpg"></p>
 <p><strong>结构化剪枝：</strong></p>
 <p>结构化修剪：通过删除张量的整行/列来减小重量张量的尺寸。这转化为去除神经元及其所有传入和传出连接（在密集层中）或整个卷积过滤器（在卷积层中）。</p>
-<img src="https://pic.downk.cc/item/5f4bcf81160a154a678c0387.jpg">
-
-
-
+<p><img src="https://pic.downk.cc/item/5f4bcf81160a154a678c0387.jpg"></p>
 <p><strong>相关项目：</strong></p>
-<p><a target="_blank" rel="noopener" href="https://github.com/tanluren/yolov3-channel-and-layer-pruning/blob/master/train.py%EF%BC%88%E7%9B%B8%E5%85%B3%E5%8D%9A%E5%AE%A2%EF%BC%9Ahttps://blog.csdn.net/weixin_41397123/article/details/103828931%EF%BC%89">https://github.com/tanluren/yolov3-channel-and-layer-pruning/blob/master/train.py（相关博客：https://blog.csdn.net/weixin_41397123/article/details/103828931）</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/tanluren/yolov3-channel-and-layer-pruning/blob/master/train.py（相关博客：https://blog.csdn.net/weixin_41397123/article/details/103828931）">https://github.com/tanluren/yolov3-channel-and-layer-pruning/blob/master/train.py（相关博客：https://blog.csdn.net/weixin_41397123/article/details/103828931）</a></p>
 <p><a target="_blank" rel="noopener" href="https://github.com/Lam1360/YOLOv3-model-pruning">https://github.com/Lam1360/YOLOv3-model-pruning</a></p>
-<p><a target="_blank" rel="noopener" href="https://github.com/coldlarry/YOLOv3-complete-pruning">https://github.com/coldlarry/YOLOv3-complete-pruning</a>  （相关博客：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/153496637%EF%BC%89">https://zhuanlan.zhihu.com/p/153496637）</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/coldlarry/YOLOv3-complete-pruning">https://github.com/coldlarry/YOLOv3-complete-pruning</a>  （相关博客：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/153496637）">https://zhuanlan.zhihu.com/p/153496637）</a></p>
 <p><a target="_blank" rel="noopener" href="https://github.com/PengyiZhang/SlimYOLOv3">https://github.com/PengyiZhang/SlimYOLOv3</a></p>
 <h2 id="论文研读"><a href="#论文研读" class="headerlink" title="论文研读"></a><strong>论文研读</strong></h2><h3 id="《Learning-both-Weights-and-Connections-for-Efficient-Neural-Networks》"><a href="#《Learning-both-Weights-and-Connections-for-Efficient-Neural-Networks》" class="headerlink" title="《Learning both Weights and Connections for Efficient Neural Networks》"></a><strong>《Learning both Weights and Connections for Efficient Neural Networks》</strong></h3><p>【<a target="_blank" rel="noopener" href="https://arxiv.org/abs/1506.02626v3">英文原文</a>】<br>【<a target="_blank" rel="noopener" href="https://xmfbit.github.io/2018/03/14/paper-network-prune-hansong/">中文解读</a>】</p>
 <h3 id="《Deep-Compression：Compressing-Deep-Neural-Networks-with-Pruning-Trained-Quantization-and-Huffman-coding》"><a href="#《Deep-Compression：Compressing-Deep-Neural-Networks-with-Pruning-Trained-Quantization-and-Huffman-coding》" class="headerlink" title="《Deep Compression：Compressing Deep Neural Networks with Pruning, Trained Quantization and Huffman coding》"></a><strong>《Deep Compression：Compressing Deep Neural Networks with Pruning, Trained Quantization and Huffman coding》</strong></h3><p>【<a target="_blank" rel="noopener" href="https://arxiv.org/abs/1510.00149">英文原文</a>】<br>【<a target="_blank" rel="noopener" href="https://blog.csdn.net/u011995719/article/details/79126531">中文解读</a>】</p>
@@ -213,8 +201,7 @@ var _hmt = _hmt || [];
 <p><a target="_blank" rel="noopener" href="https://pytorch.org/docs/stable/torchvision/transforms.html">torchvision transforms文档</a></p>
 <p><a target="_blank" rel="noopener" href="http://noahsnail.com/2020/06/12/2020-06-12-%E7%8E%A9%E8%BD%ACpytorch%E4%B8%AD%E7%9A%84torchvision.transforms/">博客1</a> <a target="_blank" rel="noopener" href="https://www.it610.com/article/1275734689881014272.htm">博客2</a></p>
 <p>perspective的效果就像下图（<a target="_blank" rel="noopener" href="https://www.researchgate.net/publication/338184137_Perspective_Transformation_Data_Augmentation_for_Object_Detection">来源</a>）这样：</p>
-<img src="https://gitee.com/wwdok/my-image-bed/raw/master/img/20201124234944.png" alt="image-20201124234943933" style="zoom:67%;" />
-
+<p><img src="https://gitee.com/wwdok/my-image-bed/raw/master/img/20201124234944.png" alt="image-20201124234943933" style="zoom:67%;" /></p>
 <p>里面的normalize引起了我的兴趣。<a target="_blank" rel="noopener" href="https://medium.com/@dibyadas/visualizing-different-normalization-techniques-84ea5cc8c378">《Visualizing Different Normalization Techniques》</a>这篇文章试验了3种图像归一化技巧</p>
 <p>我写了个<a target="_blank" rel="noopener" href="https://colab.research.google.com/drive/1CcHcE0qiwZ_HEyTSRJLS6NrbVMt5ko99">colab脚本</a>测试看看这个normalize会把输入图像处理成什么样子，结果是下面这个样子：</p>
 <p><img src="https://gitee.com/wwdok/my-image-bed/raw/master/img/20201125143221.png" alt="image-20201125143221549"></p>

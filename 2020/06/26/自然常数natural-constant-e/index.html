@@ -56,7 +56,11 @@ var _hmt = _hmt || [];
 </script>
 
 
-</head>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --></head>
 
 </html>
 
@@ -97,7 +101,7 @@ var _hmt = _hmt || [];
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> Word count:</span>
-            <span class="post-count">863</span>
+            <span class="post-count">865</span>
         </span>
     </span>
 
@@ -121,8 +125,9 @@ var _hmt = _hmt || [];
   
     <div class="article-entry" itemprop="articleBody">
        
-  <p>自然常数e ≈ 2.71828 18284，也有人叫它欧拉数（Euler number），以瑞士数学家欧拉命名，它的其中一个定义是<br>$${ e = \lim_{x \to +\infty}(1+\frac{1}{x})^x}$$<br>或<br>$$e= \sum_{i=0}^n\frac{1}{i!}=\frac{1}{0!}+\frac{1}{1!}+\frac{1}{2!}+\frac{1}{3!}+…+\frac{1}{n!} = 1+ \frac{1}{1!}+\frac{1}{2!}+\frac{1}{3!}+…+\frac{1}{n!}$$</p>
-<blockquote>
+  <p>自然常数e ≈ 2.71828 18284，也有人叫它欧拉数（Euler number），以瑞士数学家欧拉命名，它的其中一个定义是</p>
+<script type="math/tex; mode=display">{ e = \lim_{x \to +\infty}(1+\frac{1}{x})^x}</script><p>或</p>
+<script type="math/tex; mode=display">e= \sum_{i=0}^n\frac{1}{i!}=\frac{1}{0!}+\frac{1}{1!}+\frac{1}{2!}+\frac{1}{3!}+...+\frac{1}{n!} = 1+ \frac{1}{1!}+\frac{1}{2!}+\frac{1}{3!}+...+\frac{1}{n!}</script><blockquote>
 <p>关于如何在hexo中插入公式，可参考<a target="_blank" rel="noopener" href="http://stevenshi.me/2017/06/26/hexo-insert-formula/">【1】</a>、<a target="_blank" rel="noopener" href="https://juejin.im/post/5a6721bd518825733201c4a2">【2】</a></p>
 </blockquote>
 <p>当自然常数e作为指数和对数的底数时，就成了自然指数$e^x$和自然对数$log_e$=$ln$。</p>
@@ -130,26 +135,18 @@ var _hmt = _hmt || [];
 <p><a target="_blank" rel="noopener" href="http://www.zhangjs.me/natural-logarithm/"><strong>利滚利的例子</strong></a></p>
 <p>假设我们在银行存了1元人民币（对的就这么少），而这1元的年息为100%（超过100%的话最后的结果就不是e）。</p>
 <p>如果存够一年取出，那么可以得到1元的利息，连本金余额共2元；<br>如果半年取一次利息并将利息再次存入，那么各阶段本金加利息余额为(利滚利)：</p>
-<ol>
-<li>半年后利息加本金：1 + (1 X 0.5) = 1.5</li>
-<li>一年后利息加本金：1.5 + (1.5 X 0.5) = 2.25</li>
-</ol>
+<p>1) 半年后利息加本金：1 + (1 X 0.5) = 1.5<br>2) 一年后利息加本金：1.5 + (1.5 X 0.5) = 2.25</p>
 <p>如果每个季度取一次利息并再次存入，各阶段余额为：</p>
-<ol>
-<li>一季度后利息加本金：1 + (1 X 0.25) = 1.25</li>
-<li>半年后利息加本金：1.25 + (1.25 X 0.25) = 1.5625</li>
-<li>三季度后利息加本金：1.5625 + (1.5625 X 0.25) = 1.953125</li>
-<li>一年后利息加本金：1.953125 + (1.953125 X 0.25) = 2.44140625</li>
-</ol>
+<p>1) 一季度后利息加本金：1 + (1 X 0.25) = 1.25<br>2) 半年后利息加本金：1.25 + (1.25 X 0.25) = 1.5625<br>3) 三季度后利息加本金：1.5625 + (1.5625 X 0.25) = 1.953125<br>4) 一年后利息加本金：1.953125 + (1.953125 X 0.25) = 2.44140625</p>
 <p>……</p>
 <p>如果每天都结算一次利息并再次存入(分为365次)，一年后余额为2.7145674820219727元</p>
 <p>如果每秒都结算一次利息并再次存入(分为31536000次)，一年后余额为2.7182817784689974元</p>
 <p>如果把利息结算时间再变得更小，利滚利的存款余额将越来越接近e；利滚利的次数趋于无穷时，存款余额将无限接近e，即e是存款增长的最大值。</p>
 <p>用一张图来表示，就是：</p>
-<img src="https://s1.ax1x.com/2020/06/26/Ns6U3R.md.png" width="70%" height="70%" alt="[银行复利的例子]" title="[银行复利的例子]">
-
+<p><img src="https://s1.ax1x.com/2020/06/26/Ns6U3R.md.png" width="70%" height="70%" alt="[银行复利的例子]" title="[银行复利的例子]"></p>
 <h2 id="e为什么是自然的"><a href="#e为什么是自然的" class="headerlink" title="e为什么是自然的"></a>e为什么是自然的</h2><p>在物理科学领域中，e用得非常多，一般不使用以10为底数的对数。以e为底数，许多自然界的式子都能得到简化，变得整洁，用它是最“自然”的，所以叫“自然对数”。<br>你或许会疑惑为什么这么一个非整数会是一个“自然”的数呢，你可能会觉得0 或 1 或 10 更自然一点吧，因为计算机用0和1存储数据和计算，10的话则是因为我们目前人类计数用的最多的是10进制。其实我们人类之所以会用十进制，只不过是因为我们人类有10根手指。如果有一个外星人有四根手指呢？他们是不是就使用四进制呢？（原话来自知乎用户“<br>你我的噫鸨”）所以10并不能作为这个宇宙一个自然的数。</p>
-<h2 id="e的公式拓展"><a href="#e的公式拓展" class="headerlink" title="e的公式拓展"></a>e的公式拓展</h2><p>对最上面的公式进一步研究，我们可以得到更普适的公式：<br>$${ \lim_{x \to +\infty}(1+\frac{a}{x})^{bx}} = e^{ab}$$<br>关于此公式的证明，请见<a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=HM-kwHR4VO4">这个youtube视频</a>。</p>
+<h2 id="e的公式拓展"><a href="#e的公式拓展" class="headerlink" title="e的公式拓展"></a>e的公式拓展</h2><p>对最上面的公式进一步研究，我们可以得到更普适的公式：</p>
+<script type="math/tex; mode=display">{ \lim_{x \to +\infty}(1+\frac{a}{x})^{bx}} = e^{ab}</script><p>关于此公式的证明，请见<a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=HM-kwHR4VO4">这个youtube视频</a>。</p>
 <p>把这个公式应用在上面利滚利的例子，就是年利率如果大于100%的话，比如200%，那最后的结果是$e^2$。虽然结果不等于e，但是用e来表达，结果还是很整洁。</p>
  
       <!-- reward -->

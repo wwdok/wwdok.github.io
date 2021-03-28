@@ -56,7 +56,11 @@ var _hmt = _hmt || [];
 </script>
 
 
-</head>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --></head>
 
 </html>
 
@@ -125,7 +129,7 @@ var _hmt = _hmt || [];
 <p>DeepStream建立在CUDA-X堆栈的多个NVIDIA库的基础上（如上图所示），例如有CUDA，TensorRT，Triton Inference服务器和多媒体库。TensorRT加速了NVIDIA GPU上的AI推理。DeepStream在插件中抽象了这些库，使开发人员可以轻松地构建视频分析管道，而不必学习所有单独的库。</p>
 <p>DeepStream针对NVIDIA GPU进行了优化，应用程序可以部署在运行Jetson平台的嵌入式边缘设备上，也可以部署在较大的边缘或数据中心GPU（例如T4）上。可以使用NVIDIA容器运行时将DeepStream应用程序部署在容器中。这些容器可在NGC（NVIDIA GPU Cloud Registry）上找到。要了解有关使用docker进行部署的更多信息，请参阅Docker容器一章。可以使用GPU上的Kubernetes在边缘上编排（orchestrate）DeepStream应用程序。NGC上提供了用于部署DeepStream应用程序的示例<a target="_blank" rel="noopener" href="https://ngc.nvidia.com/catalog/helm-charts/nvidia:video-analytics-demo">Helm chart</a>。</p>
 <h3 id="DeepStream图架构"><a href="#DeepStream图架构" class="headerlink" title="DeepStream图架构"></a><a target="_blank" rel="noopener" href="https://docs.nvidia.com/metropolis/deepstream/dev-guide/text/DS_Overview.html#deepstream-graph-architecture">DeepStream图架构</a></h3><p>DeepStream是使用开源GStreamer框架构建的优化图形架构。下图显示了典型的视频分析应用程序，从输入视频到输出结果，所有单独的块都是使用到的各种插件。底部是在整个应用程序中使用的不同硬件引擎。插件之间的零内存复制以及使用各种加速器的最佳内存管理确保了最高性能。</p>
-<p><img src="https://img-blog.csdnimg.cn/img_convert/93942a719fb53d5de777aee577f2c268.png"></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/93942a719fb53d5de777aee577f2c268.png" alt=""></p>
 <p>DeepStream以GStreamer插件的形式提供了构建基块，可用于构建有效的视频分析管道。有15个以上的插件可以通过硬件加速完成各种任务。</p>
 <ol>
 <li><p>数据流可以通过RTSP或来自本地文件系统或直接来自摄像机的网络来传输。使用CPU捕获流。一旦帧进入内存，就使用NVDEC加速器发送它们以进行解码。用于解码的插件称为<a target="_blank" rel="noopener" href="https://docs.nvidia.com/metropolis/deepstream/dev-guide/text/DS_plugin_gst-nvvideo4linux2.html">Gst-nvvideo4linux2</a>。</p>
@@ -156,11 +160,10 @@ var _hmt = _hmt || [];
 <ul>
 <li>NVIDIA SDK Manager是一个图形界面应用程序，可刷新并安装JetPack软件包。</li>
 <li>根据主机系统的不同，刷新过程大约需要10-30分钟。</li>
-<li>如果您使用的是Jetson Nano或Jetson Xavier NX开发者套件，则可以从<a target="_blank" rel="noopener" href="https://developer.nvidia.com/embedded/jetpack%E4%B8%8B%E8%BD%BDSD%E5%8D%A1%E9%95%9C%E5%83%8F%EF%BC%8C%E5%AE%83%E5%B7%B2%E7%BB%8F%E9%9A%8F%E9%99%84%E4%BA%86CUDA%EF%BC%8CTensorRT%E5%92%8CcuDNN%E3%80%82">https://developer.nvidia.com/embedded/jetpack下载SD卡镜像，它已经随附了CUDA，TensorRT和cuDNN。</a></li>
+<li>如果您使用的是Jetson Nano或Jetson Xavier NX开发者套件，则可以从<a target="_blank" rel="noopener" href="https://developer.nvidia.com/embedded/jetpack下载SD卡镜像，它已经随附了CUDA，TensorRT和cuDNN。">https://developer.nvidia.com/embedded/jetpack下载SD卡镜像，它已经随附了CUDA，TensorRT和cuDNN。</a></li>
 </ul>
 <h4 id="安装依赖项"><a href="#安装依赖项" class="headerlink" title="安装依赖项"></a>安装依赖项</h4><p>输入以下命令以安装必备软件包：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt install \</span><br><span class="line">libssl1.0.0 \</span><br><span class="line">libgstreamer1.0-0 \</span><br><span class="line">gstreamer1.0-tools \</span><br><span class="line">gstreamer1.0-plugins-good \</span><br><span class="line">gstreamer1.0-plugins-bad \</span><br><span class="line">gstreamer1.0-plugins-ugly \</span><br><span class="line">gstreamer1.0-libav \</span><br><span class="line">libgstrtspserver-1.0-0 \</span><br><span class="line">libjansson4&#x3D;2.11-1</span><br></pre></td></tr></table></figure>
-
 <h4 id="安装librdkafka（为消息代理启用Kafka协议适配器）"><a href="#安装librdkafka（为消息代理启用Kafka协议适配器）" class="headerlink" title="安装librdkafka（为消息代理启用Kafka协议适配器）"></a>安装librdkafka（为消息代理启用Kafka协议适配器）</h4><ol>
 <li>从GitHub克隆librdkafka存储库：</li>
 </ol>
@@ -169,9 +172,11 @@ var _hmt = _hmt || [];
 </blockquote>
 <ol>
 <li><p>配置和构建库：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ cd librdkafka</span><br><span class="line">$ git reset --hard 7101c2310341ab3f4675fc565f64f0967e135a6a</span><br><span class="line">.&#x2F;configure</span><br><span class="line">$ make</span><br><span class="line">$ sudo make install</span><br></pre></td></tr></table></figure></li>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ cd librdkafka</span><br><span class="line">$ git reset --hard 7101c2310341ab3f4675fc565f64f0967e135a6a</span><br><span class="line">.&#x2F;configure</span><br><span class="line">$ make</span><br><span class="line">$ sudo make install</span><br></pre></td></tr></table></figure>
+</li>
 <li><p>将生成的库复制到deepstream目录：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ sudo mkdir -p &#x2F;opt&#x2F;nvidia&#x2F;deepstream&#x2F;deepstream-5.0&#x2F;lib</span><br><span class="line">$ sudo cp &#x2F;usr&#x2F;local&#x2F;lib&#x2F;librdkafka* &#x2F;opt&#x2F;nvidia&#x2F;deepstream&#x2F;deepstream-5.0&#x2F;lib</span><br></pre></td></tr></table></figure></li>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ sudo mkdir -p &#x2F;opt&#x2F;nvidia&#x2F;deepstream&#x2F;deepstream-5.0&#x2F;lib</span><br><span class="line">$ sudo cp &#x2F;usr&#x2F;local&#x2F;lib&#x2F;librdkafka* &#x2F;opt&#x2F;nvidia&#x2F;deepstream&#x2F;deepstream-5.0&#x2F;lib</span><br></pre></td></tr></table></figure>
+</li>
 </ol>
 <h4 id="安装NVIDIA-V4L2-GStreamer插件"><a href="#安装NVIDIA-V4L2-GStreamer插件" class="headerlink" title="安装NVIDIA V4L2 GStreamer插件"></a>安装NVIDIA V4L2 GStreamer插件</h4><ol>
 <li><p>在文本编辑器中打开apt源配置文件，例如： <code>$ sudo vi /etc/apt/sources.list.d/nvidia-l4t-apt-source.list</code></p>
@@ -180,7 +185,6 @@ var _hmt = _hmt || [];
 </li>
 </ol>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">deb https:&#x2F;&#x2F;repo.download.nvidia.com&#x2F;jetson&#x2F;common r32.4 main</span><br><span class="line">deb https:&#x2F;&#x2F;repo.download.nvidia.com&#x2F;jetson&#x2F;&lt;platform&gt; r32.4 main</span><br></pre></td></tr></table></figure>
-
 <blockquote>
 <ul>
 <li><p>其中<platform>标识平台的处理器：</p>
@@ -193,14 +197,13 @@ var _hmt = _hmt || [];
 <li>deb <a target="_blank" rel="noopener" href="https://repo.download.nvidia.com/jetson/t194">https://repo.download.nvidia.com/jetson/t194</a> r32.4 main</li>
 </ul>
 </blockquote>
-<ol start="3">
+<ol>
 <li><p>保存并关闭源配置文件。</p>
 </li>
 <li><p>输入命令：</p>
 </li>
 </ol>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt update</span><br><span class="line">$ sudo apt install --reinstall nvidia-l4t-gstreamer</span><br></pre></td></tr></table></figure>
-
 <blockquote>
 <p>如果apt提示您选择配置文件，请选择<code>Y</code>（YES）（以使用NVIDIA更新版本的文件）。</p>
 <p>注意：从SDK Manager刷新Jetson OS后，应更新NVIDIA V4L2 GStreamer插件。</p>
@@ -216,11 +219,11 @@ var _hmt = _hmt || [];
 <li><p>输入以下命令以提取并安装DeepStream SDK：</p>
 </li>
 </ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ sudo tar -xvf deepstream_sdk_v5.0.1_jetson.tbz2 -C &#x2F;</span><br><span class="line">$ cd &#x2F;opt&#x2F;nvidia&#x2F;deepstream&#x2F;deepstream-5.0</span><br><span class="line">$ sudo .&#x2F;install.sh</span><br><span class="line">$ sudo ldconfig</span><br></pre></td></tr></table></figure></li>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ sudo tar -xvf deepstream_sdk_v5.0.1_jetson.tbz2 -C &#x2F;</span><br><span class="line">$ cd &#x2F;opt&#x2F;nvidia&#x2F;deepstream&#x2F;deepstream-5.0</span><br><span class="line">$ sudo .&#x2F;install.sh</span><br><span class="line">$ sudo ldconfig</span><br></pre></td></tr></table></figure>
+</li>
 <li><p><strong>方法3</strong>：使用DeepStream Debian软件包</p>
 <p>将DeepStream 5.0 Jetson Debian软件包<code>deepstream-5.0_5.0.1-1_arm64.deb</code>下载到Jetson设备。然后输入命令：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt-get install .&#x2F;deepstream-5.0_5.0.1-1_arm64.deb</span><br></pre></td></tr></table></figure>
-
 <p>注意：如果使用<code>dpkg</code>命令安装DeepStream SDK Debian软件包，则必须在安装DeepStream deb软件包之前安装以下软件包：</p>
 <blockquote>
 <ul>
@@ -238,9 +241,12 @@ var _hmt = _hmt || [];
 <p> <code>deb https://repo.download.nvidia.com/jetson/common r32.4 main</code></p>
 </li>
 <li><p>保存并关闭源配置文件。</p>
-</li>
+<ol>
 <li><p>输入命令：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt update</span><br><span class="line">$ sudo apt install deepstream-5.0</span><br></pre></td></tr></table></figure></li>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt update</span><br><span class="line">$ sudo apt install deepstream-5.0</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+</li>
 </ol>
 </li>
 <li><p><strong>方法5</strong>：使用NGC上的DeepStream Docker容器。请参阅<a target="_blank" rel="noopener" href="https://docs.nvidia.com/metropolis/deepstream/dev-guide/text/DS_docker_containers.html">Docker容器</a>部分以了解有关使用Docker容器开发和部署DeepStream的信息。</p>
@@ -248,7 +254,8 @@ var _hmt = _hmt || [];
 </ul>
 <h4 id="运行deepstream-app（参考应用程序）"><a href="#运行deepstream-app（参考应用程序）" class="headerlink" title="运行deepstream-app（参考应用程序）"></a>运行deepstream-app（参考应用程序）</h4><ol>
 <li>导航到<code>samples</code>目录</li>
-<li>输入以下命令以运行参考应用程序：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ deepstream-app -c &lt;path_to_config_file&gt;</span><br></pre></td></tr></table></figure></li>
+<li>输入以下命令以运行参考应用程序：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ deepstream-app -c &lt;path_to_config_file&gt;</span><br></pre></td></tr></table></figure>
+</li>
 </ol>
 <p>注意：</p>
 <ul>
@@ -262,7 +269,6 @@ var _hmt = _hmt || [];
 </ul>
 <h4 id="提高时钟"><a href="#提高时钟" class="headerlink" title="提高时钟"></a>提高时钟</h4><p>安装DeepStream SDK之后，请在Jetson设备上运行以下命令以提高时钟：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ sudo nvpmodel -m 0</span><br><span class="line">$ sudo jetson_clocks</span><br></pre></td></tr></table></figure>
-
 <h4 id="运行预编译的示例应用程序"><a href="#运行预编译的示例应用程序" class="headerlink" title="运行预编译的示例应用程序"></a>运行预编译的示例应用程序</h4><ol>
 <li><p>导航到<code>sources/apps/sample_apps</code>选定的应用程序目录中。</p>
 </li>
@@ -283,33 +289,33 @@ var _hmt = _hmt || [];
 <p>您必须安装以下组件：Ubuntu 18.04，GStreamer 1.14.1，NVIDIA驱动程序450.51，CUDA 10.2，TensorRT 7.0.X。</p>
 <p>以下内容我就不翻译了，我改成用自己的话来写。<br>我的环境是Ubuntu18.04, tensorrt 7.2.1.6, cuda 10.2.89。<br><a target="_blank" rel="noopener" href="https://docs.nvidia.com/metropolis/deepstream/dev-guide/index.html">official docs</a>里有详细的安装步骤教程，分<a target="_blank" rel="noopener" href="https://docs.nvidia.com/metropolis/deepstream/dev-guide/index.html">jetson版</a>和<a target="_blank" rel="noopener" href="https://docs.nvidia.com/metropolis/deepstream/dev-guide/index.html">dGPU版</a>，我最初是想在ubuntu上先安装deepstream，走完一个流程看看，所以我选择的是dGPU的安装教程。文档上提供了4种安装方式，我选择的是第2种方式，用tar包，第1种用deb包的方式我这边有报错。注意点有：</p>
 <ol>
-<li>确保安装路径是：/opt/nvidia/deepstream/deepstream-5.0，<code>sudo tar -xvf deepstream_sdk_v5.0.1_jetson.tbz2 -C /</code>这句命令最后的<code> -C /</code>是关键。</li>
+<li>确保安装路径是：/opt/nvidia/deepstream/deepstream-5.0，<code>sudo tar -xvf deepstream_sdk_v5.0.1_jetson.tbz2 -C /</code>这句命令最后的<code>-C /</code>是关键。</li>
 <li>执行 sudo ldconfig时，我遇到了下面的警告：</li>
 </ol>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">(base) weidawang@weidawang-TUF-Gaming-FX506LU-FX506LU:/opt/nvidia/deepstream/deepstream-<span class="number">5.0</span>$ sudo ldconfig</span><br><span class="line">[sudo] weidawang 的密码： </span><br><span class="line">/sbin/ldconfig.real: /usr/local/cuda-<span class="number">10.2</span>/targets/x86_64-linux/lib/libcudnn_cnn_train.so<span class="number">.8</span> 不是符号链接</span><br><span class="line">/sbin/ldconfig.real: /usr/local/cuda-<span class="number">10.2</span>/targets/x86_64-linux/lib/libcudnn_ops_train.so<span class="number">.8</span> 不是符号链接</span><br><span class="line">/sbin/ldconfig.real: /usr/local/cuda-<span class="number">10.2</span>/targets/x86_64-linux/lib/libcudnn_adv_train.so<span class="number">.8</span> 不是符号链接</span><br><span class="line">/sbin/ldconfig.real: /usr/local/cuda-<span class="number">10.2</span>/targets/x86_64-linux/lib/libcudnn_adv_infer.so<span class="number">.8</span> 不是符号链接</span><br><span class="line">/sbin/ldconfig.real: /usr/local/cuda-<span class="number">10.2</span>/targets/x86_64-linux/lib/libcudnn_ops_infer.so<span class="number">.8</span> 不是符号链接</span><br><span class="line">/sbin/ldconfig.real: /usr/local/cuda-<span class="number">10.2</span>/targets/x86_64-linux/lib/libcudnn_cnn_infer.so<span class="number">.8</span> 不是符号链接</span><br></pre></td></tr></table></figure>
 <p>按<a target="_blank" rel="noopener" href="https://blog.csdn.net/langb2014/article/details/54376716/">这篇博客</a>的思路，我这边依次执行下面的命令就好了：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">sudo ln -sf /usr/<span class="built_in">local</span>/cuda-10.2/targets/x86_64-linux/lib/libcudnn.so.8.0.4 /usr/<span class="built_in">local</span>/cuda-10.2/targets/x86_64-linux/lib/libcudnn.so.8</span><br><span class="line">sudo ln -sf /usr/<span class="built_in">local</span>/cuda-10.2/targets/x86_64-linux/lib/libcudnn_cnn_train.so.8.0.4 /usr/<span class="built_in">local</span>/cuda-10.2/targets/x86_64-linux/lib/libcudnn_cnn_train.so.8</span><br><span class="line">sudo ln -sf /usr/<span class="built_in">local</span>/cuda-10.2/targets/x86_64-linux/lib/libcudnn_ops_train.so.8.0.4 /usr/<span class="built_in">local</span>/cuda-10.2/targets/x86_64-linux/lib/libcudnn_ops_train.so.8</span><br><span class="line">sudo ln -sf /usr/<span class="built_in">local</span>/cuda-10.2/targets/x86_64-linux/lib/libcudnn_adv_train.so.8.0.4 /usr/<span class="built_in">local</span>/cuda-10.2/targets/x86_64-linux/lib/libcudnn_adv_train.so.8</span><br><span class="line">sudo ln -sf /usr/<span class="built_in">local</span>/cuda-10.2/targets/x86_64-linux/lib/libcudnn_adv_infer.so.8.0.4 /usr/<span class="built_in">local</span>/cuda-10.2/targets/x86_64-linux/lib/libcudnn_adv_infer.so.8</span><br><span class="line">sudo ln -sf /usr/<span class="built_in">local</span>/cuda-10.2/targets/x86_64-linux/lib/libcudnn_ops_infer.so.8.0.4 /usr/<span class="built_in">local</span>/cuda-10.2/targets/x86_64-linux/lib/libcudnn_ops_infer.so.8</span><br><span class="line">sudo ln -sf /usr/<span class="built_in">local</span>/cuda-10.2/targets/x86_64-linux/lib/libcudnn_cnn_infer.so.8.0.4 /usr/<span class="built_in">local</span>/cuda-10.2/targets/x86_64-linux/lib/libcudnn_cnn_infer.so.8</span><br></pre></td></tr></table></figure>
-<ol start="3">
+<ol>
 <li>安装好后我试着用<code>deepstream-app --version-all</code>验证是否安装成功，它的输出是：</li>
 </ol>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">(gst-plugin-scanner:6378): GStreamer-WARNING **: 08:44:44.000: Failed to load plugin <span class="string">&#x27;/usr/lib/x86_64-linux-gnu/gstreamer-1.0/deepstream/libnvdsgst_inferserver.so&#x27;</span>: libtrtserver.so: cannot open shared object file: No such file or directory</span><br><span class="line">deepstream-app version 5.0.0</span><br><span class="line">DeepStreamSDK 5.0.0</span><br><span class="line">CUDA Driver Version: 11.1</span><br><span class="line">CUDA Runtime Version: 10.2</span><br><span class="line">TensorRT Version: 7.2</span><br><span class="line">cuDNN Version: 8.0</span><br><span class="line">libNVWarp360 Version: 2.0.1d3</span><br></pre></td></tr></table></figure>
 <p>这个GStreamer-WARNING在<a target="_blank" rel="noopener" href="https://docs.nvidia.com/metropolis/deepstream/dev-guide/text/DS_troubleshooting.html#errors-occur-when-deepstream-app-fails-to-load-plugin-gst-nvinferserver-on-dgpu-only">Troubleshooting</a>里有提到，就是说在ubuntu电脑上安装出现这个警告是预料之中的，如果不需要Triton可以不用管它。</p>
 <p>我原以为这样就安装成功了，后来在跑<a target="_blank" rel="noopener" href="https://github.com/NVIDIA-AI-IOT/deepstream_pose_estimation">deepstream_pose_estimation</a>的时候才意识到我没有完全正确安装，相关的nvidia forum <a target="_blank" rel="noopener" href="https://forums.developer.nvidia.com/t/failed-to-load-plugin-usr-lib-x86-64-linux-gnu-gstreamer-1-0-deepstream-libnvdsgst-osd-so/163662">topic</a>在这里，我方法1 2 3都有报错，最后通过<a target="_blank" rel="noopener" href="https://docs.nvidia.com/metropolis/deepstream/dev-guide/text/DS_docker_containers.html">方法4</a>，即docker成功安装好了，又体验到了用docker安装的爽。。。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull nvcr.io&#x2F;nvidia&#x2F;deepstream:5.0.1-20.09-devel</span><br></pre></td></tr></table></figure>
-
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run --gpus all -it -v /home/weidawang/volume/deepstream:/home/weidawang/volume/deepstream nvcr.io/nvidia/deepstream:5.0.1-20.09-devel</span><br></pre></td></tr></table></figure>
-
 <p>安装好deepstream的docker镜像之后，我选择用<a target="_blank" rel="noopener" href="https://github.com/NVIDIA-AI-IOT/deepstream_pose_estimation">deepstream_pose_estimation</a>来练手，详细的教程徐需要看它的<a target="_blank" rel="noopener" href="https://developer.nvidia.com/blog/creating-a-human-pose-estimation-application-with-deepstream-sdk">blog</a>。<br>使用这个deepstream_pose_estimation时，有几个注意点：</p>
 <ol>
 <li>克隆下来的仓库已经包含了pose_estimation.onnx，不需要再下载</li>
 <li>作者说要做这一步：<code>sudo cp libnvds_osd.so /opt/nvidia/deepstream/deepstream-5.0/lib</code></li>
-<li>用<code>exit</code>退出容器后, 如果想要重新进入容器，先<code>docker ps -a</code>列出以往你运行过的容器，然后 <code>docker start [container_name]</code>，最后再 <code>docker attach [container_name] </code>进入容器</li>
+<li>用<code>exit</code>退出容器后, 如果想要重新进入容器，先<code>docker ps -a</code>列出以往你运行过的容器，然后 <code>docker start [container_name]</code>，最后再 <code>docker attach [container_name]</code>进入容器</li>
 </ol>
 <h3 id="DeepStream-Triton-Inference-Server使用指南"><a href="#DeepStream-Triton-Inference-Server使用指南" class="headerlink" title="DeepStream Triton Inference Server使用指南"></a><a target="_blank" rel="noopener" href="https://docs.nvidia.com/metropolis/deepstream/dev-guide/text/DS_Quickstart.html#deepstream-triton-inference-server-usage-guidelines">DeepStream Triton Inference Server使用指南</a></h3><h4 id="dGPU"><a href="#dGPU" class="headerlink" title="dGPU"></a>dGPU</h4><ol>
 <li><p>拉DeepStream Triton Inference Server docker镜像</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull nvcr.io&#x2F;nvidia&#x2F;deepstream:5.0.1-20.09-triton</span><br></pre></td></tr></table></figure></li>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull nvcr.io&#x2F;nvidia&#x2F;deepstream:5.0.1-20.09-triton</span><br></pre></td></tr></table></figure>
+</li>
 <li><p>启动 docker镜像</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run --gpus all -it --rm -v &#x2F;tmp&#x2F;.X11-unix:&#x2F;tmp&#x2F;.X11-unix -e DISPLAY&#x3D;$DISPLAY nvcr.io&#x2F;nvidia&#x2F;deepstream:5.0.1-20.09-triton</span><br></pre></td></tr></table></figure></li>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run --gpus all -it --rm -v &#x2F;tmp&#x2F;.X11-unix:&#x2F;tmp&#x2F;.X11-unix -e DISPLAY&#x3D;$DISPLAY nvcr.io&#x2F;nvidia&#x2F;deepstream:5.0.1-20.09-triton</span><br></pre></td></tr></table></figure>
+</li>
 </ol>
 <p>个人建议，不要加<code>--rm</code>， 否则你退出容器后，你的所有操作都会被情况，<code>docker ps -a</code>都不能找到你刚用过的容器。</p>
 <h4 id="Jetson"><a href="#Jetson" class="headerlink" title="Jetson"></a>Jetson</h4><p>Triton Inference Server共享库是Jetson上DeepStream的预装部分。安装Triton Inference Server不需要额外的步骤。</p>
@@ -318,11 +324,11 @@ var _hmt = _hmt || [];
 <blockquote>
 <p>注意：用于dGPU和Jetson的DeepStream 5.0容器是不同的，因此您必须为您的平台获取正确的映像。</p>
 </blockquote>
-<h3 id="dGPU的Docker容器"><a href="#dGPU的Docker容器" class="headerlink" title="dGPU的Docker容器"></a>dGPU的Docker容器</h3><p>NGC Web门户中的“<a target="_blank" rel="noopener" href="https://ngc.nvidia.com/catalog/containers?orderBy=modifiedDESC&pageNumber=0&query=&quickFilter=containers&filters=">容器”</a>页面提供了有关拉取和运行容器以及其内容的说明。dGPU容器称为<code>deepstream</code>，而jetson容器称为<code>deepstream-l4t</code>。与DeepStream 3.0中的容器不同，dGPU DeepStream 5.0容器在容器内支持DeepStream应用程序开发。它包含与DeepStream 5.0 SDK相同的构建工具和开发库。在典型情况下，您将在DeepStream容器中构建，执行和调试DeepStream应用程序。准备好应用程序后，您可以使用DeepStream 5.0容器作为基础映像来创建自己的Docker容器，以容纳应用程序文件（二进制文件，库，模型，配置文件等）。这是一个示例片段用于创建自己的Docker容器的Dockerfile：</p>
+<h3 id="dGPU的Docker容器"><a href="#dGPU的Docker容器" class="headerlink" title="dGPU的Docker容器"></a>dGPU的Docker容器</h3><p>NGC Web门户中的“<a target="_blank" rel="noopener" href="https://ngc.nvidia.com/catalog/containers?orderBy=modifiedDESC&amp;pageNumber=0&amp;query=&amp;quickFilter=containers&amp;filters=">容器”</a>页面提供了有关拉取和运行容器以及其内容的说明。dGPU容器称为<code>deepstream</code>，而jetson容器称为<code>deepstream-l4t</code>。与DeepStream 3.0中的容器不同，dGPU DeepStream 5.0容器在容器内支持DeepStream应用程序开发。它包含与DeepStream 5.0 SDK相同的构建工具和开发库。在典型情况下，您将在DeepStream容器中构建，执行和调试DeepStream应用程序。准备好应用程序后，您可以使用DeepStream 5.0容器作为基础映像来创建自己的Docker容器，以容纳应用程序文件（二进制文件，库，模型，配置文件等）。这是一个示例片段用于创建自己的Docker容器的Dockerfile：</p>
 <figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Replace with required `container type` e.g. base, devel etc in the following line</span></span><br><span class="line"><span class="keyword">FROM</span> nvcr.io/nvidia/ deepstream:<span class="number">5.0</span>.<span class="number">1</span>-<span class="number">20.09</span>-&lt;container type&gt;</span><br><span class="line"><span class="keyword">COPY</span><span class="bash"> myapp  /root/apps/myapp</span></span><br><span class="line"><span class="comment"># To get video driver libraries at runtime (libnvidia-encode.so/libnvcuvid.so)</span></span><br><span class="line"><span class="keyword">ENV</span> NVIDIA_DRIVER_CAPABILITIES $NVIDIA_DRIVER_CAPABILITIES,video</span><br></pre></td></tr></table></figure>
-
 <p>该Dockerfile将您的应用程序（从目录<code>mydsapp</code>）复制到容器（<code>pathname /root/apps</code>）中。请注意，您必须确保NGC的DeepStream 5.0映像位置正确。</p>
 <p>下表列出了随DeepStream 5.0发布的dGPU的Docker容器：</p>
+<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -330,7 +336,8 @@ var _hmt = _hmt || [];
 <th>容器拉取命令</th>
 </tr>
 </thead>
-<tbody><tr>
+<tbody>
+<tr>
 <td>base docker（仅包含运行时库和GStreamer插件。可以作为为DeepStream应用程序构建一个自定义docker的基础）</td>
 <td><code>docker pull nvcr.io/nvidia/deepstream:5.0.1-20.09-base</code></td>
 </tr>
@@ -350,10 +357,13 @@ var _hmt = _hmt || [];
 <td>DeepStream samples docker（包含运行时库，GStreamer插件，参考应用程序以及示例流，模型和配置）</td>
 <td><code>docker pull nvcr.io/nvidia/deepstream:5.0.1-20.09-samples</code></td>
 </tr>
-</tbody></table>
+</tbody>
+</table>
+</div>
 <p>有关<code>nvcr.io</code>身份验证等信息，请参阅DeepStream 5.0发行说明。</p>
 <p>请参见NGC上的<a target="_blank" rel="noopener" href="https://ngc.nvidia.com/catalog/containers/nvidia:deepstream">dGPU容器</a>以了解更多运行dGPU容器细节和说明。</p>
-<h3 id="Jetson的Docker容器"><a href="#Jetson的Docker容器" class="headerlink" title="Jetson的Docker容器"></a>Jetson的Docker容器</h3><p>从JetPack 4.2.1版本开始，已添加了用于Jetson的<a target="_blank" rel="noopener" href="https://github.com/NVIDIA/nvidia-docker/wiki/NVIDIA-Container-Runtime-on-Jetson">NVIDIA Container Runtime</a>，使您能够在Jetson设备上运行启用GPU的容器。使用此功能，可以使用NGC上的Docker映像在Jetson设备上的容器内运行DeepStream 5.0。拉出容器并按照<a target="_blank" rel="noopener" href="https://ngc.nvidia.com/catalog/containers?orderBy=modifiedDESC&pageNumber=0&query=&quickFilter=containers&filters=">NGC容器</a>上的说明执行页。DeepStream容器希望将CUDA，TensorRT和VisionWorks安装在Jetson设备上，因为它是从主机安装在容器内的。在启动DeepStream容器之前，请确保已在Jetson上使用JetPack安装了这些实用程序。请注意，Jetson Docker容器仅用于部署。它们不支持容器内的DeepStream软件开发。您可以在Jetson目标上本地构建应用程序，并通过将二进制文件添加到Docker映像中来为其创建容器。或者，您可以按照在x86工作站上构建Jetson容器中的说明从工作站生成Jetson容器NVIDIA Container Runtime for Jetson文档中的“部分”。下表列出了随DeepStream 5.0发布的Jetson的Docker容器：</p>
+<h3 id="Jetson的Docker容器"><a href="#Jetson的Docker容器" class="headerlink" title="Jetson的Docker容器"></a>Jetson的Docker容器</h3><p>从JetPack 4.2.1版本开始，已添加了用于Jetson的<a target="_blank" rel="noopener" href="https://github.com/NVIDIA/nvidia-docker/wiki/NVIDIA-Container-Runtime-on-Jetson">NVIDIA Container Runtime</a>，使您能够在Jetson设备上运行启用GPU的容器。使用此功能，可以使用NGC上的Docker映像在Jetson设备上的容器内运行DeepStream 5.0。拉出容器并按照<a target="_blank" rel="noopener" href="https://ngc.nvidia.com/catalog/containers?orderBy=modifiedDESC&amp;pageNumber=0&amp;query=&amp;quickFilter=containers&amp;filters=">NGC容器</a>上的说明执行页。DeepStream容器希望将CUDA，TensorRT和VisionWorks安装在Jetson设备上，因为它是从主机安装在容器内的。在启动DeepStream容器之前，请确保已在Jetson上使用JetPack安装了这些实用程序。请注意，Jetson Docker容器仅用于部署。它们不支持容器内的DeepStream软件开发。您可以在Jetson目标上本地构建应用程序，并通过将二进制文件添加到Docker映像中来为其创建容器。或者，您可以按照在x86工作站上构建Jetson容器中的说明从工作站生成Jetson容器NVIDIA Container Runtime for Jetson文档中的“部分”。下表列出了随DeepStream 5.0发布的Jetson的Docker容器：</p>
+<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -361,7 +371,8 @@ var _hmt = _hmt || [];
 <th>容器拉取命令</th>
 </tr>
 </thead>
-<tbody><tr>
+<tbody>
+<tr>
 <td>Base docker（仅包含运行时库和GStreamer插件。可用作构建DeepStream应用程序的自定义docker的基础）</td>
 <td><code>docker pull nvcr.io/nvidia/deepstream-l4t:5.0.1-20.09-base</code></td>
 </tr>
@@ -373,10 +384,13 @@ var _hmt = _hmt || [];
 <td>DeepStream samples docker（包含运行时库，GStreamer插件，参考应用程序以及示例流，模型和配置）</td>
 <td><code>docker pull nvcr.io/nvidia/deepstream-l4t:5.0.1-20.09-samples</code></td>
 </tr>
-</tbody></table>
+</tbody>
+</table>
+</div>
 <p>有关<code>nvcr.io</code>身份验证等信息，请参阅DeepStream 5.0发行说明。</p>
 <p>见NGC<a target="_blank" rel="noopener" href="https://ngc.nvidia.com/catalog/containers/nvidia:deepstream-l4t">Jetson container</a> 更多运行jetson容器的细节和说明。</p>
-<h1 id="DeepStream样例"><a href="#DeepStream样例" class="headerlink" title="DeepStream样例"></a><strong>DeepStream样例</strong></h1><h2 id="C-C-示例应用程序源详细信息"><a href="#C-C-示例应用程序源详细信息" class="headerlink" title="C / C ++示例应用程序源详细信息"></a><a target="_blank" rel="noopener" href="https://docs.nvidia.com/metropolis/deepstream/dev-guide/text/DS_C_Sample_Apps.html#c-c-sample-apps-source-details">C / C ++示例应用程序源详细信息</a></h2><table>
+<h1 id="DeepStream样例"><a href="#DeepStream样例" class="headerlink" title="DeepStream样例"></a><strong>DeepStream样例</strong></h1><h2 id="C-C-示例应用程序源详细信息"><a href="#C-C-示例应用程序源详细信息" class="headerlink" title="C / C ++示例应用程序源详细信息"></a><a target="_blank" rel="noopener" href="https://docs.nvidia.com/metropolis/deepstream/dev-guide/text/DS_C_Sample_Apps.html#c-c-sample-apps-source-details">C / C ++示例应用程序源详细信息</a></h2><div class="table-container">
+<table>
 <thead>
 <tr>
 <th>参考测试应用</th>
@@ -384,7 +398,8 @@ var _hmt = _hmt || [];
 <th>描述</th>
 </tr>
 </thead>
-<tbody><tr>
+<tbody>
+<tr>
 <td>Sample test application 1</td>
 <td>sources/apps/sample_apps/deepstream-test1</td>
 <td>如何对单个H.264流使用DeepStream元素的示例：filesrc→decode→nvstreammux→nvinfer（primary detector）→nvdsosd→renderer。</td>
@@ -509,8 +524,11 @@ var _hmt = _hmt || [];
 <td>apps / sample_apps / deepstream-mrcnn-test</td>
 <td>使用Mask-RCNN模型演示实例分割</td>
 </tr>
-</tbody></table>
+</tbody>
+</table>
+</div>
 <h3 id="插件和库源详细信息"><a href="#插件和库源详细信息" class="headerlink" title="插件和库源详细信息"></a>插件和库源详细信息</h3><p>下表描述了源目录的内容，但参考测试应用程序除外，它们在下面分别列出：</p>
+<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -519,7 +537,8 @@ var _hmt = _hmt || [];
 <th>描述</th>
 </tr>
 </thead>
-<tbody><tr>
+<tbody>
+<tr>
 <td>DsExample GStreamer插件</td>
 <td>gst-plugins / gst-dsexample</td>
 <td>用于将自定义算法集成到DeepStream SDK图中的模板插件。</td>
@@ -569,7 +588,9 @@ var _hmt = _hmt || [];
 <td>请参阅下面的注释 <a target="_blank" rel="noopener" href="https://docs.nvidia.com/metropolis/deepstream/dev-guide/text/DS_C_Sample_Apps.html#f1">1</a></td>
 <td>v4l2编解码器的源代码。</td>
 </tr>
-</tbody></table>
+</tbody>
+</table>
+</div>
 <p>脚注1：</p>
 <p>DeepStream软件包中不存在Gst-<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/V4L2">v4l2</a>源。要下载，请按照下列步骤操作：</p>
 <p>转到：<a target="_blank" rel="noopener" href="https://developer.nvidia.com/embedded/downloads">https</a> : <a target="_blank" rel="noopener" href="https://developer.nvidia.com/embedded/downloads">//developer.nvidia.com/embedded/downloads</a>。在字段中输入<code>Search filter``L4T sources</code>为L4T Release选择适当的项目<code>32.4.3</code>。下载文件并将其解压缩以获取<code>.tbz2</code>文件，展开<code>.tbz2</code>文件，<code>Gst-v4l2</code>源文件在<code>gst-nvvideo4linux2_src.tbz2</code></p>
@@ -583,13 +604,16 @@ var _hmt = _hmt || [];
 </li>
 <li><p>Gst Python v1.14.5</p>
 <p>如果Jetson上缺少Gst python安装，请使用以下命令进行安装：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt-get install python-gi-dev</span><br><span class="line">$ export GST_LIBS&#x3D;&quot;-lgstreamer-1.0 -lgobject-2.0 -lglib-2.0&quot;</span><br><span class="line">$ export GST_CFLAGS&#x3D;&quot;-pthread -I&#x2F;usr&#x2F;include&#x2F;gstreamer-1.0 -I&#x2F;usr&#x2F;include&#x2F;glib-2.0 -I&#x2F;usr&#x2F;lib&#x2F;x86_64-linux-gnu&#x2F;glib-2.0&#x2F;include&quot;</span><br><span class="line">$ git clone https:&#x2F;&#x2F;github.com&#x2F;GStreamer&#x2F;gst-python.git</span><br><span class="line">$ cd gst-python</span><br><span class="line">$ git checkout 1a8f48a</span><br><span class="line">$ .&#x2F;autogen.sh PYTHON&#x3D;python3</span><br><span class="line">$ .&#x2F;configure PYTHON&#x3D;python3</span><br><span class="line">$ make</span><br><span class="line">$ sudo make install</span><br></pre></td></tr></table></figure></li>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt-get install python-gi-dev</span><br><span class="line">$ export GST_LIBS&#x3D;&quot;-lgstreamer-1.0 -lgobject-2.0 -lglib-2.0&quot;</span><br><span class="line">$ export GST_CFLAGS&#x3D;&quot;-pthread -I&#x2F;usr&#x2F;include&#x2F;gstreamer-1.0 -I&#x2F;usr&#x2F;include&#x2F;glib-2.0 -I&#x2F;usr&#x2F;lib&#x2F;x86_64-linux-gnu&#x2F;glib-2.0&#x2F;include&quot;</span><br><span class="line">$ git clone https:&#x2F;&#x2F;github.com&#x2F;GStreamer&#x2F;gst-python.git</span><br><span class="line">$ cd gst-python</span><br><span class="line">$ git checkout 1a8f48a</span><br><span class="line">$ .&#x2F;autogen.sh PYTHON&#x3D;python3</span><br><span class="line">$ .&#x2F;configure PYTHON&#x3D;python3</span><br><span class="line">$ make</span><br><span class="line">$ sudo make install</span><br></pre></td></tr></table></figure>
+</li>
 </ul>
 <h3 id="运行示例应用程序"><a href="#运行示例应用程序" class="headerlink" title="运行示例应用程序"></a>运行示例应用程序</h3><ol>
 <li><p>在以下位置<code>&lt;DeepStream 5.0 ROOT&gt;/sources</code>克隆仓库<code>deepstream_python_apps</code>：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone https:&#x2F;&#x2F;github.com&#x2F;NVIDIA-AI-IOT&#x2F;deepstream_python_apps</span><br></pre></td></tr></table></figure></li>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone https:&#x2F;&#x2F;github.com&#x2F;NVIDIA-AI-IOT&#x2F;deepstream_python_apps</span><br></pre></td></tr></table></figure>
+</li>
 <li><p>这将创建以下目录：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;DeepStream 5.0 ROOT&gt;&#x2F;sources&#x2F;deepstream_python_apps</span><br></pre></td></tr></table></figure></li>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;DeepStream 5.0 ROOT&gt;&#x2F;sources&#x2F;deepstream_python_apps</span><br></pre></td></tr></table></figure>
+</li>
 <li><p>Python应用程序位于apps`目录下。进入每个应用程序目录，并按照自述文件中的说明进行操作。</p>
 <p>注意 : 应用程序配置文件包含模型的相对路径。</p>
 </li>
@@ -597,15 +621,12 @@ var _hmt = _hmt || [];
 <h3 id="管道建设"><a href="#管道建设" class="headerlink" title="管道建设"></a>管道建设</h3><p>可以使用Gst Python（GStreamer框架的Python绑定）构造DeepStream管道。有关管道构造示例，请参见示例应用程序的主要功能。</p>
 <h3 id="元数据访问"><a href="#元数据访问" class="headerlink" title="元数据访问"></a>元数据访问</h3><p>DeepStream MetaData包含推理结果和分析中使用的其他信息。元数据被附加到每个管道组件接收到的<code>Gst Buffer</code>。SDK元数据文档和API指南中详细描述了元数据格式。SDK MetaData库是用C / C ++开发的。Python绑定提供了从Python应用程序对MetaData的访问。绑定在已编译的模块中提供，可用于x86_64和Jetson平台。<code>pyds.so</code>模块位于DeepStream SDK安装目录<code>/lib</code>下。示例应用程序通过common / utils.py获取此模块的导入路径。<code>/lib</code>目录还包括setup.py，用于将模块安装到标准路径中：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd &#x2F;opt&#x2F;nvidia&#x2F;deepstream&#x2F;deepstream&#x2F;lib</span><br><span class="line">python3 setup.py install</span><br></pre></td></tr></table></figure>
-
 <p>由于python用法是可选的，因此当前没有通过SDK安装程序自动完成。绑定通常遵循与C / C ++库相同的API，以下几节详细介绍了一些例外。</p>
 <h3 id="内存管理"><a href="#内存管理" class="headerlink" title="内存管理"></a>内存管理</h3><p>MetaData的内存由Python和C / C ++代码路径共享。例如，可以通过用Python编写的探测函数添加MetaData项，并且需要由用C / C ++编写的下游插件访问。deepstream-test4应用程序包含此类用法。Python垃圾收集器无法查看C / C ++中的内存引用，因此无法安全地管理此类共享内存的生存期。由于这种复杂性，Python通常通过引用实现对MetaData内存的访问，而无需声明所有权。</p>
 <h3 id="分配"><a href="#分配" class="headerlink" title="分配"></a>分配</h3><p>在Python中分配MetaData对象时，绑定将提供分配功能，以确保该对象具有适当的内存所有权。如果使用了构造函数，则垃圾回收器在其Python引用终止时将声明该对象。但是，仍然需要下游的C / C ++代码访问该对象，因此该对象必须在这些Python引用之外仍然存在。示例：要分配<code>NvDsEventMsgMeta</code>实例，请使用此命令：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">msg_meta &#x3D; pyds.alloc_nvds_event_msg_meta() *# get reference to allocated instance without claiming memory ownership*</span><br></pre></td></tr></table></figure>
-
 <p>不是这个：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">msg_meta &#x3D; NvDsEventMsgMeta() *# memory will be freed by the garbage collector when msg_meta goes out of scope in Python*</span><br></pre></td></tr></table></figure>
-
 <p>分配器可用于以下结构：</p>
 <ul>
 <li><code>NvDsVehicleObject: alloc_nvds_vehicle_object()</code></li>
@@ -619,34 +640,25 @@ var _hmt = _hmt || [];
 <h3 id="字符串访问"><a href="#字符串访问" class="headerlink" title="字符串访问"></a>字符串访问</h3><p>一些MetaData结构包含字符串字段。以下各节提供了有关访问它们的详细信息。</p>
 <h4 id="设置字符串字段"><a href="#设置字符串字段" class="headerlink" title="设置字符串字段"></a>设置字符串字段</h4><p>设置字符串字段会导致在基础C ++代码中分配字符串缓冲区。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">obj.type &#x3D; &quot;Type&quot;</span><br></pre></td></tr></table></figure>
-
 <p>这将导致分配内存缓冲区，并将字符串“ TYPE”复制到其中。该内存归C代码所有，稍后将释放。要释放Python代码中的缓冲区，请使用：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pyds.free_buffer(obj.type)</span><br></pre></td></tr></table></figure>
-
 <p>注意</p>
 <p><code>NvOSD_TextParams.display_text</code> 现在，分配新字符串后，字符串会自动释放。</p>
 <h4 id="读取字符串字段"><a href="#读取字符串字段" class="headerlink" title="读取字符串字段"></a>读取字符串字段</h4><p>直接读取字符串字段将以int的形式返回该字段的C地址，例如：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">obj &#x3D; pyds.NvDsVehicleObject.cast(data);</span><br><span class="line">print(obj.type)</span><br></pre></td></tr></table></figure>
-
 <p>这将打印一个int表示<code>obj.type</code>C中的地址（这是一个char *）。要检索此字段的字符串值，请使用<code>pyds.get_string()</code>，例如：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">print(pyds.get_string(obj.type))</span><br></pre></td></tr></table></figure>
-
 <h3 id="Casting"><a href="#Casting" class="headerlink" title="Casting"></a>Casting</h3><p>一些MetaData实例以GList形式存储。要访问GList节点中的数据，需要将数据字段强制转换为适当的结构。该转换通过针对目标类型的cast（）成员函数完成：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">NvDsBatchMeta.cast</span><br><span class="line">NvDsFrameMeta.cast</span><br><span class="line">NvDsObjectMeta.cast</span><br><span class="line">NvDsUserMeta.cast</span><br><span class="line">NvDsClassifierMeta.cast</span><br><span class="line">NvDsDisplayMeta.cast</span><br><span class="line">NvDsLabelInfo.cast</span><br><span class="line">NvDsEventMsgMeta.cast</span><br><span class="line">NvDsVehicleObject.cast</span><br><span class="line">NvDsPersonObject.cast</span><br></pre></td></tr></table></figure>
-
 <p>在v0.5版中，提供了独立的强制转换功能。现在，上面的cast（）函数已弃用并取代了这些函数：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">glist_get_nvds_batch_meta</span><br><span class="line">glist_get_nvds_frame_meta</span><br><span class="line">glist_get_nvds_object_meta</span><br><span class="line">glist_get_nvds_user_meta</span><br><span class="line">glist_get_nvds_classifier_meta</span><br><span class="line">glist_get_nvds_display_meta</span><br><span class="line">glist_get_nvds_label_info</span><br><span class="line">glist_get_nvds_event_msg_meta</span><br><span class="line">glist_get_nvds_vehicle_object</span><br><span class="line">glist_get_nvds_person_object</span><br></pre></td></tr></table></figure>
-
 <p>例：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">l_frame &#x3D; batch_meta.frame_meta_list</span><br><span class="line">frame_meta &#x3D; pyds.NvDsFrameMeta.cast(l_frame.data)</span><br></pre></td></tr></table></figure>
-
 <h3 id="回调功能注册"><a href="#回调功能注册" class="headerlink" title="回调功能注册"></a>回调功能注册</h3><p>添加到NvDsUserMeta的自定义元数据需要自定义复制和发布功能。MetaData库依赖于这些自定义功能来对自定义结构进行深度复制，并释放已分配的资源。这些函数在NvDsUserMeta结构中注册为回调函数指针。使用以下功能注册回调功能：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pyds.set_user_copyfunc(NvDsUserMeta_instance, copy_function)</span><br><span class="line">pyds.set_user_releasefunc(NvDsUserMeta_instance, free_func)</span><br></pre></td></tr></table></figure>
-
 <p>注意</p>
 <p>在应用程序退出之前，需要在绑定库中取消注册回调。绑定库当前保留对已注册函数的全局引用，并且这些引用不能超过绑定库在应用程序退出时发生的卸载。使用以下函数注销所有回调：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pyds.unset_callback_funcs()</span><br></pre></td></tr></table></figure>
-
 <p>有关回调注册和注销的示例，请参见deepstream-test4示例应用程序。</p>
 <p><strong>限制</strong>：绑定库当前仅为每个应用程序支持一组回调函数。将使用最后注册的功能。</p>
 <h3 id="优化和实用程序"><a href="#优化和实用程序" class="headerlink" title="优化和实用程序"></a>优化和实用程序</h3><p>通常，Python解释比运行已编译的C / C ++代码要慢。为了提供更好的性能，某些操作在C中实现，并通过绑定接口公开。目前这是实验性的，并将随着时间的推移而扩展。提供以下优化功能：</p>
@@ -655,7 +667,6 @@ var _hmt = _hmt || [];
 <blockquote>
 <p>这是一个简单的函数，其执行与以下操作相同的操作：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">txt_params.text_bg_clr.red &#x3D; red</span><br><span class="line">txt_params.text_bg_clr.green &#x3D; green</span><br><span class="line">txt_params.text_bg_clr.blue &#x3D; blue</span><br><span class="line">txt_params.text_bg_clr.alpha &#x3D; alpha</span><br></pre></td></tr></table></figure>
-
 <p>这些操作是在deepstream_test_4.py中的每个对象上执行的，从而导致合计处理时间减慢了管道的速度。将此功能推入C层有助于提高性能。</p>
 </blockquote>
 </li>
@@ -666,7 +677,8 @@ var _hmt = _hmt || [];
 </li>
 </ul>
 <h3 id="图像数据访问"><a href="#图像数据访问" class="headerlink" title="图像数据访问"></a>图像数据访问</h3><p>解码后的图像可以<code>NumPy</code>通过该<code>get_nvds_buf_surface</code>函数作为数组访问。API指南中记录了此功能。有关<code>deepstream-imagedata-multistream</code>图像数据使用的示例，请参见示例应用程序。</p>
-<h2 id="样本应用程序源详细信息"><a href="#样本应用程序源详细信息" class="headerlink" title="样本应用程序源详细信息"></a>样本应用程序源详细信息</h2><p>下表显示了<a target="_blank" rel="noopener" href="https://github.com/NVIDIA-AI-IOT/deepstream_python_apps%E4%B8%8BPython%E7%A4%BA%E4%BE%8B%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F%E7%9A%84%E4%BD%8D%E7%BD%AE">https://github.com/NVIDIA-AI-IOT/deepstream_python_apps下Python示例应用程序的位置</a></p>
+<h2 id="样本应用程序源详细信息"><a href="#样本应用程序源详细信息" class="headerlink" title="样本应用程序源详细信息"></a>样本应用程序源详细信息</h2><p>下表显示了<a target="_blank" rel="noopener" href="https://github.com/NVIDIA-AI-IOT/deepstream_python_apps下Python示例应用程序的位置">https://github.com/NVIDIA-AI-IOT/deepstream_python_apps下Python示例应用程序的位置</a></p>
+<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -675,7 +687,8 @@ var _hmt = _hmt || [];
 <th>描述</th>
 </tr>
 </thead>
-<tbody><tr>
+<tbody>
+<tr>
 <td>简单测试应用程序1</td>
 <td>apps / deepstream-test1</td>
 <td>如何对单个H.264流使用DeepStream元素的简单示例：filesrc→解码→nvstreammux→nvinfer（主检测器）→nvdsosd→渲染器。</td>
@@ -715,7 +728,9 @@ var _hmt = _hmt || [];
 <td>apps / deepstream-ssd-parser</td>
 <td>演示如何对Triton Inference Server的推理输出执行自定义后处理：在Triton Inference Server上使用SSD模型进行对象检测通过配置文件设置为Triton Inference Server启用自定义后处理和原始张量导出访问管道中的推断输出张量以在Python中进行后处理将检测到的对象添加到元数据将OSD可视化输出到MP4文件</td>
 </tr>
-</tbody></table>
+</tbody>
+</table>
+</div>
 <h3 id="DeepStream参考应用程序-deepstream-test5应用程序"><a href="#DeepStream参考应用程序-deepstream-test5应用程序" class="headerlink" title="DeepStream参考应用程序-deepstream-test5应用程序"></a>DeepStream参考应用程序-deepstream-test5应用程序</h3><p>除常规推理管道外，Test5应用程序还支持以下功能：</p>
 <ul>
 <li>将消息发送到后端服务器。</li>
@@ -724,11 +739,10 @@ var _hmt = _hmt || [];
 <li>OTA模型更新。</li>
 </ul>
 <h4 id="支持物联网协议和云配置"><a href="#支持物联网协议和云配置" class="headerlink" title="支持物联网协议和云配置"></a>支持物联网协议和云配置</h4><p><code>nvmsgbroker</code>DeepStream插件指南中列出了插件支持的IoT协议（如KAFKA，Azure，AMQP等）的详细信息。DeepStream Public文档可参考特定于所使用协议的设置IoT中心/服务器/经纪人。与<code>type=6</code>for<code>nvmsgconv</code>和<code>nvmsgbroker</code>configuration相关联的[sink]组密钥在：ref：config-groups-label中讨论。</p>
-<h4 id="消息使用者"><a href="#消息使用者" class="headerlink" title="消息使用者"></a>消息使用者</h4><p><code>deepstream-test5-app</code>可以配置为充当云消息的消息使用者。解析收到的消息后，可以根据消息的内容触发特定的操作。例如，保存智能记录上下文的NvDsSrcParentBin *作为参数传递，该参数<code>start_cloud_to_device_messaging()</code>用于触发智能记录的启动/停止。默认情况下，已实现基于事件的记录以演示消息使用方的用法。用户需要实现自定义逻辑，以处理其他类型的接收消息。请参阅<code>deepstream_c2d_msg*</code>文件以获取有关实现的更多详细信息。要订阅云消息，请相应地配置<code>[message-consumer]</code>组。</p>
+<h4 id="消息使用者"><a href="#消息使用者" class="headerlink" title="消息使用者"></a>消息使用者</h4><p><code>deepstream-test5-app</code>可以配置为充当云消息的消息使用者。解析收到的消息后，可以根据消息的内容触发特定的操作。例如，保存智能记录上下文的NvDsSrcParentBin <em>作为参数传递，该参数<code>start_cloud_to_device_messaging()</code>用于触发智能记录的启动/停止。默认情况下，已实现基于事件的记录以演示消息使用方的用法。用户需要实现自定义逻辑，以处理其他类型的接收消息。请参阅`deepstream_c2d_msg</em><code>文件以获取有关实现的更多详细信息。要订阅云消息，请相应地配置</code>[message-consumer]`组。</p>
 <h4 id="智能记录-基于事件的记录"><a href="#智能记录-基于事件的记录" class="headerlink" title="智能记录-基于事件的记录"></a>智能记录-基于事件的记录</h4><p>可以将Test5应用程序配置为基于从服务器收到的事件来记录原始视频提要。这样，无需始终保存数据，此功能仅允许记录感兴趣的事件。请参阅《 DeepStream插件手册》，并在“组”下。当前，test5应用仅支持源类型= 4（RTSP）。类似的方法也可以用于其他类型的源。可通过两种方式触发智能记录事件：<code>gst-nvdssr.h ``header file for more details about smart record. Event based recording can be enabled by setting ``smart-record``[sourceX]</code></p>
 <p>1.通过云消息。要通过云消息触发智能记录，应将Test5应用程序配置为充当消息使用者。可以通过相应地配置[message-consumerX]组来完成。配置消息使用者之后，应在需要基于事件的记录的源上启用智能记录。可以按照以下步骤进行操作： <code>smart-record=1</code> 预计以下最小json消息将触发智能记录的开始/停止。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"> &#123;</span><br><span class="line">command: string   &#x2F;&#x2F; &lt;start-recording &#x2F; stop-recording&gt;</span><br><span class="line">start: string     &#x2F;&#x2F; &quot;2020-05-18T20:02:00.051Z&quot;</span><br><span class="line">end: string       &#x2F;&#x2F; &quot;2020-05-18T20:02:02.851Z&quot;,</span><br><span class="line">sensor: &#123;</span><br><span class="line">id: string</span><br><span class="line"> &#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
-
 <p>2.通过当地活动。set <code>smart-record=2</code>，这将通过云消息以及本地事件启用智能记录。为了演示通过本地事件进行的基于事件的记录，默认情况下，应用程序每十秒钟触发一次启动/停止事件。此间隔和其他参数是可配置的。</p>
 <h4 id="OTA模型更新"><a href="#OTA模型更新" class="headerlink" title="OTA模型更新"></a>OTA模型更新</h4><p>Test5应用程序可以动态更新正在运行的管道中的模型。为此，该应用程序提供了命令行选项<code>-o</code>。如果使用<code>-o</code>（ota_override_file）选项启动了test5应用，则将监视对该文件的任何更改，并基于该文件中的更改，使用新模型即时更新正在运行的管道。</p>
 <h4 id="使用OTA功能"><a href="#使用OTA功能" class="headerlink" title="使用OTA功能"></a>使用OTA功能</h4><p>执行以下操作以使用OTA功能：</p>

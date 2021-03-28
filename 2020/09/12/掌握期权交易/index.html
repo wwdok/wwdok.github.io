@@ -56,7 +56,11 @@ var _hmt = _hmt || [];
 </script>
 
 
-</head>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --></head>
 
 </html>
 
@@ -122,11 +126,8 @@ var _hmt = _hmt || [];
     <div class="article-entry" itemprop="articleBody">
        
   <p>想要交易期权的门槛比较高，有几条要求是存款大于50万，通过期权知识测试，提供过往期权模拟交易证明等。现在我暂时交易不了，就当先储备知识。</p>
-<p>推荐视频：《<a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=IunTigepa1I&list=PLN5R8P-UTWKOZqWpONYRTrjVc1FySLW03">秒懂期权系列-看完就赚！</a>》</p>
-<h2 id="期权基本概念"><a href="#期权基本概念" class="headerlink" title="期权基本概念"></a>期权基本概念</h2><HR>
-**期权（Option）**，是一种选择权，指是一种能在未来某特定时间（**到期日：expiration data**）以特定价格（**行权价/敲定价：strike price**）买入或卖出一定数量的某种特定商品（**标的资产：underlying asset**）的权利。期权的分类
-
-
+<p>推荐视频：《<a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=IunTigepa1I&amp;list=PLN5R8P-UTWKOZqWpONYRTrjVc1FySLW03">秒懂期权系列-看完就赚！</a>》</p>
+<h2 id="期权基本概念"><a href="#期权基本概念" class="headerlink" title="期权基本概念"></a>期权基本概念</h2><p><HR><br><strong>期权（Option）</strong>，是一种选择权，指是一种能在未来某特定时间（<strong>到期日：expiration data</strong>）以特定价格（<strong>行权价/敲定价：strike price</strong>）买入或卖出一定数量的某种特定商品（<strong>标的资产：underlying asset</strong>）的权利。期权的分类</p>
 <p><strong>1、按期权的权利划分，有看涨期权和看跌期权两种类型。</strong></p>
 <p>　　看涨期权（Call Options）是指期权的买方向期权的卖方支付一定数额的权利金后，即拥有在期权合约的有效期内，按事先约定的价格<strong>向期权卖方买入</strong>一定数量的期权合约规定的特定商品的权利，但不负有必须买进的义务。而<strong>期权卖方</strong>有义务在期权规定的有效期内，应期权买方的要求，以期权合约事先规定的价格<strong>卖出</strong>期权合约规定的特定商品。</p>
 <p>　　看跌期权（Put Options）是指期权的买方向期权的卖方支付一定数额的权利金后，即拥有在期权合约的有效期内，按事先约定的价格<strong>向期权卖方卖出</strong>一定数量的期权合约规定的特定商品的权利，但不负有必须卖出的义务。而<strong>期权卖方</strong>有义务在期权规定的有效期内，应期权买方的要求，以期权合约事先规定的价格<strong>买入</strong>期权合约规定的特定商品。</p>
@@ -149,87 +150,98 @@ var _hmt = _hmt || [];
 <p>　　当看涨期权的执行价格高于当时的实际价格时，或者当看跌期权的执行价格低于当时的实际价格时，该期权为虚值期权。当期权为虚值期权时，内涵价值为零。</p>
 <p>　　（3）两平期权</p>
 <p>　　当看涨期权的执行价格等于当时的实际价格时，或者当看跌期权的执行价格等于当时的实际价格时，该期权为两平期权。当期权为两平期权时，内涵价值为零。</p>
+<div class="table-container">
 <table>
 <thead>
 <tr>
-<th align="center">看涨期权</th>
-<th align="center">看跌期权</th>
-<th align="center">结论</th>
+<th style="text-align:center">看涨期权</th>
+<th style="text-align:center">看跌期权</th>
+<th style="text-align:center">结论</th>
 </tr>
 </thead>
-<tbody><tr>
-<td align="center">期权执行价格&lt;实际价格</td>
-<td align="center">期权执行价格&gt;实际价格</td>
-<td align="center">实值期权</td>
+<tbody>
+<tr>
+<td style="text-align:center">期权执行价格&lt;实际价格</td>
+<td style="text-align:center">期权执行价格&gt;实际价格</td>
+<td style="text-align:center">实值期权</td>
 </tr>
 <tr>
-<td align="center">期权执行价格&gt;实际价格</td>
-<td align="center">期权执行价格&lt;实际价格</td>
-<td align="center">虚值期权</td>
+<td style="text-align:center">期权执行价格&gt;实际价格</td>
+<td style="text-align:center">期权执行价格&lt;实际价格</td>
+<td style="text-align:center">虚值期权</td>
 </tr>
 <tr>
-<td align="center">期权执行价格=实际价格</td>
-<td align="center">期权执行价格=实际价格</td>
-<td align="center">两平期权</td>
+<td style="text-align:center">期权执行价格=实际价格</td>
+<td style="text-align:center">期权执行价格=实际价格</td>
+<td style="text-align:center">两平期权</td>
 </tr>
-</tbody></table>
+</tbody>
+</table>
+</div>
 <p>2、时间价值(Time Value)</p>
 <p>　　期权距到期日时间越长，大幅度价格变动的可能性越大，期权买方执行期权获利的机会也越大。与较短期的期权相比，期权买方对较长时间的期权的应付出更高的权利金。</p>
-<img src=https://wiki.mbalib.com/w/images/5/53/%E6%9C%9F%E6%9D%83%E7%9A%84%E6%97%B6%E9%97%B4%E4%BB%B7%E5%80%BC1.jpg>
-
+<p><img src=https://wiki.mbalib.com/w/images/5/53/%E6%9C%9F%E6%9D%83%E7%9A%84%E6%97%B6%E9%97%B4%E4%BB%B7%E5%80%BC1.jpg></p>
 <p>　　期权的时间价值随着到期日的临近而减少，期权到期日的时间价值为零。</p>
 <p>　　期权的时间价值反映了期权交易期间时间风险和价格波动风险，当合约0%或100%履约时，期权的时间价值为零。</p>
 <p>综上所述，三种期权的价格表为：</p>
+<div class="table-container">
 <table>
 <thead>
 <tr>
-<th align="center">看涨期权</th>
-<th align="center">期权价格（未到期）</th>
-<th align="center">期权价格（到期）</th>
+<th style="text-align:center">看涨期权</th>
+<th style="text-align:center">期权价格（未到期）</th>
+<th style="text-align:center">期权价格（到期）</th>
 </tr>
 </thead>
-<tbody><tr>
-<td align="center">实值期权</td>
-<td align="center">内涵价值+时间价值</td>
-<td align="center">内涵价值</td>
+<tbody>
+<tr>
+<td style="text-align:center">实值期权</td>
+<td style="text-align:center">内涵价值+时间价值</td>
+<td style="text-align:center">内涵价值</td>
 </tr>
 <tr>
-<td align="center">虚值期权</td>
-<td align="center">时间价值</td>
-<td align="center">零</td>
+<td style="text-align:center">虚值期权</td>
+<td style="text-align:center">时间价值</td>
+<td style="text-align:center">零</td>
 </tr>
 <tr>
-<td align="center">两平期权</td>
-<td align="center">时间价值</td>
-<td align="center">零</td>
+<td style="text-align:center">两平期权</td>
+<td style="text-align:center">时间价值</td>
+<td style="text-align:center">零</td>
 </tr>
-</tbody></table>
+</tbody>
+</table>
+</div>
 <h2 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h2><p>　中国银行期权宝7月11日报价</p>
+<div class="table-container">
 <table>
 <thead>
 <tr>
-<th align="center">标的汇率</th>
+<th style="text-align:center">标的汇率</th>
 <th>期权类别</th>
 <th>协定价格</th>
 <th>到期日</th>
 <th>期权费率（%）</th>
 </tr>
 </thead>
-<tbody><tr>
-<td align="center">澳元/美元</td>
+<tbody>
+<tr>
+<td style="text-align:center">澳元/美元</td>
 <td>看跌</td>
 <td>0.6820</td>
 <td>2003-7-23</td>
 <td>4.34</td>
 </tr>
 <tr>
-<td align="center">澳元/美元</td>
+<td style="text-align:center">澳元/美元</td>
 <td>看涨</td>
 <td>0.6820</td>
 <td>2003-7-23</td>
 <td>0.30</td>
 </tr>
-</tbody></table>
+</tbody>
+</table>
+</div>
 <p>以上是澳元从7月5日0.6845大幅下跌至0.6486后的中国银行“期权宝”7月11日的报价。由于澳元出现了大幅下挫，7月11日执行价格为 0.6820、到期日为7月23日的澳元/美元看跌期权，由于离到期日只有12天，而期权实值非常大，因而其期权费报价达到4.34%的高价；而同样执行价格和到期日的看涨期权，由于其内涵价值为虚值，期权费报价却只有0.30%。从另一个角度来看，澳元/美元在大幅下跌后，市场普遍认为在短期内澳元/美元回到0.6820的可能性非常低，因此到期日非常近、执行价格较高的看跌期权的期权费自然高，而看涨期权的期权费则较低。</p>
 <h2 id="期权基本交易方式"><a href="#期权基本交易方式" class="headerlink" title="期权基本交易方式"></a>期权基本交易方式</h2><p>从前面我们知道，期权可以分为看涨期权和看跌期权两种类型，而期权交易者又可有买入期权或者卖出期权两种操作，所以期权交易有四种基本策略：买进看涨期权、卖出看涨期权、买进看跌期权、卖出看跌期权。</p>
 <p>　　1、买入看涨期权</p>
@@ -241,10 +253,9 @@ var _hmt = _hmt || [];
 <p>　　4、卖出看跌期权</p>
 <p>　　若交易者卖出看跌期权，在到期日之前没能跌至执行价格之下，则作为看跌期权的买方将会放弃期权，而看跌期权的卖方就会取得期权费的收入。反之，看跌期权的买方将会要求执行期权，期权的卖方将损失执行价格减去市场价格和期权费的差。</p>
 <p>期权交易盈亏图</p>
-<img src="https://pic.downk.cc/item/5f7f2ce41cd1bbb86bd28cde.jpg">
-
+<p><img src="https://pic.downk.cc/item/5f7f2ce41cd1bbb86bd28cde.jpg"></p>
 <p>总结来说：作为期权买入方，最大亏损为期权费。作为期权卖出方，最大盈利为期权费。<br>所以期权有点像保险产品，你买一份保险最大亏损为保险费，万一你出什么事了，就可以获取数倍理赔的收益。保险公司在大家没集体出事时，就是赚取众人交的保险费。</p>
-<p>具体交易案例可见<a target="_blank" rel="noopener" href="http://baijiahao.baidu.com/s?id=1661565680231378352&wfr=spider&for=pc">这篇文章</a>。</p>
+<p>具体交易案例可见<a target="_blank" rel="noopener" href="http://baijiahao.baidu.com/s?id=1661565680231378352&amp;wfr=spider&amp;for=pc">这篇文章</a>。</p>
 <h2 id="参考资料："><a href="#参考资料：" class="headerlink" title="参考资料："></a>参考资料：</h2><blockquote>
 <p><a target="_blank" rel="noopener" href="https://wiki.mbalib.com/wiki/%E6%9C%9F%E6%9D%83">《期权-智库百科》</a><br><br><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=FXFz3zJGLvg">《期权交易 | 应付下跌+把握上涨，同时抓！颠覆你对于投资的认知！》</a><br><br><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=xgFAKDdW1po">《股市太高，机会所剩无几？会赚钱的人，都在玩期权！4步骤，搞定期权交易！》</a><br><br><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=tozJLdS7FdA">《散户必看期权策略，教你正确抵抗下跌风险！Covered call &amp; Beta Hedging》</a></p>
 </blockquote>

@@ -56,7 +56,11 @@ var _hmt = _hmt || [];
 </script>
 
 
-</head>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --></head>
 
 </html>
 
@@ -124,15 +128,14 @@ var _hmt = _hmt || [];
   <h2 id="绘制水滴状"><a href="#绘制水滴状" class="headerlink" title="绘制水滴状"></a><strong>绘制水滴状</strong></h2><p><strong>原理</strong></p>
 <p>详细pathdata原理请见<a target="_blank" rel="noopener" href="https://www.w3.org/TR/SVG/paths.html">这篇SVG教程</a>。</p>
 <p>我们看图中右下角最复杂的图形，描述它的pathdata只有6个坐标，而图上曲线有7个点。这是因为图上那个蓝色的点不用我们定义</p>
-<img src="https://s1.ax1x.com/2020/06/05/ts58sO.png" width="70% " height="70%" >
-
+<p><img src="https://s1.ax1x.com/2020/06/05/ts58sO.png" width="70% " height="70%" ></p>
 <p>根据以上原理，我们要绘制水滴状,需要以下构造点：<br><img src="https://s1.ax1x.com/2020/07/02/NLtJ10.png" alt="NLtJ10.png"></p>
 <p><strong>代码实现</strong></p>
 <p><img src="https://s1.ax1x.com/2020/07/02/NLtRBD.png" alt="NLtRBD.png"></p>
 <p><strong>最终效果</strong></p>
 <p><a target="_blank" rel="noopener" href="https://imgchr.com/i/NLt7gP"><img src="https://s1.ax1x.com/2020/07/02/NLt7gP.png" alt="NLt7gP.png"></a></p>
 <p><strong>后记</strong></p>
-<p>我这里是自己绘制一个水滴垂涎状的图形，大部分情况下，我们并不需要自己计算出pathdata来绘制矢量图形，如果我们能在网上找到想要的图标的话，把它下载下来，注意得是svg格式，然后以记事本的方式打开，我们就能看到里面的pathdata了。举个实例，我在<a target="_blank" rel="noopener" href="https://material.io/resources/icons/?icon=volume_up&style=baseline">material.io</a>网站找到了一个扬声器的图标volume_up.svg<br><img src="https://s1.ax1x.com/2020/06/16/NPd7yn.png" alt="NPd7yn.png"></p>
+<p>我这里是自己绘制一个水滴垂涎状的图形，大部分情况下，我们并不需要自己计算出pathdata来绘制矢量图形，如果我们能在网上找到想要的图标的话，把它下载下来，注意得是svg格式，然后以记事本的方式打开，我们就能看到里面的pathdata了。举个实例，我在<a target="_blank" rel="noopener" href="https://material.io/resources/icons/?icon=volume_up&amp;style=baseline">material.io</a>网站找到了一个扬声器的图标volume_up.svg<br><img src="https://s1.ax1x.com/2020/06/16/NPd7yn.png" alt="NPd7yn.png"></p>
 <p>下载到本地用记事本打开看到的是这样的：<br><img src="https://s1.ax1x.com/2020/06/16/NPdTQs.png" alt="NPdTQs.png"></p>
 <p>不过我试着把svg的path数据换到xml的path data里去，结果图形并没有显示出来。我还是乖乖地把这个svg图形直接复制到drawable下面就好了。</p>
  
